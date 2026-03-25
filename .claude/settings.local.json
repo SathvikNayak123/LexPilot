@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /c/Users/user/Desktop/FinAnalyst/findocs -type f \\\\\\( -name \"*.py\" -o -name \"*.yml\" -o -name \"*.yaml\" -o -name \"*.json\" -o -name \"*.sql\" \\\\\\) -exec wc -l {} +)",
+      "Bash(ls -la /c/Users/user/Desktop/FinAnalyst/findocs/tests/*.py)",
+      "Bash(wc -l /c/Users/user/Desktop/FinAnalyst/findocs/tests/*.py)"
+    ]
+  }
+}

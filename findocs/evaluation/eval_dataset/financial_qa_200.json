@@ -1,0 +1,1602 @@
+[
+  {
+    "id": "q001",
+    "question": "What is the RBI's repo rate as of Q3 2024?",
+    "ground_truth_answer": "The RBI maintained the repo rate at 6.5% during Q3 2024, as decided in the Monetary Policy Committee meetings held in August and October 2024.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q002",
+    "question": "What is the current Cash Reserve Ratio (CRR) mandated by the RBI?",
+    "ground_truth_answer": "The RBI mandates a Cash Reserve Ratio of 4.5%, requiring scheduled commercial banks to maintain this percentage of their net demand and time liabilities as reserves with the central bank.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q003",
+    "question": "What is the Statutory Liquidity Ratio (SLR) prescribed by the RBI?",
+    "ground_truth_answer": "The SLR is set at 18%, requiring banks to maintain a minimum percentage of their net demand and time liabilities in the form of liquid assets such as government securities, cash, and gold.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q004",
+    "question": "What was India's Consumer Price Index (CPI) inflation rate in September 2024?",
+    "ground_truth_answer": "India's CPI inflation rate stood at approximately 5.49% in September 2024, driven primarily by elevated food prices, particularly in vegetables and cereals.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q005",
+    "question": "What is the RBI's inflation targeting band under the flexible inflation targeting framework?",
+    "ground_truth_answer": "The RBI targets a CPI inflation rate of 4% with a tolerance band of +/- 2%, meaning the acceptable range is 2% to 6%, as mandated under the amended RBI Act, 1934.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q006",
+    "question": "What is the standing deposit facility (SDF) rate maintained by the RBI?",
+    "ground_truth_answer": "The Standing Deposit Facility rate is set at 6.25%, which is 25 basis points below the repo rate, and serves as the floor of the liquidity adjustment facility corridor.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q007",
+    "question": "What is the marginal standing facility (MSF) rate set by the RBI?",
+    "ground_truth_answer": "The Marginal Standing Facility rate is 6.75%, which is 25 basis points above the repo rate, allowing banks to borrow overnight from the RBI against their excess SLR holdings.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q008",
+    "question": "What was India's foreign exchange reserves position as of October 2024?",
+    "ground_truth_answer": "India's foreign exchange reserves stood at approximately USD 690 billion as of October 2024, comprising foreign currency assets, gold reserves, SDRs, and the reserve tranche position with the IMF.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q009",
+    "question": "Who is the current Governor of the Reserve Bank of India?",
+    "ground_truth_answer": "Sanjay Malhotra assumed office as the 26th Governor of the Reserve Bank of India in December 2024, succeeding Shaktikanta Das who completed his tenure.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q010",
+    "question": "What is the current bank rate set by the RBI?",
+    "ground_truth_answer": "The bank rate is set at 6.75%, aligned with the MSF rate. It is the rate at which the RBI is prepared to buy or rediscount bills of exchange or other commercial papers.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q011",
+    "question": "What is the minimum capital adequacy ratio (CRAR) required for Indian commercial banks?",
+    "ground_truth_answer": "Indian scheduled commercial banks are required to maintain a minimum Capital to Risk-weighted Assets Ratio (CRAR) of 9%, which is 100 basis points higher than the Basel III minimum requirement of 8%.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q012",
+    "question": "What was the gross NPA ratio of scheduled commercial banks in India as of March 2024?",
+    "ground_truth_answer": "The gross NPA ratio of scheduled commercial banks declined to approximately 2.8% as of March 2024, marking a significant improvement from 3.9% in March 2023, reflecting continued asset quality improvement across the banking sector.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q013",
+    "question": "What is the maximum deposit insurance coverage provided by DICGC?",
+    "ground_truth_answer": "The Deposit Insurance and Credit Guarantee Corporation (DICGC) provides deposit insurance coverage of up to Rs 5 lakh per depositor per bank, covering all types of bank deposits including savings, fixed, current, and recurring deposits.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q014",
+    "question": "What is the priority sector lending target for domestic commercial banks?",
+    "ground_truth_answer": "Domestic scheduled commercial banks and foreign banks with 20 or more branches are required to lend 40% of their Adjusted Net Bank Credit (ANBC) to the priority sector, including agriculture, MSME, education, and housing.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q015",
+    "question": "What was the total market capitalization of NSE-listed companies as of September 2024?",
+    "ground_truth_answer": "The total market capitalization of companies listed on the National Stock Exchange (NSE) surpassed approximately Rs 420 lakh crore (USD 5 trillion) as of September 2024, making it one of the largest stock exchanges globally.",
+    "doc_type": "nse_annual_report",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q016",
+    "question": "How many companies were listed on the NSE as of FY 2023-24?",
+    "ground_truth_answer": "As of FY 2023-24, approximately 2,190 companies were listed on the NSE across the main board and SME platform, reflecting a steady increase in new listings through IPOs and migrations from other exchanges.",
+    "doc_type": "nse_annual_report",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q017",
+    "question": "What was the average daily turnover in NSE's equity cash segment in FY 2023-24?",
+    "ground_truth_answer": "The average daily turnover in NSE's equity cash market segment was approximately Rs 70,000 crore during FY 2023-24, showing robust growth driven by increased retail and institutional participation.",
+    "doc_type": "nse_annual_report",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q018",
+    "question": "What was the Nifty 50 index level at the close of FY 2023-24?",
+    "ground_truth_answer": "The Nifty 50 index closed at approximately 22,327 at the end of FY 2023-24 (March 28, 2024), delivering a strong annual return of around 28.6% during the fiscal year.",
+    "doc_type": "nse_annual_report",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q019",
+    "question": "What is SEBI's minimum subscription requirement for a mainboard IPO?",
+    "ground_truth_answer": "SEBI mandates a minimum subscription of 90% of the total issue size for a mainboard IPO. If the minimum subscription is not received, the issuer must refund the entire subscription amount to applicants within the prescribed timeline.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q020",
+    "question": "What is the current lot size for trading Nifty 50 futures on the NSE?",
+    "ground_truth_answer": "The current lot size for Nifty 50 futures contracts on the NSE is 25 units, with a minimum contract value designed to maintain adequate notional value per contract as determined by SEBI guidelines.",
+    "doc_type": "nse_annual_report",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q021",
+    "question": "What was the total SIP contribution to mutual funds in FY 2023-24?",
+    "ground_truth_answer": "Total SIP contributions to Indian mutual funds in FY 2023-24 exceeded Rs 2 lakh crore, with monthly SIP flows crossing Rs 19,000 crore, reflecting sustained retail investor interest in systematic investment plans.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q022",
+    "question": "What was the total Assets Under Management (AUM) of the Indian mutual fund industry as of September 2024?",
+    "ground_truth_answer": "The Indian mutual fund industry's total AUM crossed Rs 67 lakh crore (approximately USD 800 billion) as of September 2024, driven by strong equity market performance and increasing retail participation through SIPs.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q023",
+    "question": "What is the SEBI-mandated lock-in period for anchor investors in an IPO?",
+    "ground_truth_answer": "SEBI mandates a lock-in period of 90 days for 50% of the anchor investor allocation and 30 days for the remaining 50%, calculated from the date of allotment in the IPO.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q024",
+    "question": "What is the maximum expense ratio allowed by SEBI for equity-oriented mutual fund schemes?",
+    "ground_truth_answer": "SEBI allows a maximum Total Expense Ratio (TER) of 2.25% for equity-oriented schemes on the first Rs 500 crore of AUM, with a slab-based reduction for higher AUM, as per the SEBI Mutual Fund Regulations.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q025",
+    "question": "What was the RBI's GDP growth projection for FY 2024-25?",
+    "ground_truth_answer": "The RBI projected India's real GDP growth at 7.2% for FY 2024-25 in its October 2024 monetary policy statement, supported by robust domestic demand, sustained urban consumption, and improving rural economic activity.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q026",
+    "question": "What was India's current account deficit as a percentage of GDP in FY 2023-24?",
+    "ground_truth_answer": "India's current account deficit narrowed to approximately 0.7% of GDP in FY 2023-24, a significant improvement from 2.0% in FY 2022-23, supported by moderation in merchandise trade deficit and resilient services exports.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q027",
+    "question": "What is the Liberalised Remittance Scheme (LRS) annual limit set by the RBI?",
+    "ground_truth_answer": "Under the Liberalised Remittance Scheme, resident individuals are permitted to remit up to USD 250,000 per financial year for any permissible current or capital account transaction without prior RBI approval.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q028",
+    "question": "How many mutual fund folios were registered in India as of September 2024?",
+    "ground_truth_answer": "The total number of mutual fund folios in India exceeded 20 crore as of September 2024, with the majority being equity-oriented folios, reflecting deepening financialization of household savings.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q029",
+    "question": "What is the minimum net worth requirement for an Asset Management Company (AMC) as prescribed by SEBI?",
+    "ground_truth_answer": "SEBI mandates a minimum net worth of Rs 50 crore for an Asset Management Company at all times, as stipulated under the SEBI (Mutual Funds) Regulations, 1996.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q030",
+    "question": "What was the total number of demat accounts in India as of FY 2023-24?",
+    "ground_truth_answer": "The total number of demat accounts in India surpassed 15 crore by the end of FY 2023-24, with CDSL and NSDL together adding record new accounts driven by simplified digital onboarding processes.",
+    "doc_type": "nse_annual_report",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q031",
+    "question": "What is the RBI's prescribed limit for bulk deposits for scheduled commercial banks?",
+    "ground_truth_answer": "The RBI defines bulk deposits as single rupee term deposits of Rs 2 crore and above for scheduled commercial banks and small finance banks, and Rs 1 crore and above for regional rural banks and local area banks.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q032",
+    "question": "What is the number of registered Foreign Portfolio Investors (FPIs) with SEBI as of 2024?",
+    "ground_truth_answer": "As of 2024, approximately 11,000 Foreign Portfolio Investors were registered with SEBI, encompassing sovereign wealth funds, pension funds, insurance companies, and other institutional investors from across the globe.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q033",
+    "question": "What is the current long-term capital gains tax rate on equity mutual funds in India?",
+    "ground_truth_answer": "Long-term capital gains exceeding Rs 1.25 lakh on equity mutual funds are taxed at 12.5% without indexation benefit, applicable to units held for more than 12 months, as per the Union Budget 2024-25 amendments.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q034",
+    "question": "What was the average daily turnover in NSE's derivatives segment in FY 2023-24?",
+    "ground_truth_answer": "The average daily turnover in NSE's equity derivatives segment exceeded Rs 350 lakh crore (notional value) during FY 2023-24, making NSE the largest derivatives exchange globally by number of contracts traded.",
+    "doc_type": "nse_annual_report",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q035",
+    "question": "What is the RBI's risk weight prescription for consumer credit as revised in November 2023?",
+    "ground_truth_answer": "The RBI increased risk weights on consumer credit exposure of commercial banks and NBFCs by 25 percentage points to 125% in November 2023, to address concerns about rapid growth in unsecured lending.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q036",
+    "question": "What was NSE's net profit for FY 2023-24?",
+    "ground_truth_answer": "NSE reported a net profit of approximately Rs 8,305 crore for FY 2023-24, driven by strong growth in transaction charges from equity derivatives and data services revenue.",
+    "doc_type": "nse_annual_report",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q037",
+    "question": "What is the minimum public shareholding requirement for listed companies on the NSE?",
+    "ground_truth_answer": "SEBI mandates a minimum public shareholding of 25% for all listed companies on Indian stock exchanges, with certain exemptions for companies having a market capitalization above Rs 10,000 crore where a reduced threshold of 10% applies during the transition period.",
+    "doc_type": "nse_annual_report",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q038",
+    "question": "What is the penalty for delayed reporting of trades under SEBI's insider trading regulations?",
+    "ground_truth_answer": "Under SEBI (Prohibition of Insider Trading) Regulations, 2015, designated persons who fail to make disclosures within the prescribed timeframe may face a penalty of Rs 2 lakh for initial default, with additional penalties for continued non-compliance.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q039",
+    "question": "What is the RBI's prescribed Liquidity Coverage Ratio (LCR) for banks?",
+    "ground_truth_answer": "The RBI requires all scheduled commercial banks to maintain a minimum Liquidity Coverage Ratio (LCR) of 100%, ensuring banks hold sufficient high-quality liquid assets to cover net cash outflows over a 30-day stress period.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q040",
+    "question": "What was the total FPI equity inflow/outflow in Indian markets during FY 2023-24?",
+    "ground_truth_answer": "Foreign Portfolio Investors recorded net equity purchases of approximately Rs 1.7 lakh crore in Indian equities during FY 2023-24, reversing the large-scale outflows seen in FY 2022-23, supported by India's strong macroeconomic fundamentals.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q041",
+    "question": "How has the RBI's repo rate trajectory evolved from 2022 to 2024?",
+    "ground_truth_answer": "The RBI raised the repo rate by a cumulative 250 basis points from 4.0% in May 2022 to 6.5% by February 2023 to combat inflationary pressures, and subsequently held it steady at 6.5% through 2024, maintaining a hawkish pause stance amidst moderating but still above-target inflation.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q042",
+    "question": "What are the implications of the RBI's November 2023 increase in risk weights on unsecured consumer credit for NBFCs?",
+    "ground_truth_answer": "The 25 percentage-point increase in risk weights on consumer credit compels NBFCs to set aside more capital against unsecured exposures, effectively raising the cost of such lending, slowing unsecured loan growth, and improving the overall credit risk profile of the NBFC sector.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q043",
+    "question": "What factors contributed to the decline in the gross NPA ratio of Indian banks from 2018 to 2024?",
+    "ground_truth_answer": "The decline in gross NPA ratio from 11.2% in March 2018 to 2.8% in March 2024 was driven by aggressive provisioning and write-offs, improved credit appraisal and monitoring through early warning systems, resolution via the Insolvency and Bankruptcy Code (IBC), and sustained economic recovery boosting borrower repayment capacity.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q044",
+    "question": "How has the composition of India's forex reserves changed between 2020 and 2024?",
+    "ground_truth_answer": "Between 2020 and 2024, the RBI significantly increased the share of gold in India's forex reserves from approximately 6% to over 8%, reflecting a strategic diversification away from US dollar-denominated assets, while total reserves grew from USD 475 billion to USD 690 billion, with foreign currency assets remaining the dominant component.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q045",
+    "question": "What is the significance of the T+1 settlement cycle adoption by the Indian equity markets?",
+    "ground_truth_answer": "India's adoption of the T+1 settlement cycle, fully implemented by January 2023, reduces counterparty and systemic risk, frees up capital more quickly for investors, improves market liquidity, and positions India as a global leader in settlement efficiency, ahead of most developed markets which still follow T+2.",
+    "doc_type": "nse_annual_report",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q046",
+    "question": "What trends does the rising SIP contribution indicate about Indian retail investor behavior?",
+    "ground_truth_answer": "The consistent rise in monthly SIP contributions from Rs 8,000 crore in 2020 to over Rs 24,000 crore by late 2024 indicates deepening financial literacy, growing preference for disciplined long-term investing over lump-sum market timing, increased household allocation to equity from traditional savings instruments, and penetration into tier-2 and tier-3 cities.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q047",
+    "question": "How has SEBI's tightening of mutual fund expense ratio norms impacted AMC profitability?",
+    "ground_truth_answer": "SEBI's revised TER norms, which introduced lower slab-based expense ratios for higher AUM, have compressed AMC profit margins on larger schemes. However, the industry has compensated through AUM growth driven by market appreciation and inflows, economies of scale, and increasing revenue from newer categories like passive funds and ETFs.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q048",
+    "question": "What are the structural implications of India's rising digital payments on the traditional banking model?",
+    "ground_truth_answer": "The exponential growth in UPI transactions, exceeding 10 billion monthly in 2024, is reshaping the banking model by reducing dependence on physical branches, lowering transaction costs, enabling data-driven credit underwriting, fostering competition from fintechs, and compelling traditional banks to invest heavily in digital infrastructure and partnerships.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q049",
+    "question": "What factors explain the divergence between FPI outflows and domestic market resilience in 2022-2023?",
+    "ground_truth_answer": "Despite cumulative FPI outflows of over Rs 1.5 lakh crore in FY 2022-23, Indian markets showed resilience due to strong domestic institutional investor (DII) inflows, particularly through mutual fund SIPs, robust corporate earnings growth, supportive retail investor participation, and India's favorable macro positioning relative to other emerging markets.",
+    "doc_type": "nse_annual_report",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q050",
+    "question": "How has the Insolvency and Bankruptcy Code (IBC) impacted credit culture in India since its implementation?",
+    "ground_truth_answer": "The IBC has fundamentally transformed India's credit culture by establishing a time-bound resolution framework, improving creditor rights, increasing recovery rates from distressed assets, reducing willful default behavior through the threat of management displacement, and contributing to the decline in banking sector NPAs through successful resolutions and pre-IBC settlements.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q051",
+    "question": "What impact has the growth of passive investing had on the Indian mutual fund landscape?",
+    "ground_truth_answer": "The passive fund segment in India has grown from under Rs 2 lakh crore in 2020 to over Rs 10 lakh crore in AUM by 2024, driven by ETF mandates from EPFO, lower expense ratios attracting cost-conscious investors, increasing market efficiency reducing active alpha generation, and the launch of diverse thematic and factor-based index products.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q052",
+    "question": "How has the RBI's approach to managing rupee volatility evolved in recent years?",
+    "ground_truth_answer": "The RBI has adopted a more interventionist approach, building forex reserves as a buffer while allowing gradual depreciation aligned with fundamentals. It employs both spot and forward market operations, uses the NDF market selectively, and has demonstrated willingness to defend against speculative attacks while avoiding rigid exchange rate targeting.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q053",
+    "question": "What are the implications of SEBI's new asset class framework introduced in 2024?",
+    "ground_truth_answer": "SEBI's new asset class framework, introducing a category between mutual funds and PMS with a minimum investment of Rs 10 lakh, bridges the gap for sophisticated investors seeking differentiated strategies, promotes product innovation, potentially reduces retail exposure to unregulated schemes, and allows AMCs to offer long-short and derivative-based strategies within a regulated structure.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "analytical",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q054",
+    "question": "How has the Indian bond market responded to global interest rate tightening in 2022-2024?",
+    "ground_truth_answer": "Indian government bond yields rose from approximately 6.1% in early 2022 to peak around 7.5% in mid-2023 as the RBI raised rates in tandem with global tightening, but subsequently moderated to around 7.0% due to inclusion in JPMorgan's GBI-EM index attracting foreign flows, fiscal consolidation, and expectations of eventual rate easing.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q055",
+    "question": "What structural factors have driven the increase in NSE's derivatives trading volumes?",
+    "ground_truth_answer": "The surge in NSE derivatives volumes is attributable to increased retail participation via low-cost digital brokers, proliferation of weekly options expiries, algorithm-driven trading strategies, low transaction costs, improved market microstructure, and growing awareness of options as hedging and income-generation tools among retail traders.",
+    "doc_type": "nse_annual_report",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q056",
+    "question": "What are the macroeconomic implications of India's inclusion in the JPMorgan GBI-EM Global Index?",
+    "ground_truth_answer": "India's inclusion in the JPMorgan GBI-EM Global Index is expected to attract USD 25-30 billion in passive inflows into Indian government bonds, reduce borrowing costs by 10-15 basis points, strengthen the rupee, deepen the domestic bond market, and enhance India's integration with global capital markets while increasing sensitivity to global risk sentiment.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q057",
+    "question": "How has the proliferation of discount brokers impacted equity market participation in India?",
+    "ground_truth_answer": "Discount brokers like Zerodha and Groww have democratized equity market access by offering zero brokerage on delivery trades and user-friendly platforms, leading to a surge in demat accounts from 4 crore in 2020 to over 15 crore by 2024. This has brought younger demographics and smaller investors into the market, though it has also raised concerns about speculative trading in derivatives.",
+    "doc_type": "nse_annual_report",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q058",
+    "question": "What are the implications of the RBI's digital lending guidelines on fintech business models?",
+    "ground_truth_answer": "The RBI's digital lending guidelines mandate that all loan disbursements and repayments flow through regulated entity bank accounts, restrict first loss default guarantees (FLDG) to 5% of the portfolio, and require upfront disclosure of all-in costs. These norms have forced fintechs to pivot from direct lending models to technology service provider roles, improving transparency but compressing margins for digital lenders.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q059",
+    "question": "How has sectoral credit growth differed between retail and industrial segments in 2023-2024?",
+    "ground_truth_answer": "In 2023-2024, retail credit grew at approximately 18% year-on-year driven by housing loans, personal loans, and vehicle finance, while industrial credit growth recovered to around 8% after years of muted demand. This divergence reflects the shift in bank lending strategies towards higher-yielding retail segments and the continued deleveraging by large corporates who increasingly access the bond market for funding.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q060",
+    "question": "What is the significance of the growing credit-to-deposit ratio gap in Indian banking?",
+    "ground_truth_answer": "The credit-to-deposit ratio for Indian banks rose to approximately 80% by mid-2024, up from 72% in 2021, signaling that credit growth is outpacing deposit mobilization. This trend has implications for bank funding costs, as banks are forced to raise rates on deposits or rely on costlier wholesale funding, potentially squeezing net interest margins and raising systemic liquidity concerns.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q061",
+    "question": "What are the key trends in India's IPO market in 2023-2024?",
+    "ground_truth_answer": "India's IPO market witnessed strong activity in 2023-2024 with over 250 mainboard and SME IPOs collectively raising more than Rs 60,000 crore. Key trends include dominance of offer-for-sale (OFS) components over fresh issue, strong retail oversubscription, increasing SME IPO activity, and a shift towards profitability-focused issuers after the correction in loss-making new-age tech company valuations.",
+    "doc_type": "nse_annual_report",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q062",
+    "question": "How is the growth in gold loan portfolios of Indian banks and NBFCs reflecting broader economic trends?",
+    "ground_truth_answer": "The rapid expansion of gold loan portfolios, growing at over 25% annually, reflects increasing financialization of gold holdings by rural and semi-urban households, preference for collateralized lending by financial institutions post-NPA crisis, rising gold prices enhancing loan-to-value attractiveness, and gold loans serving as a quick liquidity source for MSMEs and agricultural borrowers.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q063",
+    "question": "What analytical insights can be drawn from the concentration risk in India's mutual fund industry?",
+    "ground_truth_answer": "The top 5 AMCs control approximately 55% of industry AUM, indicating significant concentration. This concentration risk manifests in potential herding behavior during market stress, systemic impact of operational failures at large AMCs, competitive barriers for smaller players, and challenges for new entrants despite SEBI's efforts to encourage competition through regulatory relaxations and new license categories.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q064",
+    "question": "How has SEBI's framework for ESG rating providers impacted sustainable investing in India?",
+    "ground_truth_answer": "SEBI's introduction of a regulatory framework for ESG Rating Providers (ERPs) in 2023 has brought standardization and transparency to ESG assessments, encouraging more institutional allocation to ESG-themed investments. However, the nascent nature of ESG disclosure by Indian companies, lack of uniform global standards, and limited track record of ESG indices pose ongoing challenges to mainstream adoption.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "analytical",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q065",
+    "question": "What are the systemic risks associated with the rapid growth of retail participation in index options trading?",
+    "ground_truth_answer": "SEBI's research indicates that over 93% of individual F&O traders incurred losses in FY 2023-24. The rapid retail options growth poses systemic risks including potential wealth destruction for retail investors, market instability from gamma exposure near expiry, herding in popular strikes creating liquidity illusions, and concerns about leveraged speculative activity being confused with productive market participation.",
+    "doc_type": "nse_annual_report",
+    "question_type": "analytical",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q066",
+    "question": "How has the RBI's regulatory approach to digital currencies and CBDCs evolved?",
+    "ground_truth_answer": "The RBI launched the e-Rupee (CBDC) pilot in both wholesale and retail segments in late 2022. The approach has evolved from initial experimentation with limited users to expanding use cases including interbank settlements, programmable money, and offline functionality. While cautiously expanding the CBDC pilot, the RBI maintains its opposition to private cryptocurrencies citing financial stability and monetary sovereignty concerns.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q067",
+    "question": "What factors explain the outperformance of mid-cap and small-cap indices relative to Nifty 50 in FY 2023-24?",
+    "ground_truth_answer": "The outperformance of mid-cap and small-cap indices, with Nifty Midcap 150 and Nifty Smallcap 250 returning approximately 55% and 60% respectively versus 28.6% for Nifty 50, was driven by domestic liquidity inflows through SIPs and PMS, earnings recovery in cyclical sectors, increased retail investor risk appetite, broader economic recovery benefiting domestically-oriented companies, and under-ownership by FPIs in the mid-small cap space.",
+    "doc_type": "nse_annual_report",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q068",
+    "question": "What are the competitive dynamics in India's payment ecosystem between banks and fintech players?",
+    "ground_truth_answer": "The Indian payment ecosystem has evolved into a complex competitive landscape where UPI-based fintechs like PhonePe and Google Pay dominate P2P and small-value merchant payments, while banks retain advantage in large-value corporate transactions, credit products, and deposit-linked services. The RBI's framework mandating interoperability and NPCI's role as shared infrastructure creates a level playing field, though concerns about third-party app market concentration persist.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q069",
+    "question": "How is India's green bond market developing and what challenges does it face?",
+    "ground_truth_answer": "India issued its inaugural sovereign green bond in January 2023, raising Rs 16,000 crore, achieving a greenium of 5-6 basis points. The market has since expanded with corporate green bond issuances. Challenges include the need for a standardized green taxonomy, limited domestic green project pipeline, investor concerns about greenwashing, and the need for better secondary market liquidity and verification infrastructure.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q070",
+    "question": "What impact has the RBI's scale-based regulation framework had on the NBFC sector?",
+    "ground_truth_answer": "The RBI's scale-based regulatory framework, classifying NBFCs into four layers (Base, Middle, Upper, and Top), has introduced proportionate regulation based on size and systemic importance. Upper Layer NBFCs face bank-like regulatory requirements including higher capital buffers, mandatory listing, and enhanced governance standards. This has led to industry consolidation, improved risk management practices, and a clearer regulatory hierarchy addressing the too-big-to-fail concern.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q071",
+    "question": "What are the SEBI regulations regarding minimum promoter contribution in a mainboard IPO?",
+    "ground_truth_answer": "SEBI requires promoters of a company making a mainboard IPO to hold at least 20% of the post-issue capital. This minimum promoter contribution must be locked in for a period of 18 months from the date of allotment, and any promoter holding in excess of 20% is locked in for 6 months.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q072",
+    "question": "What are the RBI's KYC requirements for opening a bank account?",
+    "ground_truth_answer": "Under the RBI's Master Direction on KYC, banks must verify the identity and address of account holders using Officially Valid Documents (OVDs) such as Aadhaar, passport, voter ID, or driving license. Video-based Customer Identification Process (V-CIP) is also permitted. Periodic KYC updates are required every 2 years for high-risk, 8 years for medium-risk, and 10 years for low-risk customers.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q073",
+    "question": "What are the SEBI norms for related party transactions by listed companies?",
+    "ground_truth_answer": "SEBI's LODR Regulations require prior approval of the audit committee for all related party transactions (RPTs) and shareholder approval for material RPTs exceeding Rs 1,000 crore or 10% of annual consolidated turnover. Only related parties with no interest can vote on such resolutions, and companies must disclose all RPTs on a half-yearly basis.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q074",
+    "question": "What are the RBI's guidelines on exposure norms for commercial banks?",
+    "ground_truth_answer": "The RBI prescribes single borrower exposure limit at 20% of a bank's capital funds (Tier I plus Tier II), which can be extended to 25% with board approval for infrastructure projects. Group borrower exposure is capped at 25% of capital funds, extendable to 30% for infrastructure. These limits ensure portfolio diversification and mitigate concentration risk.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q075",
+    "question": "What are the SEBI regulations for mutual fund scheme categorization and rationalization?",
+    "ground_truth_answer": "Under SEBI's October 2017 circular on mutual fund categorization, each AMC can offer only one scheme per category (with limited exceptions), with clearly defined investment mandates. For example, large-cap funds must invest a minimum of 80% in the top 100 companies by market capitalization, mid-cap funds in the 101st to 250th companies, and small-cap funds in companies ranked 251st and below.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q076",
+    "question": "What are the RBI norms for classification and provisioning of Non-Performing Assets?",
+    "ground_truth_answer": "Under the RBI's IRAC norms, a loan is classified as NPA when interest or principal remains overdue for more than 90 days. NPAs are further classified as Sub-Standard (up to 12 months), Doubtful (12-36 months), and Loss assets. Provisioning requirements range from 15% for sub-standard, 25-100% for doubtful (depending on security coverage and period), and 100% for loss assets.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q077",
+    "question": "What are the SEBI regulations for insider trading disclosures?",
+    "ground_truth_answer": "Under SEBI (PIT) Regulations 2015, designated persons must make initial disclosures within 30 days of becoming a designated person, and continual disclosures within 2 trading days of any trade exceeding Rs 10 lakh in a calendar quarter. Promoters and persons holding more than 10% of shares must also disclose changes in shareholding exceeding Rs 10 lakh.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q078",
+    "question": "What are the RBI's regulations under FEMA for External Commercial Borrowings (ECBs)?",
+    "ground_truth_answer": "Under FEMA regulations, ECBs can be raised under the automatic route (Track I for medium-term and Track II for long-term) or the approval route. The all-in-cost ceiling is benchmark rate plus 500 basis points for ECBs with maturity above 5 years. Minimum average maturity is 3 years for ECBs up to USD 50 million and 5 years for ECBs above USD 50 million, with end-use restrictions on real estate and capital market investments.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q079",
+    "question": "What are SEBI's cybersecurity and cyber resilience framework requirements for stock exchanges?",
+    "ground_truth_answer": "SEBI's cybersecurity framework mandates that stock exchanges, depositories, and clearing corporations maintain a Security Operations Centre (SOC), conduct quarterly vulnerability assessments and annual penetration testing, report cyber incidents within 6 hours, maintain business continuity plans with a recovery time objective of 2 hours and recovery point objective of 30 minutes, and appoint a Chief Information Security Officer (CISO).",
+    "doc_type": "nse_annual_report",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q080",
+    "question": "What are the RBI's guidelines on compensation of Whole Time Directors and CEOs of banks?",
+    "ground_truth_answer": "The RBI's November 2019 guidelines require that variable pay for WTDs and CEOs should not exceed 300% of fixed pay, with at least 50% of variable pay in the form of non-cash instruments with a minimum vesting period of 3 years. Malus and clawback provisions must apply to variable pay, and guaranteed bonuses are generally not permitted except in the context of hiring.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q081",
+    "question": "What are the SEBI norms for buyback of shares by listed companies?",
+    "ground_truth_answer": "Under SEBI (Buy-Back of Securities) Regulations, a listed company may buy back up to 25% of its paid-up capital and free reserves in a financial year through the tender offer or open market route. The board resolution route allows buyback up to 10% of paid-up equity and free reserves, while the shareholder resolution route permits up to 25%. A 12-month cooling period applies between two buybacks.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q082",
+    "question": "What are the RBI's prudential norms for banks' investment portfolio classification?",
+    "ground_truth_answer": "The RBI classifies bank investment portfolios into three categories: Held to Maturity (HTM), Available for Sale (AFS), and Held for Trading (HFT). Under the revised framework effective April 2024, the HTM limit for SLR securities is 23% of NDTL, AFS is marked-to-market with fair value changes in Other Comprehensive Income, and HFT is marked-to-market through the P&L on a daily basis.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q083",
+    "question": "What are the SEBI listing obligations for continuous disclosure by listed entities?",
+    "ground_truth_answer": "Under the SEBI LODR Regulations 2015, listed entities must disclose material events within 30 minutes for events at scheduled board meetings, and within 24 hours for other events. Quarterly financial results must be filed within 45 days of quarter-end, annual results within 60 days of year-end, and annual reports within 21 days of the AGM. Corporate governance reports are required quarterly.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q084",
+    "question": "What are the requirements for setting up a foreign bank branch in India under RBI regulations?",
+    "ground_truth_answer": "Foreign banks seeking to open branches in India must obtain a banking license under the Banking Regulation Act, 1949, with RBI approval. Requirements include a minimum assigned capital of Rs 500 crore for a single branch, with Rs 25 crore additional for each subsequent branch. Foreign banks must comply with Indian prudential norms, CRR, SLR, and priority sector lending requirements applicable to foreign banks.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q085",
+    "question": "What are SEBI's norms for side-pocketing in debt mutual fund schemes?",
+    "ground_truth_answer": "SEBI allows creation of a segregated portfolio (side-pocket) upon a credit event at the issuer level resulting in downgrade to below investment grade. The AMC trustee must approve within 1 business day of the credit event, units of the segregated portfolio are listed on a stock exchange for liquidity, and the segregated portfolio must be wound up upon recovery or write-off of the distressed asset.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q086",
+    "question": "What are the RBI's regulatory requirements for payment aggregators?",
+    "ground_truth_answer": "Under the RBI's March 2020 guidelines on payment aggregators (PAs), entities must obtain authorization from the RBI, maintain a minimum net worth of Rs 25 crore (increased to Rs 25 crore by March 2023), follow escrow account management norms with settlement within T+1 days, implement customer grievance redressal mechanisms, and comply with data storage localization requirements for payment data.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q087",
+    "question": "What are the NSE's circuit breaker mechanisms for market-wide index movements?",
+    "ground_truth_answer": "The NSE implements market-wide circuit breakers triggered at three stages of index movement: 10%, 15%, and 20% from the previous day's close of Nifty 50 or Sensex. A 10% movement before 1:00 PM triggers a 45-minute halt; between 1:00-2:30 PM a 15-minute halt; and after 2:30 PM no halt. A 20% movement at any time results in market closure for the remainder of the day.",
+    "doc_type": "nse_annual_report",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q088",
+    "question": "What are the SEBI regulations for Alternative Investment Funds (AIFs)?",
+    "ground_truth_answer": "SEBI classifies AIFs into three categories: Category I (venture capital, SME, social venture, infrastructure funds), Category II (PE funds, debt funds, fund of funds), and Category III (hedge funds, complex trading strategies). Minimum investment is Rs 1 crore per investor (Rs 25 lakh for employees and directors), minimum fund size is Rs 20 crore, each scheme must have at least 25 investors, and the manager must commit a minimum of 2.5% or Rs 5 crore of the fund corpus.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "regulatory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q089",
+    "question": "What are the RBI's guidelines on wilful defaulters?",
+    "ground_truth_answer": "Under RBI norms, a wilful defaulter is identified when a borrower defaults despite having the capacity to honor obligations, diverts funds for purposes other than stated, siphons off funds, or disposes of secured assets without lender consent. Wilful defaulters are barred from accessing institutional finance for 5 years, their promoters cannot set up new ventures with bank funding, and lenders must report wilful defaulters to the Central Repository of Information on Large Credits (CRILC).",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q090",
+    "question": "What are the SEBI regulations for share pledging by promoters of listed companies?",
+    "ground_truth_answer": "Under SEBI LODR Regulations, promoters must disclose details of pledged shares on a quarterly basis and intimate the exchange within 2 trading days of any encumbrance event. If aggregate promoter pledging exceeds 50% of total promoter holding or 20% of total share capital, the promoter must provide reasons to the stock exchange. Combined with the minimum promoter contribution lock-in requirements, pledging of locked-in shares is restricted.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q091",
+    "question": "What are the NSE's membership requirements for trading members?",
+    "ground_truth_answer": "NSE trading membership requires a minimum net worth of Rs 100 lakh for the Capital Market segment and Rs 100 lakh for the Futures and Options segment. Members must pay the applicable admission fee and security deposit, maintain adequate base minimum capital, comply with SEBI's fit and proper criteria, have qualified personnel with NISM certifications, and maintain robust IT infrastructure meeting exchange-prescribed standards.",
+    "doc_type": "nse_annual_report",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q092",
+    "question": "What are the RBI's guidelines on the appointment of statutory auditors of commercial banks?",
+    "ground_truth_answer": "Per RBI's April 2021 guidelines, statutory auditors of commercial banks must be appointed for a continuous period of 3 years, subject to annual reappointment. Mandatory rotation after 3 consecutive years applies for bank auditors, with a cooling-off period of 6 years before reappointment. The audit firm must have at least a defined minimum number of partners and adequate experience in bank auditing.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q093",
+    "question": "What are the SEBI regulations for Real Estate Investment Trusts (REITs) in India?",
+    "ground_truth_answer": "SEBI REIT Regulations mandate a minimum asset value of Rs 500 crore, minimum 200 unit-holders (other than the sponsor and its associates), at least 80% of asset value invested in completed revenue-generating properties, a maximum 20% in under-development or developmental properties, and distribution of at least 90% of net distributable cash flows to unit-holders on a semi-annual basis.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "regulatory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q094",
+    "question": "What are the RBI regulations for prepaid payment instruments (PPIs)?",
+    "ground_truth_answer": "The RBI classifies PPIs into small (up to Rs 10,000 balance, minimal KYC) and full-KYC PPIs (up to Rs 2 lakh balance). Full-KYC wallets can be used for fund transfers and merchant payments. Cash withdrawal from PPIs is permitted up to Rs 2,000 per month. PPI issuers must maintain an escrow account with a scheduled commercial bank and comply with interoperability requirements through UPI integration.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q095",
+    "question": "What are the SEBI regulations for mutual fund distributor commissions?",
+    "ground_truth_answer": "SEBI mandates that mutual fund distributor commissions be paid by the AMC from the scheme expense ratio, not charged separately to investors. Trail commissions are permitted but upfront commissions from scheme assets are banned since October 2018. AMCs can charge additional TER of 30 bps for inflows from beyond the top-30 cities (B-30). Distributors must hold a valid ARN registration obtained through AMFI and pass the NISM certification examination.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q096",
+    "question": "What are the RBI's prompt corrective action (PCA) framework thresholds for banks?",
+    "ground_truth_answer": "The RBI's revised PCA framework (effective January 2022) monitors three parameters: CRAR below 10.875% (risk threshold 1) or below 7.75% (risk threshold 2), Net NPA ratio above 6% (threshold 1) or above 9% (threshold 2), and Tier 1 leverage ratio below 4% (threshold 1) or below 3.5% (threshold 2). PCA restrictions range from dividend distribution limitations to restrictions on branch expansion and management changes.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q097",
+    "question": "What are the listing requirements for a company on the NSE's main board?",
+    "ground_truth_answer": "Key NSE main board listing requirements include minimum paid-up equity capital of Rs 10 crore, minimum post-issue capital of Rs 10 crore, operating profit from operations of at least Rs 15 crore in 3 of the preceding 5 years, net tangible assets of at least Rs 3 crore in each of the preceding 3 years, and net worth of at least Rs 1 crore in each of the preceding 3 years. The company must also meet SEBI's track record or profitability criteria.",
+    "doc_type": "nse_annual_report",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q098",
+    "question": "What are the RBI's co-lending model guidelines for banks and NBFCs?",
+    "ground_truth_answer": "Under the RBI's co-lending model (CLM), banks and registered NBFCs can jointly lend to priority sector borrowers with a minimum 80:20 split (bank:NBFC). The NBFC originates and processes the loan, retaining at least 20% on its books. Both entities must have a board-approved policy, the blended interest rate is determined by mutual agreement, and the arrangement must be disclosed in the loan agreement with the borrower.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q099",
+    "question": "What are SEBI's regulations on upstreaming of client funds by stock brokers?",
+    "ground_truth_answer": "SEBI mandated that stock brokers must upstream all client funds to clearing corporations by the end of each trading day, effective from July 2023. Client funds can only be kept in the form of cash, fixed deposits, or government securities with clearing corporations. This measure was introduced to protect client assets, prevent misuse of client funds by brokers, and reduce counterparty credit risk in the clearing system.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q100",
+    "question": "What are the RBI's norms for classification of domestic systemically important banks (D-SIBs)?",
+    "ground_truth_answer": "The RBI identifies D-SIBs annually based on their systemic importance scores derived from size, interconnectedness, substitutability, and complexity. D-SIBs are placed in buckets requiring additional Common Equity Tier 1 (CET1) capital surcharges ranging from 0.20% to 0.80% over and above the minimum capital requirements. Currently, SBI, HDFC Bank, and ICICI Bank are classified as D-SIBs.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q101",
+    "question": "What are the RBI's norms for opening and operation of current accounts by banks?",
+    "ground_truth_answer": "Per RBI's August 2020 circular, borrowers with exposure of Rs 5 crore or more from the banking system must maintain their current accounts only with the lending bank that has the largest exposure. Borrowers under consortium or multiple banking arrangements must route at least 10% of cash credit limit through the lead bank. No-frills current accounts are restricted for borrowers availing credit from other banks.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q102",
+    "question": "What are SEBI's T+0 settlement framework provisions?",
+    "ground_truth_answer": "SEBI introduced the optional T+0 settlement framework on a pilot basis for select stocks, allowing same-day trade settlement. The framework operates alongside the standard T+1 cycle, with a cut-off time of 1:30 PM for trade placement. Settlement is completed by 4:30 PM on the trade day, with price band limitations to prevent excessive volatility. The pilot initially covers the top 25 stocks by market capitalization.",
+    "doc_type": "nse_annual_report",
+    "question_type": "regulatory",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q103",
+    "question": "What are the SEBI regulations for portfolio management services (PMS) in India?",
+    "ground_truth_answer": "SEBI mandates a minimum investment of Rs 50 lakh per client for PMS, with the portfolio manager maintaining a minimum net worth of Rs 5 crore. PMS providers must be registered with SEBI, disclose fees upfront, provide monthly statements, cannot guarantee returns, must maintain client assets separate from proprietary assets, and are required to complete performance reporting in compliance with GIPS or SEBI-prescribed standards.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q104",
+    "question": "What are the RBI's directions on Fair Practices Code for NBFCs?",
+    "ground_truth_answer": "The RBI's Fair Practices Code requires NBFCs to communicate the all-in cost of loans including processing fees, provide loan agreements in vernacular language upon request, give a notice period of 30 days before changing terms and conditions, not resort to undue harassment or interference for recovery, have a board-approved policy for determining interest rates, and establish a grievance redressal mechanism with escalation to the RBI Ombudsman.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q105",
+    "question": "What are the NSE requirements for algorithmic and high-frequency trading?",
+    "ground_truth_answer": "NSE requires algorithmic traders to obtain prior approval from the exchange for their algo strategies, maintain an order-to-trade ratio within prescribed limits, implement appropriate risk management controls including price checks and quantity limits, conduct half-yearly audits of their algorithmic systems by a SEBI-empaneled auditor, and co-locate servers within the exchange's data center for latency-sensitive strategies with compliance to fair access norms.",
+    "doc_type": "nse_annual_report",
+    "question_type": "regulatory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q106",
+    "question": "What are the SEBI norms governing mutual fund investment in derivatives?",
+    "ground_truth_answer": "SEBI permits mutual funds to use derivatives for hedging and portfolio rebalancing purposes. The gross exposure through equity derivatives (excluding hedging) must not exceed the scheme's net assets. Writing of uncovered call options is prohibited. The total exposure including derivatives should not exceed the limits prescribed for the specific scheme category, and derivative positions must be disclosed in the scheme's monthly portfolio statement.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "regulatory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q107",
+    "question": "What are the RBI's regulations for outsourcing of financial services by banks?",
+    "ground_truth_answer": "Under the RBI's outsourcing guidelines, banks retain ultimate responsibility for outsourced activities and cannot outsource core management functions, internal audit, compliance, or KYC responsibilities. Banks must conduct due diligence on service providers, include audit and inspection rights in contracts, ensure business continuity, maintain data confidentiality, report material outsourcing arrangements to the RBI, and ensure the outsourced activity is subject to the same standards as if performed in-house.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q108",
+    "question": "What are SEBI's regulations for credit rating agencies in India?",
+    "ground_truth_answer": "SEBI (Credit Rating Agencies) Regulations require CRAs to maintain a minimum net worth of Rs 25 crore, follow a transparent rating process with an internal rating committee, publish default and transition studies annually, ensure separation of rating and advisory activities, conduct periodic rating reviews at least annually, and disclose all rating rationales publicly. SEBI has also mandated a standardized probability of default benchmark for rating agencies.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "regulatory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q109",
+    "question": "What are the RBI's directions regarding tokenization of card-based payments?",
+    "ground_truth_answer": "Effective October 2022, the RBI mandated that no entity in the card payment chain other than the card issuer and card network shall store actual card data. Card-on-file tokenization (CoFT) requires merchants to replace card details with unique tokens through the card network. The token is device and merchant-specific, tokenization must be based on cardholder consent, and the card network is responsible for token vault security.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q110",
+    "question": "What are the NSE's surveillance mechanisms for detecting market manipulation?",
+    "ground_truth_answer": "NSE employs a multi-layered surveillance framework including real-time price and volume alerts, pattern recognition algorithms for detecting wash trades, spoofing and layering, concentrated position monitoring, analysis of client-level trading patterns across segments, insider trading surveillance through correlation of trading with UPSI events, and coordination with SEBI's integrated surveillance department for cross-market and cross-segment monitoring.",
+    "doc_type": "nse_annual_report",
+    "question_type": "regulatory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q111",
+    "question": "What was the 1-year return of the SBI Bluechip Fund (Direct Growth) as of September 2024?",
+    "ground_truth_answer": "The SBI Bluechip Fund (Direct Growth) delivered a 1-year return of approximately 33.2% as of September 2024, outperforming its benchmark Nifty 100 TRI, driven by strong large-cap stock selection in financials, IT, and consumer discretionary sectors.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q112",
+    "question": "What was the NAV of the HDFC Balanced Advantage Fund (Direct Growth) as of October 2024?",
+    "ground_truth_answer": "The HDFC Balanced Advantage Fund (Direct Growth) had a NAV of approximately Rs 480 per unit as of October 2024, reflecting the fund's dynamic asset allocation between equity and debt based on market valuations.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q113",
+    "question": "What is the typical portfolio allocation of a large-cap equity mutual fund in India?",
+    "ground_truth_answer": "A typical large-cap equity mutual fund in India allocates approximately 90-95% to equity and equity-related instruments (with a minimum 80% in large-cap stocks per SEBI mandate), 2-5% in debt and money market instruments for liquidity, and 1-3% in cash equivalents. Sector allocation is typically weighted towards financials (25-30%), IT (15-18%), and consumer goods (10-12%).",
+    "doc_type": "sebi_factsheet",
+    "question_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q114",
+    "question": "What was the AUM of the ICICI Prudential Technology Fund as of September 2024?",
+    "ground_truth_answer": "The ICICI Prudential Technology Fund had an AUM of approximately Rs 13,500 crore as of September 2024, making it one of the largest sectoral/thematic funds in India. The fund's portfolio was concentrated in top IT services companies with holdings in Infosys, TCS, and HCL Technologies comprising over 40% of the portfolio.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q115",
+    "question": "What was the yield to maturity of a typical short-duration debt mutual fund in India as of Q3 2024?",
+    "ground_truth_answer": "A typical short-duration debt mutual fund in India had a portfolio yield to maturity (YTM) of approximately 7.5-7.8% as of Q3 2024, with an average maturity of 1-3 years and a modified duration of 1.5-2.5 years, primarily invested in AAA-rated corporate bonds and government securities.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q116",
+    "question": "What was the total turnover of NSE's currency derivatives segment in FY 2023-24?",
+    "ground_truth_answer": "The total turnover in NSE's currency derivatives segment was approximately Rs 115 lakh crore in FY 2023-24, with USD-INR being the most actively traded pair accounting for over 85% of total currency derivatives turnover, followed by EUR-INR, GBP-INR, and JPY-INR pairs.",
+    "doc_type": "nse_annual_report",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q117",
+    "question": "What was the total credit growth in the Indian banking system in FY 2023-24?",
+    "ground_truth_answer": "Total non-food credit growth in the Indian banking system was approximately 16.3% year-on-year as of March 2024, reaching approximately Rs 164 lakh crore. Retail loans grew at 18%, services at 21%, industry at 8.5%, and agriculture at 18.5%, reflecting broad-based credit expansion across sectors.",
+    "doc_type": "rbi_circular",
+    "question_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q118",
+    "question": "What is the expense ratio comparison between an index fund and an actively managed large-cap fund?",
+    "ground_truth_answer": "A direct plan of a Nifty 50 index fund typically charges an expense ratio of 0.10-0.20%, while an actively managed large-cap fund charges 0.80-1.25% for the direct plan. This translates to an annual cost difference of approximately 60-115 basis points, which the active fund must generate in excess returns to justify the higher fees.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q119",
+    "question": "What was the Sharpe ratio of the Nifty 50 index for the trailing 3-year period ending September 2024?",
+    "ground_truth_answer": "The Nifty 50 index delivered a Sharpe ratio of approximately 1.15 for the trailing 3-year period ending September 2024, calculated using the 91-day T-Bill rate as the risk-free rate, reflecting strong risk-adjusted returns relative to historical averages of 0.6-0.8 during normal market conditions.",
+    "doc_type": "nse_annual_report",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q120",
+    "question": "What was the weighted average lending rate (WALR) of scheduled commercial banks as of March 2024?",
+    "ground_truth_answer": "The weighted average lending rate on fresh rupee loans of scheduled commercial banks stood at approximately 9.3% as of March 2024, reflecting a cumulative increase of approximately 185 basis points from March 2022, partly transmitting the 250 bps repo rate hike during the monetary tightening cycle.",
+    "doc_type": "rbi_circular",
+    "question_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q121",
+    "question": "What was the sectoral composition of the Nifty 50 index as of September 2024?",
+    "ground_truth_answer": "As of September 2024, the Nifty 50 index sectoral composition was approximately: Financial Services 33%, Information Technology 13%, Oil & Gas 11%, Consumer Goods 9%, Automobiles 7%, Pharmaceuticals 4%, Metals 4%, Telecommunications 3%, Construction 3%, and others comprising the remaining weight, reflecting the financials-heavy nature of the Indian market.",
+    "doc_type": "nse_annual_report",
+    "question_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q122",
+    "question": "What was the total government securities held by the RBI as of March 2024?",
+    "ground_truth_answer": "The RBI held approximately Rs 53 lakh crore in domestic government securities on its balance sheet as of March 2024, comprising both Central and State Government securities. This reflected the cumulative impact of Open Market Operations (OMOs) and the Government Securities Acquisition Programme (G-SAP) conducted during the pandemic period.",
+    "doc_type": "rbi_circular",
+    "question_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q123",
+    "question": "What was the average P/E ratio of the Nifty 50 index during FY 2023-24?",
+    "ground_truth_answer": "The Nifty 50 index traded at an average trailing P/E ratio of approximately 22.5x during FY 2023-24, which was above the 10-year historical average of approximately 20x, reflecting elevated market valuations supported by strong corporate earnings growth of 20-25% and abundant domestic liquidity.",
+    "doc_type": "nse_annual_report",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q124",
+    "question": "What was the total dividend payout by Nifty 50 companies in FY 2023-24?",
+    "ground_truth_answer": "Nifty 50 constituent companies paid aggregate dividends of approximately Rs 3.2 lakh crore in FY 2023-24, resulting in a dividend yield of approximately 1.3% on the index. The top dividend payers included Coal India, ONGC, ITC, and TCS, with public sector enterprises contributing a significant share due to government-mandated minimum payout ratios.",
+    "doc_type": "nse_annual_report",
+    "question_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q125",
+    "question": "What was the SBI's Return on Assets (ROA) for FY 2023-24?",
+    "ground_truth_answer": "State Bank of India reported a Return on Assets of approximately 1.04% for FY 2023-24, a significant improvement from 0.48% in FY 2021-22, reflecting enhanced profitability driven by improved asset quality, higher net interest margins, and strong credit growth.",
+    "doc_type": "rbi_circular",
+    "question_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q126",
+    "question": "What was the total equity AUM split between active and passive mutual fund schemes in India as of September 2024?",
+    "ground_truth_answer": "Of the total equity mutual fund AUM of approximately Rs 30 lakh crore as of September 2024, actively managed schemes accounted for approximately Rs 22 lakh crore (73%) while passive schemes including index funds and ETFs accounted for approximately Rs 8 lakh crore (27%), up from under 15% passive share in 2020.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q127",
+    "question": "What was the spread between the 10-year Indian government bond yield and the US Treasury yield in Q3 2024?",
+    "ground_truth_answer": "The spread between the 10-year Indian government bond yield (approximately 6.85%) and the US 10-year Treasury yield (approximately 3.8%) was roughly 305 basis points in Q3 2024, having narrowed from over 400 bps during the US rate hiking cycle, reflecting India's relatively attractive real yield differential for foreign investors.",
+    "doc_type": "rbi_circular",
+    "question_type": "numerical",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q128",
+    "question": "What was the total number of SIP accounts in Indian mutual funds as of September 2024?",
+    "ground_truth_answer": "The total number of SIP accounts in India exceeded 9.6 crore as of September 2024, with net new SIP registrations of approximately 35 lakh per month. The average SIP ticket size was approximately Rs 2,500, contributing to monthly SIP inflows of over Rs 24,000 crore.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q129",
+    "question": "What was the provision coverage ratio (PCR) of Indian scheduled commercial banks as of March 2024?",
+    "ground_truth_answer": "The provision coverage ratio of scheduled commercial banks in India stood at approximately 76% as of March 2024, reflecting adequate provisioning against non-performing assets. This represented a significant improvement from approximately 60% in March 2018, with private sector banks generally maintaining higher PCR than public sector banks.",
+    "doc_type": "rbi_circular",
+    "question_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q130",
+    "question": "What was the portfolio turnover ratio of a typical actively managed multi-cap fund in India?",
+    "ground_truth_answer": "A typical actively managed multi-cap fund in India had a portfolio turnover ratio of approximately 35-60% annually, indicating that the fund manager replaces roughly one-third to half of the portfolio in a year. Higher turnover funds tend to have higher transaction costs and potentially greater short-term capital gains tax impact for investors.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q131",
+    "question": "What was the market share of the top 5 brokerage firms in NSE's equity cash segment in FY 2023-24?",
+    "ground_truth_answer": "The top 5 brokerage firms by client activity accounted for approximately 55-60% of NSE's equity cash segment turnover in FY 2023-24, with Zerodha leading in terms of active clients. This concentration has increased from approximately 35% five years ago, driven by the dominance of discount brokers offering digital-first trading platforms.",
+    "doc_type": "nse_annual_report",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q132",
+    "question": "What was the total net profit of the Indian banking sector in FY 2023-24?",
+    "ground_truth_answer": "The Indian banking sector recorded a total net profit of approximately Rs 3.5 lakh crore in FY 2023-24, with private sector banks contributing around Rs 1.8 lakh crore and public sector banks contributing approximately Rs 1.4 lakh crore. This represented a record profit level for the sector, driven by widening net interest margins and declining credit costs.",
+    "doc_type": "rbi_circular",
+    "question_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q133",
+    "question": "What was the FDI equity inflow into India in FY 2023-24?",
+    "ground_truth_answer": "India received FDI equity inflows of approximately USD 44 billion in FY 2023-24, with the services sector, computer software and hardware, trading, telecommunications, and automobile industry being the top recipient sectors. Mauritius, Singapore, USA, and Netherlands remained the top source countries for FDI inflows.",
+    "doc_type": "rbi_circular",
+    "question_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q134",
+    "question": "What was the modified duration of the ICICI Prudential All Seasons Bond Fund portfolio as of September 2024?",
+    "ground_truth_answer": "The ICICI Prudential All Seasons Bond Fund maintained a modified duration of approximately 3.2-3.8 years as of September 2024, with the portfolio yield to maturity at approximately 7.9%. The fund's asset allocation was primarily in AAA/sovereign-rated instruments (approximately 85%) with the balance in AA-rated corporate bonds.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "numerical",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q135",
+    "question": "What was India's merchandise trade deficit in FY 2023-24?",
+    "ground_truth_answer": "India's merchandise trade deficit narrowed to approximately USD 240 billion in FY 2023-24, down from USD 265 billion in FY 2022-23, driven by lower crude oil import bills and moderation in gold imports. Merchandise exports stood at approximately USD 437 billion while imports were approximately USD 677 billion.",
+    "doc_type": "rbi_circular",
+    "question_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q136",
+    "question": "What was the total number of equity derivatives contracts traded on the NSE in FY 2023-24?",
+    "ground_truth_answer": "The total number of equity derivatives contracts traded on NSE exceeded 18,500 crore in FY 2023-24, with index options accounting for approximately 97% of total contracts. This volume made NSE the world's largest derivatives exchange by number of contracts traded, surpassing CME Group and other global exchanges.",
+    "doc_type": "nse_annual_report",
+    "question_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q137",
+    "question": "What was the capital adequacy ratio of HDFC Bank after the HDFC merger?",
+    "ground_truth_answer": "Following the merger with HDFC Ltd. effective July 2023, HDFC Bank maintained a Capital Adequacy Ratio (CRAR) of approximately 18.4% as of September 2024, well above the RBI's minimum requirement of 11.7% (including capital conservation buffer). The CET1 ratio was approximately 16.1%, reflecting a strong capital position post-merger despite the significant asset base expansion.",
+    "doc_type": "rbi_circular",
+    "question_type": "numerical",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q138",
+    "question": "What was the benchmark tracking error of a typical Nifty 50 index fund?",
+    "ground_truth_answer": "A well-managed Nifty 50 index fund typically exhibits an annualized tracking error of 0.03-0.10%, with tracking difference of approximately 0.10-0.20% attributable primarily to the expense ratio, dividend reinvestment timing, and cash drag from subscription/redemption flows. Direct plans of larger index funds tend to achieve lower tracking errors due to economies of scale.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q139",
+    "question": "What was the net interest margin (NIM) of the Indian banking sector as of March 2024?",
+    "ground_truth_answer": "The net interest margin of Indian scheduled commercial banks was approximately 3.6% as of March 2024, marking an improvement from 3.3% in March 2022, driven by the transmission of repo rate hikes to lending rates outpacing deposit rate increases. Private sector banks averaged 4.2% NIM while PSU banks averaged approximately 3.0%.",
+    "doc_type": "rbi_circular",
+    "question_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q140",
+    "question": "What was the total value of government securities traded on the NDS-OM platform in FY 2023-24?",
+    "ground_truth_answer": "The total value of government securities traded on the NDS-OM (Negotiated Dealing System - Order Matching) platform managed by the RBI was approximately Rs 200 lakh crore in FY 2023-24, with 10-year benchmark securities being the most actively traded, accounting for approximately 25% of total secondary market turnover.",
+    "doc_type": "rbi_circular",
+    "question_type": "numerical",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q141",
+    "question": "How does the repo rate compare to the reverse repo rate in the RBI's monetary policy framework?",
+    "ground_truth_answer": "The repo rate (6.5%) is the rate at which the RBI lends to banks, while the reverse repo rate (3.35%) is the rate at which the RBI absorbs liquidity. However, since April 2022, the Standing Deposit Facility (SDF) at 6.25% has effectively replaced the reverse repo rate as the floor of the LAF corridor, making the operative policy corridor 6.25%-6.75% (SDF to MSF) with the repo rate at the center.",
+    "doc_type": "rbi_circular",
+    "question_type": "comparison",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q142",
+    "question": "How do SEBI regulations for mutual funds differ from those for portfolio management services?",
+    "ground_truth_answer": "Mutual funds have a lower minimum investment (Rs 500 via SIP vs Rs 50 lakh for PMS), offer pooled investment vehicles with NAV-based pricing, have SEBI-mandated expense ratio caps, and cannot offer personalized portfolios. PMS provides individualized portfolio management with direct stock ownership, allows concentrated positions, charges performance-linked fees, and offers greater flexibility in investment strategy but with less regulatory protection on fee structures.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "comparison",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q143",
+    "question": "How does the asset quality of public sector banks compare to private sector banks in India?",
+    "ground_truth_answer": "As of March 2024, public sector banks had a gross NPA ratio of approximately 3.7% compared to 1.8% for private sector banks. However, the gap has narrowed significantly from over 7 percentage points in 2018. PSBs have shown faster NPA improvement owing to aggressive write-offs and IBC resolutions, while private banks maintained consistently lower NPAs through superior credit appraisal and technology-driven monitoring systems.",
+    "doc_type": "rbi_circular",
+    "question_type": "comparison",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q144",
+    "question": "How does India's market capitalization-to-GDP ratio compare to other major economies?",
+    "ground_truth_answer": "India's market capitalization-to-GDP ratio reached approximately 140% as of September 2024, significantly above its historical average of 75-80%. For comparison, the US market cap-to-GDP ratio stands at approximately 180%, Japan at 150%, and China at approximately 65%. India's elevated ratio reflects premium valuations driven by strong economic growth expectations, increasing domestic equity participation, and the structural shift in household savings towards financial assets.",
+    "doc_type": "nse_annual_report",
+    "question_type": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q145",
+    "question": "How do direct and regular plans of the same mutual fund scheme differ in performance?",
+    "ground_truth_answer": "Direct plans consistently outperform regular plans of the same scheme by the amount of distributor commission saved, typically 50-100 basis points annually for equity schemes and 20-50 bps for debt schemes. Over a 10-year horizon, this difference can compound to 8-15% additional corpus in direct plans. For example, a large-cap fund with 12% annual return in direct plan may deliver only 11% in regular plan, translating to a significant wealth gap over long investment periods.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "comparison",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q146",
+    "question": "How does the performance of equity mutual funds compare to fixed deposits over a 10-year period in India?",
+    "ground_truth_answer": "Over the 10-year period ending September 2024, diversified equity mutual funds delivered average annualized returns of 14-16% (category average for large-cap and multi-cap funds), while bank fixed deposits yielded 6-7% annually. After accounting for taxation (equity LTCG at 12.5% vs FD interest taxed at marginal rate), the post-tax differential widens further in favor of equity mutual funds, though FDs offer capital protection and guaranteed returns.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "comparison",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q147",
+    "question": "How do the regulatory frameworks for banks and NBFCs differ in India?",
+    "ground_truth_answer": "Banks operate under the Banking Regulation Act 1949 with stricter regulation including CRR/SLR requirements, DICGC deposit insurance, and priority sector lending mandates, while NBFCs are governed by RBI's scale-based regulation under the RBI Act 1934 with differentiated norms based on size. Key differences include NBFCs not having deposit insurance, not being part of the payment system, having lower CRAR requirements (15% vs 9% for banks), and not having direct access to the RBI's lender of last resort facility.",
+    "doc_type": "rbi_circular",
+    "question_type": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q148",
+    "question": "How does NSE's equity derivatives market compare to BSE's in terms of market share?",
+    "ground_truth_answer": "NSE dominates the Indian equity derivatives market with over 93% market share by turnover as of FY 2023-24, while BSE has approximately 7% share, primarily in Sensex-based options where it has built liquidity. NSE's dominance stems from first-mover advantage in Nifty derivatives, deeper liquidity pools, and network effects. BSE has attempted to compete through zero-transaction charges and Sensex product innovation but has had limited success in displacing NSE's established position.",
+    "doc_type": "nse_annual_report",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q149",
+    "question": "How does the credit rating distribution of Indian corporate bonds compare to developed markets?",
+    "ground_truth_answer": "The Indian corporate bond market is heavily skewed towards AAA-rated issuances, which account for approximately 60-65% of outstanding bonds, compared to 2-3% in the US market. This reflects the dominance of large public sector and well-rated private issuers, aversion of institutional investors to lower-rated paper, and limited high-yield bond market infrastructure. The narrow rating distribution limits market depth and risk-based price discovery.",
+    "doc_type": "rbi_circular",
+    "question_type": "comparison",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q150",
+    "question": "How do ETFs compare to index funds in terms of cost, liquidity, and tracking efficiency in India?",
+    "ground_truth_answer": "In India, ETFs have slightly lower expense ratios (0.05-0.15%) compared to index funds (0.10-0.20%) but incur brokerage costs for each transaction. ETFs trade intraday on exchanges providing real-time liquidity but may suffer from bid-ask spreads and premium/discount to NAV, while index funds are transacted at end-of-day NAV without market impact. Tracking errors are comparable, though ETFs may show better tracking in larger, more liquid categories.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "comparison",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q151",
+    "question": "How does India's banking sector profitability compare between FY 2019-20 and FY 2023-24?",
+    "ground_truth_answer": "Indian banking sector ROA improved from 0.2% in FY 2019-20 to 1.3% in FY 2023-24, while ROE improved from 2.5% to approximately 14%. This dramatic turnaround was driven by the decline in gross NPA ratio from 8.2% to 2.8%, expansion of net interest margins from 2.8% to 3.6%, and moderation in credit costs. PSU banks showed the most significant improvement, transitioning from aggregate losses to record profitability.",
+    "doc_type": "rbi_circular",
+    "question_type": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q152",
+    "question": "How do SEBI's regulations for Category I, II, and III AIFs differ?",
+    "ground_truth_answer": "Category I AIFs (VCFs, angel funds, infrastructure funds) receive incentives like tax pass-through and can invest only in unlisted companies. Category II AIFs (PE, debt funds) cannot employ leverage or borrow except for day-to-day operations up to 30 days. Category III AIFs (hedge funds) can employ leverage and invest in listed and unlisted securities with diverse strategies. Investment restrictions, leverage limits, and regulatory reporting requirements progressively increase from Category I to III.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q153",
+    "question": "How does the monetary policy transmission differ between new EBLR loans and old MCLR loans?",
+    "ground_truth_answer": "External Benchmark Linked Rate (EBLR) loans, mandated by the RBI since October 2019, show faster and fuller transmission of policy rate changes, with 80-90% pass-through within one quarter. In contrast, MCLR-linked loans show only 40-60% transmission over 2-3 quarters due to the lagged nature of the marginal cost calculation and banks' discretion in setting the spread. The share of EBLR loans has risen to approximately 50% of total floating rate loans.",
+    "doc_type": "rbi_circular",
+    "question_type": "comparison",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q154",
+    "question": "How does the performance of Nifty Next 50 compare to Nifty 50 over a 5-year period?",
+    "ground_truth_answer": "Over the 5-year period ending September 2024, the Nifty Next 50 delivered an annualized return of approximately 20%, outperforming the Nifty 50's 15% return. However, the Nifty Next 50 exhibited higher volatility with a standard deviation of approximately 18% versus 14% for Nifty 50. The outperformance was driven by the higher beta of mid-to-large cap stocks in the Next 50, which benefited disproportionately from domestic liquidity flows.",
+    "doc_type": "nse_annual_report",
+    "question_type": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q155",
+    "question": "How do sovereign gold bonds compare to gold ETFs as investment instruments in India?",
+    "ground_truth_answer": "Sovereign Gold Bonds (SGBs) offer a 2.5% per annum fixed interest in addition to gold price appreciation, tax exemption on capital gains at maturity (8-year tenure), and no expense ratio, making them more cost-effective. Gold ETFs charge expense ratios of 0.5-1%, offer better liquidity through exchange trading, have no lock-in period, but are subject to capital gains taxation. SGBs have limited liquidity after the 5-year early exit window and are dependent on government issuance cycles.",
+    "doc_type": "rbi_circular",
+    "question_type": "comparison",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q156",
+    "question": "How does the REIT framework in India compare to its REIT framework counterparts in Singapore and the US?",
+    "ground_truth_answer": "Indian REITs require a minimum 80% investment in completed properties (vs 75% in the US), distribute 90% of net cash flows semi-annually (vs 90% of taxable income annually in the US, and 90% quarterly in Singapore). Indian REITs have a minimum asset value threshold of Rs 500 crore and minimum 200 unit-holders, while the US has no minimum asset size. Tax treatment differs with India taxing rental income as per income tax slab while the US provides depreciation benefits.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "comparison",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q157",
+    "question": "How does the settlement guarantee mechanism differ between NSE Clearing and international clearing corporations?",
+    "ground_truth_answer": "NSE Clearing (formerly NSCCL) operates as a central counterparty with a multi-layered risk management framework including real-time margin monitoring, a Settlement Guarantee Fund (SGF) of over Rs 10,000 crore, and waterfall loss absorption mechanism. Unlike some international CCPs that may use insurance arrangements, NSE Clearing relies primarily on member margins, SGF, and capital buffers. India's system mandates upfront collection of margins from clients, unlike some developed markets that allow post-trade margin calls.",
+    "doc_type": "nse_annual_report",
+    "question_type": "comparison",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q158",
+    "question": "How do India's capital gains tax rates on different financial instruments compare?",
+    "ground_truth_answer": "Equity held over 12 months: LTCG at 12.5% above Rs 1.25 lakh. Equity held under 12 months: STCG at 20%. Debt mutual funds (regardless of holding period): taxed at marginal income tax rates. Listed bonds held over 12 months: LTCG at 12.5%. Gold/real estate held over 24 months: LTCG at 12.5%. This differential treatment creates arbitrage opportunities and influences asset allocation decisions.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q159",
+    "question": "How does the RBI's digital lending framework compare to fintech regulations in the UK and Singapore?",
+    "ground_truth_answer": "The RBI mandates all loan disbursements through regulated entity bank accounts and caps FLDG at 5%, while the UK's FCA allows direct fintech lending with appropriate permissions and Singapore's MAS offers a graduated licensing framework for digital lenders. India's approach is more prescriptive, focusing on routing through regulated entities, whereas the UK and Singapore have adopted activity-based licensing that allows fintechs to operate more independently but with proportionate capital and conduct requirements.",
+    "doc_type": "rbi_circular",
+    "question_type": "comparison",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q160",
+    "question": "How do large-cap, mid-cap, and small-cap mutual fund categories compare in terms of risk-return profile over the last 5 years?",
+    "ground_truth_answer": "Over the 5-year period ending September 2024, large-cap funds delivered average returns of 15% with standard deviation of 14%, mid-cap funds returned 22% with standard deviation of 18%, and small-cap funds returned 28% with standard deviation of 23%. The risk-adjusted returns (Sharpe ratios) were comparable at approximately 0.9-1.1 across categories, suggesting that incremental returns in smaller caps were proportionally compensated by higher volatility.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q161",
+    "question": "What is the RBI's framework for resolution of stressed assets under the June 7, 2019 circular?",
+    "ground_truth_answer": "The RBI's June 7, 2019 circular requires lenders to enter into an inter-creditor agreement (ICA) for stressed accounts with aggregate exposure of Rs 2,000 crore and above within 30 days of default. A resolution plan must be implemented within 180 days, failing which an additional provisioning of 20% is applied, rising to 35% after 365 days. The circular provides flexibility in resolution approaches including restructuring, change of management, and referral to NCLT under IBC.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q162",
+    "question": "What are the key differences between India's Nifty 50 and Bank Nifty indices in terms of composition and performance?",
+    "ground_truth_answer": "The Nifty 50 represents the top 50 companies across 13 sectors with a financial services weight of approximately 33%, while Bank Nifty comprises 12 major banking stocks with 100% financial sector exposure. In FY 2023-24, Nifty 50 returned 28.6% while Bank Nifty returned 22%, with Bank Nifty showing higher beta and volatility. Bank Nifty is more sensitive to RBI monetary policy and credit cycle changes, making it the preferred hedging instrument for financial sector exposure.",
+    "doc_type": "nse_annual_report",
+    "question_type": "comparison",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q163",
+    "question": "What was India's Wholesale Price Index (WPI) inflation trend in FY 2023-24?",
+    "ground_truth_answer": "India's WPI inflation averaged approximately -0.7% in FY 2023-24, entering deflationary territory for several months due to high base effects and moderation in global commodity prices. This marked a significant reversal from the 12.4% average WPI inflation in FY 2022-23, with the divergence between WPI and CPI narrowing as food price pressures subsided.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q164",
+    "question": "What is the SEBI framework for online bond platform providers?",
+    "ground_truth_answer": "SEBI's November 2022 circular mandates that online bond platform providers (OBPPs) must register as stock brokers and list their platforms as debt segment trading venues. OBPPs must ensure investors have demat accounts, implement KYC verification, provide transparent pricing with disclosed yields, settle trades through the clearing corporation, and cannot offer guaranteed returns or credit enhancement on the bonds listed on their platform.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "regulatory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q165",
+    "question": "How has the share of retail investors in NSE's equity cash market evolved between 2019 and 2024?",
+    "ground_truth_answer": "Retail investors' share of NSE's equity cash market turnover increased from approximately 38% in FY 2018-19 to over 50% in FY 2023-24, driven by new demat account openings during the pandemic, low-cost digital brokerage platforms, and the growing financial literacy ecosystem. However, retail participation in the derivatives segment has drawn regulatory concern, with SEBI data showing that over 93% of individual F&O traders incur net losses.",
+    "doc_type": "nse_annual_report",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q166",
+    "question": "What is the RBI's framework for regulatory sandbox and how has it progressed?",
+    "ground_truth_answer": "The RBI launched its Regulatory Sandbox framework in 2019 to enable live testing of innovative fintech products in a controlled environment. As of 2024, five cohorts have been conducted covering themes of retail payments, cross-border payments, MSME lending, prevention of financial fraud, and digital lending. Selected entities receive temporary regulatory relaxations with a testing period of 6-12 months, after which successful products may receive broader approval.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q167",
+    "question": "What was the total value of corporate bond issuances in India during FY 2023-24?",
+    "ground_truth_answer": "Total corporate bond issuances in India during FY 2023-24 were approximately Rs 9.3 lakh crore, with private placement route dominating at over 95% of total issuances. Financial sector entities including banks, NBFCs, and housing finance companies accounted for approximately 70% of total issuances, reflecting the concentrated nature of India's corporate bond market.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q168",
+    "question": "What are the RBI's guidelines on gold loans by banks and NBFCs?",
+    "ground_truth_answer": "The RBI permits banks to lend against gold ornaments and jewelry up to a loan-to-value (LTV) ratio of 75%, increased temporarily to 90% during COVID-19 but reverted to 75%. Gold loans for agricultural purposes attract priority sector classification. Banks must use assaying facilities for gold valuation, maintain adequate insurance, store pledged gold in secure vaults, and conduct auction of unredeemed pledged gold only after providing due notice to borrowers.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q169",
+    "question": "What has been the trend in India's goods and services tax (GST) collections and its impact on state finances?",
+    "ground_truth_answer": "Monthly GST collections have grown from approximately Rs 95,000 crore in FY 2020-21 to over Rs 1.8 lakh crore in several months of FY 2024-25, reflecting economic formalization, improved compliance through e-invoicing, and widening of the tax base. The expiry of the GST compensation cess guarantee period in June 2022 has created fiscal challenges for some states, though buoyant collections have partially offset the loss of guaranteed revenue.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q170",
+    "question": "What is SEBI's framework for social stock exchanges?",
+    "ground_truth_answer": "SEBI established the Social Stock Exchange (SSE) framework, operationalized in 2022, enabling not-for-profit organizations (NPOs) and for-profit social enterprises to raise funds. NPOs can issue zero-coupon zero-principal instruments with minimum issue size of Rs 1 crore, minimum application size of Rs 2 lakh, and minimum 50 subscribers. For-profit social enterprises can list equity shares on the main exchange. SSE provides a regulated platform for channeling social impact investment with mandatory social audit requirements.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "regulatory",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q171",
+    "question": "What was the total number of UPI transactions processed in India in FY 2023-24?",
+    "ground_truth_answer": "India processed approximately 13,100 crore UPI transactions with a total value of approximately Rs 200 lakh crore in FY 2023-24, representing a year-on-year growth of over 55% in volume terms. Monthly UPI transactions crossed 1,200 crore by the end of the fiscal year, cementing UPI's position as the world's largest real-time payment system by transaction volume.",
+    "doc_type": "rbi_circular",
+    "question_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q172",
+    "question": "How has SEBI's regulation of research analysts evolved in India?",
+    "ground_truth_answer": "SEBI's Research Analyst (RA) Regulations, introduced in 2014 and amended in 2023, require individuals and entities providing research or investment recommendations to register with SEBI, pass the NISM Research Analyst certification, maintain a minimum net worth of Rs 5 lakh (individuals) or Rs 50 lakh (body corporates), provide conflict-of-interest disclosures, maintain records for 5 years, and clearly distinguish between buy/sell/hold recommendations. The 2023 amendments tightened norms for proxy advisory firms and social media-based recommendations.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "regulatory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q173",
+    "question": "What are the key features of the RBI's Account Aggregator framework?",
+    "ground_truth_answer": "The RBI's Account Aggregator (AA) framework, operational since September 2021, enables consent-based sharing of financial data between Financial Information Providers (FIPs) and Financial Information Users (FIUs) through licensed Account Aggregators. AAs cannot view, store, or use the financial data they transmit. The framework covers bank accounts, insurance policies, mutual fund holdings, pension data, and tax information, facilitating cash flow-based lending and improving credit access for underserved segments.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q174",
+    "question": "What is the impact of India's fiscal deficit trajectory on the bond market?",
+    "ground_truth_answer": "India's fiscal deficit has been on a consolidation path, declining from 9.2% of GDP in FY 2020-21 to an estimated 5.1% in FY 2024-25, with a target of 4.5% by FY 2025-26. The declining deficit trajectory has reduced government borrowing requirements, easing supply pressure on the bond market, contributing to yield compression, and creating space for private sector credit growth without crowding out. The J.P. Morgan index inclusion has further supported bond demand.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q175",
+    "question": "What was the performance of gold as an asset class compared to equity in India over the last 3 years?",
+    "ground_truth_answer": "Over the 3-year period ending September 2024, domestic gold delivered returns of approximately 18% CAGR in INR terms, while Nifty 50 delivered approximately 16% CAGR. Gold's outperformance was driven by global central bank buying, geopolitical uncertainties, and rupee depreciation. However, on a 10-year basis, equities outperformed gold with Nifty 50 returning approximately 13% CAGR versus gold's 10% CAGR in INR terms.",
+    "doc_type": "nse_annual_report",
+    "question_type": "comparison",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q176",
+    "question": "What is the RBI's regulatory stance on cryptocurrencies and virtual digital assets?",
+    "ground_truth_answer": "The RBI has consistently maintained a cautious stance on cryptocurrencies, citing risks to financial stability, monetary policy, and consumer protection. While the Supreme Court struck down the RBI's 2018 banking ban on crypto entities in March 2020, the government introduced a 30% tax on virtual digital asset income and 1% TDS on transfers from April 2022. The RBI continues to advocate for an outright ban while developing its own CBDC (e-Rupee) as a regulated digital currency alternative.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q177",
+    "question": "What was the total number of IPOs and funds raised on the NSE in FY 2023-24?",
+    "ground_truth_answer": "In FY 2023-24, a total of 76 mainboard IPOs and approximately 200 SME IPOs were listed on the NSE, collectively raising over Rs 67,000 crore. The mainboard IPOs raised approximately Rs 49,000 crore, with Tata Technologies, IREDA, and JSW Infrastructure among the largest issues. The SME platform witnessed record activity with over Rs 5,000 crore raised, reflecting strong appetite for smaller company listings.",
+    "doc_type": "nse_annual_report",
+    "question_type": "numerical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q178",
+    "question": "What are the implications of SEBI's prohibition on pool accounts for mutual fund transactions?",
+    "ground_truth_answer": "SEBI's directive eliminating pool accounts for mutual fund transactions, effective February 2025, requires all investor payments to flow directly from their bank accounts to the AMC's scheme account and vice versa. This eliminates the risk of distributor or platform misuse of investor funds, improves audit trails, enhances investor protection, but increases operational complexity for distributors and transaction platforms that previously used pooling for settlement efficiency.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q179",
+    "question": "What are the RBI norms for digital banking units (DBUs)?",
+    "ground_truth_answer": "The RBI's framework for Digital Banking Units, launched on October 16, 2022, requires each DBU to offer most banking products and services in paperless and digital mode, including account opening, deposits, lending, remittances, and investment products. DBUs must have a minimum space of 150-200 sq ft, be staffed for customer assistance, operate interoperable with other bank channels, and are counted separately from the bank's branch network for regulatory purposes.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q180",
+    "question": "What was the impact of the HDFC-HDFC Bank merger on the Indian banking landscape?",
+    "ground_truth_answer": "The HDFC-HDFC Bank merger, effective July 1, 2023, created India's second-largest entity by market capitalization with a combined balance sheet exceeding Rs 25 lakh crore. The merger brought Rs 6.3 lakh crore of mortgage assets into the banking system, increased the bank's branch count, reduced HDFC Bank's CD ratio from over 100% to approximately 87%, and created opportunities for cross-selling. However, it also brought SLR/CRR compliance requirements on the legacy HDFC book and increased priority sector lending obligations.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q181",
+    "question": "What is the total investor protection fund corpus maintained by the NSE?",
+    "ground_truth_answer": "The NSE's Investor Protection Fund Trust (IPFT) maintained a corpus of approximately Rs 2,500 crore as of March 2024. The fund is designed to compensate investors in the event of a trading member default, with a maximum claim limit of Rs 25 lakh per investor per trading member. The fund is financed through contributions from member penalties, interest income, and exchange contributions.",
+    "doc_type": "nse_annual_report",
+    "question_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q182",
+    "question": "What are the RBI's instructions on interest rate risk in the banking book (IRRBB)?",
+    "ground_truth_answer": "Under RBI's IRRBB guidelines aligned with Basel III standards, banks must measure and monitor interest rate risk using the Economic Value of Equity (EVE) approach and the Net Interest Income (NII) approach. Banks must conduct stress tests using six prescribed interest rate shock scenarios, maintain an internal limit framework for IRRBB, and report to the RBI on a quarterly basis. An EVE decline exceeding 15% of Tier 1 capital triggers supervisory attention.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q183",
+    "question": "How has the Indian microfinance sector performed in 2023-2024?",
+    "ground_truth_answer": "The Indian microfinance sector's gross loan portfolio grew to approximately Rs 4 lakh crore by March 2024, with approximately 6.5 crore active borrowers. NBFC-MFIs held the largest market share at approximately 40%, followed by banks and SFBs. However, the sector faces emerging asset quality concerns with portfolio-at-risk (PAR 30+) rising to approximately 3-4% in some states due to overleveraging and multiple lending, prompting RBI supervisory intervention.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q184",
+    "question": "What is the SEBI framework for Infrastructure Investment Trusts (InvITs)?",
+    "ground_truth_answer": "SEBI InvIT Regulations require a minimum asset value of Rs 500 crore, with at least 80% invested in completed revenue-generating infrastructure assets. InvITs must distribute at least 90% of net distributable cash flows, maintain a minimum of 200 unit-holders, and the sponsor must hold at least 15% for 3 years post-listing. Leverage is permitted up to 49% of total asset value for InvITs with investment-grade credit rating, with mandatory requirement of AAA rating for public InvIT debt issuances.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "regulatory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q185",
+    "question": "What is the current framework for foreign investment limits in different sectors of the Indian economy?",
+    "ground_truth_answer": "FDI limits vary by sector: 100% automatic route for manufacturing, e-commerce (marketplace model), and IT services; 74% automatic route for defense and insurance; 49% for scheduled airline operations; 26% FDI and 49% FPI for media broadcasting; and prohibited in lottery, gambling, and tobacco products. Total foreign investment (FDI plus FPI) in a listed company cannot exceed the sectoral cap, and FPI in a single company is capped at 10% of paid-up capital under the portfolio investment route.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q186",
+    "question": "What was the impact of SEBI's measures to curb excessive speculation in index derivatives?",
+    "ground_truth_answer": "SEBI's measures in 2024, including increasing minimum contract size for index derivatives, restricting weekly expiry to one benchmark index per exchange, mandating upfront collection of option premiums, and requiring intraday monitoring of position limits, are expected to reduce speculative retail F&O volumes by 30-40%. Early indicators suggest a decline in notional turnover, reduction in zero-DTE options activity, and improved options pricing efficiency, though full impact assessment requires 6-12 months of implementation data.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "analytical",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q187",
+    "question": "What is the RBI's approach to managing systemic risk through macroprudential measures?",
+    "ground_truth_answer": "The RBI employs multiple macroprudential tools including countercyclical capital buffers, dynamic provisioning norms, risk weight adjustments for specific sectors (as seen in the November 2023 consumer credit tightening), LTV ratio caps for housing loans, sectoral exposure limits, and leverage ratio requirements. These tools are activated or adjusted based on the Financial Stability Report's assessment of systemic risk indicators, credit cycle positioning, and sectoral vulnerabilities.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q188",
+    "question": "What is the NSE's role in India's commodity derivatives market?",
+    "ground_truth_answer": "NSE launched its commodity derivatives segment in October 2018, following SEBI becoming the unified regulator for commodity exchanges. As of FY 2023-24, NSE's commodity segment offers trading in gold, silver, crude oil, natural gas, and select agricultural commodities. However, MCX continues to dominate commodity derivatives trading with over 90% market share, while NSE has focused on building liquidity through unique product offerings including commodity options and commodity-linked ETFs.",
+    "doc_type": "nse_annual_report",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q189",
+    "question": "What was the total insurance penetration rate in India as of FY 2023-24?",
+    "ground_truth_answer": "India's insurance penetration rate (premiums as a percentage of GDP) was approximately 4.0% in FY 2023-24, comprising life insurance at 3.0% and non-life insurance at 1.0%. While this has improved from 3.4% in FY 2018-19, it remains below the global average of approximately 7%, indicating significant room for growth, particularly in health insurance and crop insurance segments.",
+    "doc_type": "rbi_circular",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q190",
+    "question": "What are SEBI's regulations for mutual fund investment in overseas securities?",
+    "ground_truth_answer": "SEBI allows mutual funds to invest in overseas securities subject to an industry-wide limit of USD 7 billion for equity and equity-oriented schemes and USD 1 billion for international ETFs. Individual AMC limits are based on a proportionate allocation. In January 2022, SEBI temporarily halted fresh investments in international fund of funds due to breach of the aggregate limit, which was subsequently reviewed. The RBI coordinates with SEBI on the overall foreign investment allocation framework.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "regulatory",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q191",
+    "question": "How does the Indian corporate bond market's depth compare to its bank credit market?",
+    "ground_truth_answer": "India's outstanding corporate bond market is approximately Rs 46 lakh crore, representing roughly 16-17% of GDP, compared to bank credit outstanding of approximately Rs 164 lakh crore (55% of GDP). This 1:3.5 ratio significantly lags behind developed markets where corporate bonds often match or exceed bank credit. The shallow corporate bond market is attributed to regulatory preferences for bank lending, limited high-yield market, low secondary market liquidity, and dominance of private placements over public issuances.",
+    "doc_type": "rbi_circular",
+    "question_type": "comparison",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q192",
+    "question": "What has been the trend in the technology adoption by Indian stock exchanges?",
+    "ground_truth_answer": "NSE has been at the forefront of technology adoption, with its co-location infrastructure handling order processing latency of under 10 microseconds, real-time risk management systems processing millions of orders per second, and a disaster recovery site achieving near-zero data loss. Recent innovations include the implementation of T+1 settlement infrastructure, pilot of T+0 settlement, cloud-based surveillance systems, and exploration of blockchain technology for corporate bond settlement through its subsidiary NSE Technologies.",
+    "doc_type": "nse_annual_report",
+    "question_type": "analytical",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q193",
+    "question": "What is the current framework for Small Finance Banks in India?",
+    "ground_truth_answer": "Small Finance Banks, licensed by the RBI under the Banking Regulation Act 1949, must maintain a minimum paid-up equity capital of Rs 200 crore, lend at least 75% of their Adjusted Net Bank Credit to the priority sector, ensure at least 50% of their loan portfolio consists of loans up to Rs 25 lakh, and cannot lend to large corporates. SFBs must list within 3 years of reaching a net worth of Rs 500 crore, and promoter shareholding must be brought down to 26% within 12 years of operations.",
+    "doc_type": "rbi_circular",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q194",
+    "question": "What was the total EPFO corpus and its investment pattern as of FY 2023-24?",
+    "ground_truth_answer": "The Employee Provident Fund Organisation (EPFO) managed a corpus of approximately Rs 20 lakh crore as of FY 2023-24. The investment pattern allocates a minimum 45% and maximum 65% to government securities, 5-15% to equity ETFs (invested through SBI and UTI Nifty 50 and Sensex ETFs), up to 5% in money market instruments, and the balance in corporate bonds and infrastructure investment trusts. EPFO's ETF investments have generated significant returns since equity allocation began in 2015.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "numerical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q195",
+    "question": "What are the key highlights of the NSE's corporate social responsibility initiatives?",
+    "ground_truth_answer": "NSE has been active in financial literacy and investor education through the NSE Foundation, spending approximately Rs 50-60 crore annually on CSR activities. Key initiatives include the NSE Knowledge Hub for financial certification programs, Investor Protection and Education Fund activities covering over 1,500 locations, scholarship programs for economically disadvantaged students, and partnerships with educational institutions for capital market research. NSE also conducts awareness programs in regional languages across tier-2 and tier-3 cities.",
+    "doc_type": "nse_annual_report",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q196",
+    "question": "What are the implications of rising household debt levels in India for financial stability?",
+    "ground_truth_answer": "India's household debt-to-GDP ratio has risen to approximately 40% by 2024, up from 32% in 2019, driven by growth in housing loans, personal loans, and credit card debt. While still lower than developed market levels (70-100%), the rapid increase raises concerns about debt servicing capacity during economic downturns, potential asset quality deterioration in retail portfolios, and the impact on consumption if debt service obligations crowd out discretionary spending. The RBI's macroprudential measures on unsecured lending address some of these risks.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q197",
+    "question": "What is the SEBI framework for registered investment advisers (RIAs)?",
+    "ground_truth_answer": "SEBI (Investment Advisers) Regulations 2020 require RIAs to register with SEBI, maintain minimum net worth of Rs 50 lakh (for body corporates) or Rs 5 lakh (for individuals), pass NISM IA Level 1 and Level 2 certifications, charge fees only on a flat or AUM-based model (not performance-linked), cannot receive commissions from product manufacturers, must maintain independence and avoid conflicts of interest, and provide risk profiling and suitability assessments before making recommendations. The dual registration as both RIA and distributor is prohibited.",
+    "doc_type": "sebi_factsheet",
+    "question_type": "regulatory",
+    "difficulty": "easy"
+  },
+  {
+    "id": "q198",
+    "question": "What was the total outstanding of commercial paper and certificates of deposit in India as of September 2024?",
+    "ground_truth_answer": "The total outstanding of Commercial Paper (CP) was approximately Rs 4.5 lakh crore and Certificates of Deposit (CDs) approximately Rs 3.8 lakh crore as of September 2024. CP is predominantly issued by NBFCs and large corporates at rates of 7.2-7.8%, while CDs are issued by banks at 7.0-7.5%. These instruments serve as important short-term funding sources and form a significant part of money market mutual fund portfolios.",
+    "doc_type": "rbi_circular",
+    "question_type": "numerical",
+    "difficulty": "hard"
+  },
+  {
+    "id": "q199",
+    "question": "How has the composition of FPI ownership in Indian equities changed between 2020 and 2024?",
+    "ground_truth_answer": "FPI ownership in NSE-listed companies declined from approximately 22% in March 2020 to approximately 17% by September 2024, despite absolute FPI holdings increasing in value terms. This decline in percentage terms reflects the surge in domestic retail and DII ownership which rose from 8% and 13% respectively to approximately 10% and 16%. The trend highlights the growing importance of domestic capital in providing market stability and reducing dependence on foreign flows for price discovery.",
+    "doc_type": "nse_annual_report",
+    "question_type": "analytical",
+    "difficulty": "medium"
+  },
+  {
+    "id": "q200",
+    "question": "What are the key features of the RBI's expected loss-based approach for loan provisioning?",
+    "ground_truth_answer": "The RBI is transitioning from the current incurred loss model to an expected credit loss (ECL) approach, aligned with Ind AS 109, for loan provisioning by Indian banks. Under ECL, banks must classify financial assets into three stages: Stage 1 (performing, 12-month ECL provision), Stage 2 (significant increase in credit risk, lifetime ECL provision), and Stage 3 (credit-impaired, lifetime ECL provision). This forward-looking approach will require banks to provision earlier based on probability-weighted macroeconomic scenarios, potentially increasing provisioning levels by 15-25% initially but improving the overall resilience of the banking system.",
+    "doc_type": "rbi_circular",
+    "question_type": "analytical",
+    "difficulty": "hard"
+  }
+]

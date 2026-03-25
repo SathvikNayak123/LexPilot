@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime
-from typing import Any, Literal
+from typing import Literal
 
 from pydantic import BaseModel, Field
 
@@ -24,11 +24,9 @@ class QueryRequest(BaseModel):
 
     Attributes:
         question: The natural-language question to answer.
-        session_id: Optional conversation session identifier for
-            multi-turn context.  When ``None``, a new session is created.
-        doc_type_filter: Optional filter to restrict retrieval to a
-            specific document type (e.g. ``"rbi_circular"``).
-        top_k: Number of context chunks to retrieve.  Defaults to 5.
+        session_id: Optional conversation session identifier.
+        doc_type_filter: Optional filter to restrict retrieval to a document type.
+        top_k: Number of context chunks to retrieve.
     """
 
     question: str = Field(
@@ -57,68 +55,70 @@ class QueryRequest(BaseModel):
     )
 
 
-class SourceChunk(BaseModel):
-    """A single source chunk returned alongside the answer.
+class SourceCitationSchema(BaseModel):
+    """A single source citation returned alongside the answer.
 
     Attributes:
-        chunk_id: Unique identifier of the chunk.
-        content: Text content of the chunk.
+        doc_title: Title of the source document.
         doc_type: Document type label.
-        doc_date: ISO-format publication date of the source document.
+        doc_date: Publication date of the source document.
+        url: URL of the source document.
         page_num: Page number in the original PDF.
-        score: Relevance score from the retrieval pipeline.
+        relevance_score: Relevance score from the retrieval pipeline.
     """
 
-    chunk_id: str = Field(description="Unique identifier of the chunk.")
-    content: str = Field(description="Text content of the chunk.")
-    doc_type: str | None = Field(default=None, description="Document type label.")
-    doc_date: str | None = Field(
-        default=None,
-        description="Publication date of the source document (ISO format).",
-    )
-    page_num: int | None = Field(
-        default=None,
-        description="Page number in the original PDF.",
-    )
-    score: float = Field(description="Relevance score from retrieval/reranking.")
+    doc_title: str = Field(description="Title of the source document.")
+    doc_type: str = Field(description="Document type label.")
+    doc_date: datetime | None = Field(default=None, description="Publication date.")
+    url: str | None = Field(default=None, description="URL of the source document.")
+    page_num: int = Field(description="Page number in the original PDF.")
+    relevance_score: float = Field(description="Relevance score from retrieval/reranking.")
 
 
 class QueryResponse(BaseModel):
     """Response body for the ``POST /query`` endpoint.
 
-    Wraps the RAG pipeline output with additional API-level metadata such
-    as a unique request identifier and timing information.
-
     Attributes:
         request_id: Unique identifier for this request (UUIDv4).
-        question: Echo of the original question for client convenience.
         answer: The generated answer text.
-        sources: List of source chunks used as context for generation.
-        session_id: Session identifier (echoed back or newly created).
+        sources: List of source citations used as context for generation.
+        confidence_score: Pipeline confidence in the answer.
+        query_type: Classified query type from the router.
+        retrieval_latency_ms: Retrieval stage latency in milliseconds.
+        generation_latency_ms: Generation stage latency in milliseconds.
         model_used: Identifier of the LLM that generated the answer.
-        latency_ms: End-to-end response latency in milliseconds.
         trace_id: Langfuse trace identifier for observability.
-        created_at: ISO-format timestamp of when the response was created.
+        created_at: UTC timestamp of when the response was created.
     """
 
     request_id: str = Field(
         default_factory=lambda: str(uuid.uuid4()),
         description="Unique identifier for this API request.",
     )
-    question: str = Field(description="Echo of the original question.")
     answer: str = Field(description="Generated answer text.")
-    sources: list[SourceChunk] = Field(
+    sources: list[SourceCitationSchema] = Field(
         default_factory=list,
-        description="Source chunks used as context for generation.",
+        description="Source citations used as context for generation.",
     )
-    session_id: str = Field(description="Session identifier.")
+    confidence_score: float = Field(
+        default=0.0,
+        description="Pipeline confidence score (0.0 to 1.0).",
+    )
+    query_type: str = Field(
+        default="factual",
+        description="Classified query type.",
+    )
+    retrieval_latency_ms: float = Field(
+        default=0.0,
+        description="Retrieval stage latency in milliseconds.",
+    )
+    generation_latency_ms: float = Field(
+        default=0.0,
+        description="Generation stage latency in milliseconds.",
+    )
     model_used: str = Field(
         default="",
         description="Identifier of the LLM used for generation.",
-    )
-    latency_ms: float = Field(
-        default=0.0,
-        description="End-to-end response latency in milliseconds.",
     )
     trace_id: str = Field(
         default="",
@@ -140,7 +140,10 @@ class FeedbackRequest(BaseModel):
 
     Attributes:
         trace_id: The Langfuse trace ID of the query being rated.
-        score: User rating.  ``1`` for positive, ``-1`` for negative.
+        session_id: Optional session ID.
+        question: The original question.
+        answer: The generated answer.
+        score: User rating: 1 (positive), 0 (neutral), -1 (negative).
         comment: Optional free-text comment from the user.
     """
 
@@ -149,9 +152,23 @@ class FeedbackRequest(BaseModel):
         min_length=1,
         description="Langfuse trace ID of the query being rated.",
     )
-    score: Literal[1, -1] = Field(
+    session_id: str | None = Field(
+        default=None,
+        description="Optional session ID.",
+    )
+    question: str = Field(
+        default="",
+        description="The original question.",
+    )
+    answer: str = Field(
+        default="",
+        description="The generated answer.",
+    )
+    score: int = Field(
         ...,
-        description="User rating: 1 (positive) or -1 (negative).",
+        ge=-1,
+        le=1,
+        description="User rating: 1 (positive), 0 (neutral), -1 (negative).",
     )
     comment: str | None = Field(
         default=None,
@@ -164,19 +181,14 @@ class FeedbackResponse(BaseModel):
     """Response body for the ``POST /feedback`` endpoint.
 
     Attributes:
-        status: Outcome status string (``"accepted"``).
-        trace_id: Echo of the trace ID that was rated.
-        message: Human-readable confirmation message.
+        feedback_id: ID of the stored feedback record.
+        status: Outcome status string.
     """
 
+    feedback_id: str = Field(description="ID of the stored feedback record.")
     status: str = Field(
-        default="accepted",
+        default="stored",
         description="Outcome status.",
-    )
-    trace_id: str = Field(description="Echo of the rated trace ID.")
-    message: str = Field(
-        default="Feedback recorded successfully.",
-        description="Human-readable confirmation.",
     )
 
 
@@ -189,30 +201,9 @@ class HealthResponse(BaseModel):
     """Response body for the ``GET /health`` endpoint.
 
     Attributes:
-        status: Overall health status (``"healthy"`` or ``"degraded"``).
+        status: Overall health status.
         version: Application version string.
-        qdrant_connected: Whether the Qdrant vector store is reachable.
-        postgres_connected: Whether Postgres is reachable.
-        timestamp: UTC timestamp of the health check.
     """
 
-    status: str = Field(
-        default="healthy",
-        description="Overall service health status.",
-    )
-    version: str = Field(
-        default="0.1.0",
-        description="Application version.",
-    )
-    qdrant_connected: bool = Field(
-        default=False,
-        description="Whether the Qdrant vector store is reachable.",
-    )
-    postgres_connected: bool = Field(
-        default=False,
-        description="Whether the Postgres database is reachable.",
-    )
-    timestamp: datetime = Field(
-        default_factory=datetime.utcnow,
-        description="UTC timestamp of the health check.",
-    )
+    status: str = Field(default="ok", description="Overall service health status.")
+    version: str = Field(default="0.1.0", description="Application version.")
