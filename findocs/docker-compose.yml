@@ -1,0 +1,209 @@
+version: "3.9"
+
+# ===========================================================================
+# FinDocs Infrastructure Stack
+# ===========================================================================
+
+x-common: &common
+  restart: unless-stopped
+  networks:
+    - findocs-net
+
+services:
+  # -------------------------------------------------------------------------
+  # PostgreSQL 16 with pgvector
+  # -------------------------------------------------------------------------
+  postgres:
+    <<: *common
+    image: pgvector/pgvector:pg16
+    container_name: findocs-postgres
+    environment:
+      POSTGRES_USER: findocs
+      POSTGRES_PASSWORD: findocs
+      POSTGRES_DB: findocs
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U findocs -d findocs"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # -------------------------------------------------------------------------
+  # Qdrant – vector search engine
+  # -------------------------------------------------------------------------
+  qdrant:
+    <<: *common
+    image: qdrant/qdrant:latest
+    container_name: findocs-qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant-data:/qdrant/storage
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:6333/healthz || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  # -------------------------------------------------------------------------
+  # Redis – caching & rate-limiting
+  # -------------------------------------------------------------------------
+  redis:
+    <<: *common
+    image: redis:7-alpine
+    container_name: findocs-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # -------------------------------------------------------------------------
+  # Langfuse – LLM observability
+  # -------------------------------------------------------------------------
+  langfuse:
+    <<: *common
+    image: ghcr.io/langfuse/langfuse:latest
+    container_name: findocs-langfuse
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://findocs:findocs@postgres:5432/findocs
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: findocs-langfuse-secret-change-me
+      SALT: findocs-salt-change-me
+      TELEMETRY_ENABLED: "false"
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:3000/api/public/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # -------------------------------------------------------------------------
+  # MLflow – experiment tracking & model registry
+  # -------------------------------------------------------------------------
+  mlflow:
+    <<: *common
+    image: ghcr.io/mlflow/mlflow:latest
+    container_name: findocs-mlflow
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow-artifacts:/mlflow/artifacts
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --backend-store-uri postgresql://findocs:findocs@postgres:5432/findocs
+      --default-artifact-root /mlflow/artifacts
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:5000/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  # -------------------------------------------------------------------------
+  # Apache Airflow – pipeline orchestration (LocalExecutor)
+  # -------------------------------------------------------------------------
+  airflow:
+    <<: *common
+    image: apache/airflow:2.10.0
+    container_name: findocs-airflow
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://findocs:findocs@postgres:5432/findocs
+      AIRFLOW__CORE__FERNET_KEY: ""
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "false"
+    env_file:
+      - .env
+    volumes:
+      - ./pipeline:/opt/airflow/dags
+      - airflow-logs:/opt/airflow/logs
+    command: >
+      bash -c "
+        airflow db migrate &&
+        airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@findocs.local || true &&
+        airflow webserver & airflow scheduler
+      "
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # -------------------------------------------------------------------------
+  # FinDocs API
+  # -------------------------------------------------------------------------
+  api:
+    <<: *common
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: findocs-api
+    depends_on:
+      qdrant:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8000/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+# ===========================================================================
+# Volumes
+# ===========================================================================
+volumes:
+  postgres-data:
+    driver: local
+  qdrant-data:
+    driver: local
+  redis-data:
+    driver: local
+  mlflow-artifacts:
+    driver: local
+  airflow-logs:
+    driver: local
+
+# ===========================================================================
+# Networks
+# ===========================================================================
+networks:
+  findocs-net:
+    driver: bridge
