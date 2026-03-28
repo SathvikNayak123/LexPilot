@@ -1,53 +1,38 @@
-"""POST /feedback – user feedback endpoint."""
+from fastapi import APIRouter
+from pydantic import BaseModel
+from typing import Optional
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy import text
 
-from __future__ import annotations
+from config.config import settings
 
-import structlog
-from fastapi import APIRouter, HTTPException
+router = APIRouter(tags=["feedback"])
 
-from findocs.api.schemas import FeedbackRequest, FeedbackResponse
-from findocs.monitoring.feedback_collector import FeedbackCollector, FeedbackRecord
-
-logger: structlog.stdlib.BoundLogger = structlog.get_logger()
-
-router = APIRouter()
-
-_collector: FeedbackCollector | None = None
+engine = create_async_engine(settings.postgres_url)
 
 
-def _get_collector() -> FeedbackCollector:
-    """Build or return the cached FeedbackCollector singleton."""
-    global _collector  # noqa: PLW0603
-    if _collector is None:
-        _collector = FeedbackCollector()
-    return _collector
+class FeedbackRequest(BaseModel):
+    session_id: str
+    trace_id: Optional[str] = None
+    rating: int  # -1 or 1
+    comment: Optional[str] = None
 
 
-@router.post("", response_model=FeedbackResponse)
-async def submit_feedback(request: FeedbackRequest) -> FeedbackResponse:
-    """Store user feedback for a RAG response.
-
-    Args:
-        request: Feedback payload with trace_id, score, and optional comment.
-
-    Returns:
-        Confirmation with the stored feedback ID.
-    """
-    collector = _get_collector()
-
-    record = FeedbackRecord(
-        trace_id=request.trace_id,
-        session_id=request.session_id,
-        question=request.question,
-        answer=request.answer,
-        score=request.score,
-        comment=request.comment,
-    )
-
-    try:
-        feedback_id = await collector.store_feedback(record)
-    except Exception as exc:
-        logger.error("feedback_storage_error", error=str(exc), trace_id=request.trace_id)
-        raise HTTPException(status_code=500, detail="Failed to store feedback") from exc
-
-    return FeedbackResponse(feedback_id=feedback_id, status="stored")
+@router.post("/feedback")
+async def submit_feedback(req: FeedbackRequest):
+    """Store user feedback for a research session."""
+    async with AsyncSession(engine) as session:
+        await session.execute(
+            text("""
+                INSERT INTO feedback (session_id, trace_id, rating, comment)
+                VALUES (:sid, :tid, :rating, :comment)
+            """),
+            {
+                "sid": req.session_id,
+                "tid": req.trace_id,
+                "rating": req.rating,
+                "comment": req.comment,
+            },
+        )
+        await session.commit()
+    return {"status": "ok"}

@@ -1,70 +1,31 @@
-"""Pydantic models for parsed financial documents."""
-
-from datetime import datetime
-from pathlib import Path
-from typing import Literal
-
-from pydantic import BaseModel, Field
-
-
-class TextBlock(BaseModel):
-    """A block of text extracted from a PDF page with layout metadata."""
-
-    content: str
-    is_heading: bool
-    font_size: float
-    bbox: tuple[float, float, float, float]  # x0, y0, x1, y1
-    page_num: int
-
-
-class TableBlock(BaseModel):
-    """A table extracted from a PDF page, converted to Markdown."""
-
-    markdown_content: str
-    caption: str | None = None
-    page_num: int
-    bbox: tuple[float, float, float, float]
-    row_count: int
-    col_count: int
-    numerical_summary: dict[str, object] | None = None
-
-
-class ChartBlock(BaseModel):
-    """A chart/figure description extracted via vision LLM."""
-
-    description: str
-    chart_type: str | None = None
-    page_num: int
-    bbox: tuple[float, float, float, float]
-    extraction_cost_usd: float
+from pydantic import BaseModel
+from typing import Literal, Optional
+from datetime import date
 
 
 class ParsedBlock(BaseModel):
-    """Unified block representation after parsing, ready for chunking."""
-
+    """A single parsed content block from a PDF page."""
+    block_type: Literal["text", "table", "heading"]
     content: str
-    block_type: Literal["text", "table", "chart"]
-    page_num: int
-    metadata: dict[str, object] = Field(default_factory=dict)
+    page_number: int
+    font_size: Optional[float] = None
+    is_heading: bool = False
+    heading_level: Optional[int] = None  # 1=title, 2=section, 3=subsection
+    bbox: Optional[tuple[float, float, float, float]] = None  # x0, y0, x1, y1
+    # Table-specific
+    row_count: Optional[int] = None
+    col_count: Optional[int] = None
 
 
 class ParsedDocument(BaseModel):
-    """Complete parsed document containing all extracted blocks."""
-
-    source_path: Path
-    doc_type: Literal["rbi_circular", "sebi_factsheet", "nse_annual_report"]
+    """Complete parsed document with metadata."""
+    document_id: str
     title: str
-    date: datetime | None = None
+    doc_type: Literal["judgment", "contract", "statute", "policy"]
+    source: Optional[str] = None
+    court: Optional[str] = None  # For judgments
+    date: Optional[date] = None
     blocks: list[ParsedBlock]
     total_pages: int
-    parsing_duration_seconds: float
-
-
-class DownloadedDocument(BaseModel):
-    """Metadata for a downloaded document before parsing."""
-
-    local_path: Path
-    url: str
-    title: str
-    date: datetime | None = None
-    doc_type: str
+    parse_duration_ms: int
+    metadata: dict = {}

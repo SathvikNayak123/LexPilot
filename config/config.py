@@ -1,71 +1,53 @@
-"""Centralized configuration for FinDocs using pydantic-settings.
-
-All configuration is loaded from environment variables with an optional .env file.
-"""
-
-from functools import lru_cache
-
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings
+from pydantic import Field
+from typing import Optional
 
 
 class Settings(BaseSettings):
-    """FinDocs application settings loaded from environment variables."""
+    model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    # LLM Providers (3-tier router)
+    groq_api_key: str = Field(..., description="Groq for Tier 2")
+    anthropic_api_key: str = Field(..., description="Anthropic for Tier 3 + eval judge")
+    openai_api_key: Optional[str] = Field(default=None, description="Optional: OpenAI for Agents SDK default")
 
-    # LLM APIs
-    ANTHROPIC_API_KEY: str
-    OPENAI_API_KEY: str
+    # Vector DB
+    qdrant_url: str = Field(default="http://localhost:6333")
+    qdrant_collection: str = Field(default="lexpilot_chunks")
+
+    # Knowledge Graph
+    neo4j_uri: str = Field(default="bolt://localhost:7687")
+    neo4j_user: str = Field(default="neo4j")
+    neo4j_password: str = Field(default="lexpilot")
 
     # Infrastructure
-    QDRANT_URL: str = "http://localhost:6333"
-    QDRANT_COLLECTION: str = "findocs"
-    POSTGRES_URL: str = "postgresql+asyncpg://findocs:findocs@localhost:5432/findocs"
-    REDIS_URL: str = "redis://localhost:6379"
+    postgres_url: str = Field(default="postgresql+asyncpg://lexpilot:lexpilot@localhost:5432/lexpilot")
+    redis_url: str = Field(default="redis://localhost:6379/0")
+    langfuse_public_key: Optional[str] = None
+    langfuse_secret_key: Optional[str] = None
+    langfuse_host: str = Field(default="http://localhost:3001")
 
-    # Langfuse
-    LANGFUSE_PUBLIC_KEY: str
-    LANGFUSE_SECRET_KEY: str
-    LANGFUSE_HOST: str = "http://localhost:3000"
-
-    # HuggingFace
-    HF_TOKEN: str
-    HF_MODEL_REPO: str = "your-username/findocs-phi3-finetuned"
-
-    # Models
-    EMBEDDING_MODEL: str = "sentence-transformers/all-mpnet-base-v2"
-    RERANKER_MODEL: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
-    FINETUNED_MODEL_PATH: str = "./models/phi3-findocs-adapter"
-    FALLBACK_MODEL: str = "gpt-4o-mini"
-    BASE_MODEL_FOR_FINETUNING: str = "microsoft/Phi-3-mini-4k-instruct"
+    # Embedding
+    embedding_model: str = Field(default="all-mpnet-base-v2")
+    embedding_dim: int = Field(default=768)
 
     # Chunking
-    CHUNK_SIZE_TOKENS: int = 512
-    CHILD_CHUNK_SIZE_TOKENS: int = 128
-    CHUNK_OVERLAP_TOKENS: int = 50
+    child_chunk_tokens: int = Field(default=128)
+    parent_chunk_tokens: int = Field(default=512)
+    chunk_overlap_tokens: int = Field(default=50)
+    semantic_threshold: float = Field(default=0.6)
 
     # Retrieval
-    DENSE_TOP_K: int = 20
-    SPARSE_TOP_K: int = 20
-    RERANK_TOP_K: int = 5
+    dense_top_k: int = Field(default=50)
+    sparse_top_k: int = Field(default=50)
+    rrf_k: int = Field(default=60)
+    rerank_top_k: int = Field(default=20)
+    final_top_k: int = Field(default=5)
 
-    # Evaluation thresholds (CI gate)
-    MIN_FAITHFULNESS: float = 0.80
-    MIN_CONTEXT_PRECISION: float = 0.70
-    MIN_ANSWER_RELEVANCE: float = 0.75
-
-    # Monitoring
-    DRIFT_ALERT_THRESHOLD_PCT: float = 5.0
-    WEEKLY_EVAL_QUESTION_SAMPLE: int = 50
-
-    # Slack (for drift alerts)
-    SLACK_WEBHOOK_URL: str = ""
-
-    # MLflow
-    MLFLOW_TRACKING_URI: str = "http://localhost:5000"
+    # General
+    environment: str = Field(default="development")
+    log_level: str = Field(default="INFO")
+    api_port: int = Field(default=8000)
 
 
-@lru_cache(maxsize=1)
-def get_settings() -> Settings:
-    """Return cached Settings instance."""
-    return Settings()  # type: ignore[call-arg]
+settings = Settings()
