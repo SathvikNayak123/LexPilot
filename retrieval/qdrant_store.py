@@ -1,5 +1,6 @@
 from qdrant_client import QdrantClient, models
 from qdrant_client.models import Distance, VectorParams, SparseVectorParams, SparseIndexParams
+import hashlib
 import numpy as np
 import structlog
 
@@ -39,8 +40,10 @@ class QdrantStore:
         """Index child chunks with both dense and sparse vectors."""
         points = []
         for i, chunk in enumerate(chunks):
+            # Deterministic UUID from chunk.id to avoid collisions across documents
+            point_id = hashlib.md5(chunk.id.encode()).hexdigest()
             points.append(models.PointStruct(
-                id=i,  # Use integer ID, store chunk.id in payload
+                id=point_id,
                 vector={
                     "dense": dense_embeddings[i].tolist(),
                     "sparse": models.SparseVector(

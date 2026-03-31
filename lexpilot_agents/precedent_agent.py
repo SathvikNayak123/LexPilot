@@ -1,6 +1,6 @@
 from agents import Agent
-from agents.tools.retrieval_tools import graphrag_search, get_citation_chain, search_legal_documents
-from agents.models import get_tier3_model
+from lexpilot_agents.tools.retrieval_tools import graphrag_search, get_citation_chain, search_legal_documents
+from lexpilot_agents.models import get_tier3_model
 
 precedent_agent = Agent(
     name="Precedent Researcher",

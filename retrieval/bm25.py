@@ -25,6 +25,14 @@ class BM25Encoder:
             all_tokens.update(doc)
         self.vocab = {token: idx for idx, token in enumerate(sorted(all_tokens))}
 
+        # Pre-compute per-token IDF from BM25's internal doc_freqs
+        self.token_idf: dict[str, float] = {}
+        n = len(tokenized)
+        for token in self.vocab:
+            df = sum(1 for doc in tokenized if token in doc)
+            # Standard BM25 IDF: log((N - df + 0.5) / (df + 0.5) + 1)
+            self.token_idf[token] = np.log((n - df + 0.5) / (df + 0.5) + 1.0)
+
         logger.info("bm25_fitted", vocab_size=len(self.vocab), corpus_size=len(corpus))
 
     def encode_document(self, text: str) -> dict:
@@ -39,8 +47,7 @@ class BM25Encoder:
         values = []
         for token, count in token_counts.items():
             idx = self.vocab[token]
-            # Use IDF-weighted TF as value
-            idf = self.bm25.idf.get(token, 0) if hasattr(self.bm25, 'idf') else 1.0
+            idf = self.token_idf.get(token, 1.0)
             indices.append(idx)
             values.append(count * idf)
 
@@ -52,10 +59,11 @@ class BM25Encoder:
 
     def save(self, path: str):
         with open(path, "wb") as f:
-            pickle.dump({"bm25": self.bm25, "vocab": self.vocab}, f)
+            pickle.dump({"bm25": self.bm25, "vocab": self.vocab, "token_idf": self.token_idf}, f)
 
     def load(self, path: str):
         with open(path, "rb") as f:
             data = pickle.load(f)
             self.bm25 = data["bm25"]
             self.vocab = data["vocab"]
+            self.token_idf = data.get("token_idf", {})

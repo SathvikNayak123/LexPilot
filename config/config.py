@@ -1,3 +1,5 @@
+import os
+
 from pydantic_settings import BaseSettings
 from pydantic import Field
 from typing import Optional
@@ -7,9 +9,10 @@ class Settings(BaseSettings):
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
 
     # LLM Providers (3-tier router)
-    groq_api_key: str = Field(..., description="Groq for Tier 2")
-    anthropic_api_key: str = Field(..., description="Anthropic for Tier 3 + eval judge")
+    openrouter_api_key: str = Field(..., description="OpenRouter for Tier 2")
+    anthropic_api_key: Optional[str] = Field(default=None, description="Anthropic (optional if using OpenRouter)")
     openai_api_key: Optional[str] = Field(default=None, description="Optional: OpenAI for Agents SDK default")
+    hf_token: Optional[str] = Field(default=None, description="Hugging Face API token for model downloads")
 
     # Vector DB
     qdrant_url: str = Field(default="http://localhost:6333")
@@ -51,3 +54,9 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+# Export tokens to env so third-party libs (HF Hub, LiteLLM) can find them
+if settings.hf_token:
+    os.environ.setdefault("HF_TOKEN", settings.hf_token)
+if settings.openrouter_api_key:
+    os.environ.setdefault("OPENROUTER_API_KEY", settings.openrouter_api_key)

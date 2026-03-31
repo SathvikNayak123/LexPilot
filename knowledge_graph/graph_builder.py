@@ -49,6 +49,7 @@ class GraphBuilder:
                 logger.info("citation_linked", from_=doc.document_id, to=existing["id"])
 
         logger.info("graph_built", doc_id=doc.document_id, citations_found=len(cited_judgments))
+        return len(cited_judgments)
 
     def _extract_citations(self, text: str) -> list[str]:
         """Extract Indian legal citations from text."""

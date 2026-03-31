@@ -4,6 +4,10 @@ from retrieval.embedder import EmbeddingService
 from retrieval.qdrant_store import QdrantStore
 from retrieval.bm25 import BM25Encoder
 from retrieval.parent_store import ParentChunkStore
+from knowledge_graph.graph_builder import GraphBuilder
+import structlog
+
+logger = structlog.get_logger()
 
 
 class IndexingPipeline:
@@ -16,6 +20,7 @@ class IndexingPipeline:
         self.qdrant = QdrantStore()
         self.bm25 = BM25Encoder()
         self.parent_store = ParentChunkStore()
+        self.graph_builder = GraphBuilder()
 
     async def index_document(self, pdf_path: str, doc_type: str = "judgment", **kwargs):
         """Ingest, chunk, embed, and index a single document."""
@@ -28,15 +33,23 @@ class IndexingPipeline:
         # Store parents in Postgres
         await self.parent_store.store(parents)
 
-        # Embed children (dense)
+        # Embed children (dense) — embarrassingly parallel, no lock needed
         child_texts = [c.content for c in children]
         dense_embeddings = self.embedder.embed(child_texts)
 
         # Build sparse vectors
-        self.bm25.fit(child_texts)  # Re-fit incrementally (or load existing)
+        self.bm25.fit(child_texts)
         sparse_vectors = [self.bm25.encode_document(t) for t in child_texts]
 
         # Index in Qdrant
         self.qdrant.index_chunks(children, dense_embeddings, sparse_vectors)
 
-        return {"parents": len(parents), "children": len(children)}
+        # Build knowledge graph (judgments only)
+        citations_found = 0
+        if doc_type == "judgment":
+            try:
+                citations_found = await self.graph_builder.build_from_document(doc, kwargs)
+            except Exception as e:
+                logger.warning("graph_build_skipped", doc_id=doc.document_id, error=str(e))
+
+        return {"parents": len(parents), "children": len(children), "citations": citations_found}

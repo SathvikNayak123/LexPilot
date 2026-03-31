@@ -1,7 +1,7 @@
 from agents import Agent
-from agents.tools.retrieval_tools import search_legal_documents
-from agents.tools.compliance_tools import extract_clauses
-from agents.models import get_tier2_model
+from lexpilot_agents.tools.retrieval_tools import search_legal_documents
+from lexpilot_agents.tools.compliance_tools import extract_clauses
+from lexpilot_agents.models import get_tier2_model
 
 contract_agent = Agent(
     name="Contract Analyst",

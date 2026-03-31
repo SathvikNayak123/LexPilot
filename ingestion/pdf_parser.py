@@ -1,4 +1,5 @@
 import fitz  # PyMuPDF
+import hashlib
 import pdfplumber
 import time
 from pathlib import Path
@@ -59,7 +60,7 @@ class PDFParser:
                      blocks=len(blocks), duration_ms=duration)
 
         return ParsedDocument(
-            document_id=f"doc_{pdf_path.stem}_{int(time.time())}",
+            document_id=f"doc_{pdf_path.stem}_{hashlib.md5(str(pdf_path.resolve()).encode()).hexdigest()[:8]}",
             title=title,
             doc_type=doc_type,
             source=source,
@@ -90,13 +91,14 @@ class PDFParser:
             if not text or len(text) < 3:
                 continue
 
-            # Detect heading level
+            # Detect heading level (check largest threshold first)
             heading_level = None
             is_heading = False
             for level, threshold in sorted(self.HEADING_THRESHOLDS.items()):
                 if max_font_size >= threshold:
                     heading_level = level
                     is_heading = True
+                    break
 
             bbox = (block["bbox"][0], block["bbox"][1],
                     block["bbox"][2], block["bbox"][3])

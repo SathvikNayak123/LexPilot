@@ -1,10 +1,25 @@
 from agents import function_tool
-from compliance.dpdp_scanner import DPDPScanner
 from compliance.dpdp_sections import DPDP_SECTIONS
-from retrieval.hybrid_search import HybridSearchPipeline
 
-scanner = DPDPScanner()
-hybrid_pipeline = HybridSearchPipeline()
+# Lazy-initialized singletons
+_scanner = None
+_hybrid_pipeline = None
+
+
+def _get_scanner():
+    global _scanner
+    if _scanner is None:
+        from compliance.dpdp_scanner import DPDPScanner
+        _scanner = DPDPScanner()
+    return _scanner
+
+
+def _get_hybrid_pipeline():
+    global _hybrid_pipeline
+    if _hybrid_pipeline is None:
+        from retrieval.hybrid_search import HybridSearchPipeline
+        _hybrid_pipeline = HybridSearchPipeline()
+    return _hybrid_pipeline
 
 
 @function_tool
@@ -16,7 +31,7 @@ async def scan_dpdp_compliance(document_id: str) -> str:
     Args:
         document_id: ID of the document to scan (must be ingested first)
     """
-    report = await scanner.scan(document_id)
+    report = await _get_scanner().scan(document_id)
     return report.model_dump_json(indent=2)
 
 
@@ -39,7 +54,7 @@ async def extract_clauses(document_id: str, topic: str = None) -> str:
         document_id: ID of the ingested contract
         topic: Optional topic filter (e.g., 'data retention', 'liability', 'termination')
     """
-    results = await hybrid_pipeline.search(
+    results = await _get_hybrid_pipeline().search(
         query=topic or "contract clauses",
         doc_type_filter="contract",
         top_k=10,

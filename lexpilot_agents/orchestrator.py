@@ -1,11 +1,11 @@
 from agents import Agent
-from agents.models import get_tier3_model
-from agents.contract_agent import contract_agent
-from agents.precedent_agent import precedent_agent
-from agents.compliance_agent import compliance_agent
-from agents.risk_agent import risk_agent
-from agents.guardrails.input_guardrails import legal_input_guardrail
-from agents.guardrails.output_guardrails import citation_output_guardrail
+from lexpilot_agents.models import get_tier3_model
+from lexpilot_agents.contract_agent import contract_agent
+from lexpilot_agents.precedent_agent import precedent_agent
+from lexpilot_agents.compliance_agent import compliance_agent
+from lexpilot_agents.risk_agent import risk_agent
+from lexpilot_agents.guardrails.input_guardrails import legal_input_guardrail
+from lexpilot_agents.guardrails.output_guardrails import citation_output_guardrail
 
 orchestrator = Agent(
     name="LexPilot Orchestrator",

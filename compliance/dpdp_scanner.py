@@ -1,6 +1,7 @@
 import json
+import os
 import instructor
-from anthropic import Anthropic
+import litellm
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy import text
 import structlog
@@ -10,6 +11,9 @@ from compliance.dpdp_sections import DPDP_SECTIONS
 from compliance.models import ComplianceGap, ComplianceReport
 
 logger = structlog.get_logger()
+
+# Set OpenRouter API key for litellm via environment variable
+os.environ["OPENROUTER_API_KEY"] = settings.openrouter_api_key
 
 
 class DPDPScanner:
@@ -22,18 +26,15 @@ class DPDPScanner:
     Pipeline: map (per-clause tagging, Tier 2 model) -> reduce (synthesis, Tier 3 model)
     """
 
+    # LiteLLM model string for OpenRouter (see https://docs.litellm.ai/docs/providers/openrouter)
+    OPENROUTER_MODEL = "openrouter/google/gemini-2.5-flash"
+
     def __init__(self):
         self.engine = create_async_engine(settings.postgres_url)
         self.valid_sections = set(DPDP_SECTIONS.keys())
 
-        # Tier 2 for map step (cheap, focused extraction)
-        self.tag_client = instructor.from_litellm(
-            model="groq/llama-3.3-70b-versatile",
-        )
-        # Tier 3 for reduce step (synthesis needs strong reasoning)
-        self.synthesis_client = instructor.from_anthropic(
-            Anthropic(api_key=settings.anthropic_api_key),
-        )
+        # Async instructor client wrapping litellm for structured outputs
+        self.tag_client = instructor.from_litellm(litellm.acompletion)
 
     async def scan(self, document_id: str) -> ComplianceReport:
         """Run full compliance scan on a document."""
@@ -74,10 +75,10 @@ class DPDPScanner:
             ]
 
     async def _tag_clause(self, chunk: dict) -> list[ComplianceGap]:
-        """MAP step: Tag a single clause against DPDP sections. Uses Tier 2 model."""
+        """MAP step: Tag a single clause against DPDP sections. Uses async litellm."""
         try:
-            gaps = self.tag_client.chat.completions.create(
-                model="groq/llama-3.3-70b-versatile",
+            gaps = await self.tag_client.chat.completions.create(
+                model=self.OPENROUTER_MODEL,
                 response_model=list[ComplianceGap],
                 messages=[{
                     "role": "user",
@@ -101,7 +102,7 @@ Only flag genuine gaps - do not over-report.""",
 
     async def _synthesize_report(self, document_id: str, chunks: list,
                                   gaps: list[ComplianceGap]) -> ComplianceReport:
-        """REDUCE step: Synthesize gaps into a coherent report. Uses Tier 3 model."""
+        """REDUCE step: Synthesize gaps into a coherent report. Uses async litellm."""
         # Determine overall risk
         critical_count = sum(1 for g in gaps if g.risk_level == "critical")
         high_count = sum(1 for g in gaps if g.risk_level == "high")
@@ -115,7 +116,7 @@ Only flag genuine gaps - do not over-report.""",
         else:
             overall = "compliant"
 
-        # Generate executive summary using Tier 3
+        # Generate executive summary using async litellm
         summary_prompt = f"""Summarize DPDP compliance audit findings:
 Total clauses analyzed: {len(chunks)}
 Total gaps found: {len(gaps)}
@@ -127,12 +128,12 @@ Key gaps:
 
 Write a 3-4 sentence executive summary for a legal reviewer."""
 
-        response = self.synthesis_client.messages.create(
-            model="claude-sonnet-4-20250514",
+        response = await litellm.acompletion(
+            model=self.OPENROUTER_MODEL,
             max_tokens=500,
             messages=[{"role": "user", "content": summary_prompt}],
         )
-        summary = response.content[0].text
+        summary = response.choices[0].message.content
 
         return ComplianceReport(
             document_id=document_id,

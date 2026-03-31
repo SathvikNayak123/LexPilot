@@ -1,6 +1,6 @@
 from agents import Agent
-from agents.tools.retrieval_tools import search_legal_documents, graphrag_search
-from agents.models import get_tier2_model
+from lexpilot_agents.tools.retrieval_tools import search_legal_documents, graphrag_search
+from lexpilot_agents.models import get_tier2_model
 
 risk_agent = Agent(
     name="Legal Risk Scorer",

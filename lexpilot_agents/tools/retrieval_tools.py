@@ -1,9 +1,24 @@
 from agents import function_tool
-from retrieval.hybrid_search import HybridSearchPipeline
-from knowledge_graph.graph_retriever import GraphRAGRetriever
 
-hybrid_pipeline = HybridSearchPipeline()
-graphrag_retriever = GraphRAGRetriever()
+# Lazy-initialized singletons — avoids DB/model connections at import time
+_hybrid_pipeline = None
+_graphrag_retriever = None
+
+
+def _get_hybrid_pipeline():
+    global _hybrid_pipeline
+    if _hybrid_pipeline is None:
+        from retrieval.hybrid_search import HybridSearchPipeline
+        _hybrid_pipeline = HybridSearchPipeline()
+    return _hybrid_pipeline
+
+
+def _get_graphrag_retriever():
+    global _graphrag_retriever
+    if _graphrag_retriever is None:
+        from knowledge_graph.graph_retriever import GraphRAGRetriever
+        _graphrag_retriever = GraphRAGRetriever()
+    return _graphrag_retriever
 
 
 @function_tool
@@ -15,7 +30,7 @@ async def search_legal_documents(query: str, doc_type: str = None, top_k: int = 
         doc_type: Filter by document type - "judgment", "contract", "statute", "policy"
         top_k: Number of results to return
     """
-    results = await hybrid_pipeline.search(query, doc_type, top_k)
+    results = await _get_hybrid_pipeline().search(query, doc_type, top_k)
     formatted = []
     for r in results:
         formatted.append(
@@ -36,7 +51,7 @@ async def graphrag_search(query: str, top_k: int = 5) -> str:
         query: Legal research query about precedents or case law
         top_k: Number of precedents to return
     """
-    results = await graphrag_retriever.search(query, doc_type_filter="judgment", top_k=top_k)
+    results = await _get_graphrag_retriever().search(query, doc_type_filter="judgment", top_k=top_k)
     formatted = []
     for r in results:
         warning = f"\nWARNING: {r['warning']}" if r.get("warning") else ""

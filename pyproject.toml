@@ -60,6 +60,22 @@ dependencies = [
     "python-dotenv>=1.0",
 ]
 
+[tool.hatch.build.targets.wheel]
+packages = [
+    "lexpilot_agents",
+    "api",
+    "chunking",
+    "citation",
+    "compliance",
+    "config",
+    "core",
+    "evaluation",
+    "ingestion",
+    "knowledge_graph",
+    "retrieval",
+    "scripts",
+]
+
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0",

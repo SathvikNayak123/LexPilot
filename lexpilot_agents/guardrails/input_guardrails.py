@@ -1,5 +1,6 @@
 from agents import InputGuardrail, GuardrailFunctionOutput, Agent, Runner
-from agents.models import get_tier2_model
+from agents.run_config import RunConfig
+from lexpilot_agents.models import get_tier2_model
 from pydantic import BaseModel
 from typing import Literal
 
@@ -26,7 +27,9 @@ For injection or off_topic: the query should be blocked.""",
 
 async def check_legal_input(ctx, agent, input_text):
     """Input guardrail: classify and filter queries."""
-    result = await Runner.run(input_classifier, input_text, context=ctx.context)
+    from api.provider import openrouter_provider
+    run_config = RunConfig(model_provider=openrouter_provider, tracing_disabled=True)
+    result = await Runner.run(input_classifier, input_text, context=ctx.context, run_config=run_config)
     classification = result.final_output_as(InputClassification)
 
     if classification.category in ("injection", "off_topic"):

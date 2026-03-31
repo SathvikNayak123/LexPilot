@@ -1,2 +1,30 @@
 .env
-.claude/*
+.claude/
+data/
+venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Frontend
+frontend/.next/
+frontend/node_modules/
+frontend/package-lock.json
+
+# Benchmark/test scripts (not part of app)
+scripts/calc_cost_reduction.py
+scripts/bench_citation_accuracy.py
+scripts/bench_graphrag_relevance.py
+scripts/bench_compliance_recall.py
+scripts/run_all_benchmarks.py
+scripts/*_results.json
+
+# IDE
+.vscode/
+.idea/
+*.swp

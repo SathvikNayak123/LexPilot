@@ -1,6 +1,6 @@
 from agents import Agent
-from agents.tools.compliance_tools import scan_dpdp_compliance, lookup_dpdp_section
-from agents.models import get_tier3_model
+from lexpilot_agents.tools.compliance_tools import scan_dpdp_compliance, lookup_dpdp_section
+from lexpilot_agents.models import get_tier3_model
 
 compliance_agent = Agent(
     name="DPDP Compliance Auditor",
