@@ -54,6 +54,7 @@ class SemanticChunker:
                 metadata=ChunkMetadata(
                     document_id=doc.document_id,
                     doc_type=doc.doc_type,
+                    citation=doc.citation,
                     source=doc.source,
                     court=doc.court,
                     date=str(doc.date) if doc.date else None,

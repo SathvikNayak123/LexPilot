@@ -1,7 +1,7 @@
 .env
 .claude/
 data/
-venv/
+venv2/
 
 # Python
 __pycache__/

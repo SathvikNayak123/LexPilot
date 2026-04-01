@@ -15,6 +15,10 @@ logger = structlog.get_logger()
 # Set OpenRouter API key for litellm via environment variable
 os.environ["OPENROUTER_API_KEY"] = settings.openrouter_api_key
 
+# Suppress litellm's "Provider List" banner and verbose output
+litellm.suppress_debug_info = True
+litellm.set_verbose = False
+
 
 class DPDPScanner:
     """Exhaustive clause-level DPDP Act 2023 compliance scanner.
@@ -23,27 +27,39 @@ class DPDPScanner:
     processes EVERY clause in the document against ALL DPDP sections.
     This is necessary because a compliance audit must not miss gaps.
 
-    Pipeline: map (per-clause tagging, Tier 2 model) -> reduce (synthesis, Tier 3 model)
+    Pipeline: map (per-clause tagging) -> reduce (synthesis)
     """
 
     # LiteLLM model string for OpenRouter (see https://docs.litellm.ai/docs/providers/openrouter)
-    OPENROUTER_MODEL = "openrouter/google/gemini-2.5-flash"
+    OPENROUTER_MODEL = "openrouter/google/gemini-3-flash-preview"
 
     def __init__(self):
         self.engine = create_async_engine(settings.postgres_url)
         self.valid_sections = set(DPDP_SECTIONS.keys())
 
         # Async instructor client wrapping litellm for structured outputs
-        self.tag_client = instructor.from_litellm(litellm.acompletion)
+        # Use JSON mode instead of tool calling — Gemini Flash is more reliable with it
+        self.tag_client = instructor.from_litellm(
+            litellm.acompletion, mode=instructor.Mode.JSON
+        )
 
-    async def scan(self, document_id: str) -> ComplianceReport:
-        """Run full compliance scan on a document."""
-        # Load all parent chunks for this document
-        chunks = await self._load_document_chunks(document_id)
-        if not chunks:
-            raise ValueError(f"No chunks found for document {document_id}")
+    async def scan(self, document_id: str, clauses: list[str] = None) -> ComplianceReport:
+        """Run full compliance scan on a document.
 
-        # MAP: Tag each clause against DPDP sections (Tier 2, parallel-ish)
+        Args:
+            document_id: Document ID to load chunks from Postgres.
+            clauses: Optional list of clause texts to scan directly (bypasses DB).
+        """
+        if clauses:
+            chunks = [{"id": f"{document_id}_c{i}", "content": c, "metadata": {}}
+                      for i, c in enumerate(clauses)]
+        else:
+            # Load all parent chunks for this document
+            chunks = await self._load_document_chunks(document_id)
+            if not chunks:
+                raise ValueError(f"No chunks found for document {document_id}")
+
+        # MAP: Tag each clause against DPDP sections
         all_gaps = []
         for chunk in chunks:
             gaps = await self._tag_clause(chunk)
@@ -83,17 +99,26 @@ class DPDPScanner:
                 messages=[{
                     "role": "user",
                     "content": f"""Analyze this contract clause for DPDP Act 2023 compliance gaps.
+Also flag MISSING obligations — if a required DPDP mechanism is absent from this clause, that is a gap.
 
-Valid DPDP sections: {list(self.valid_sections)}
+Valid DPDP sections (you MUST use one of these exact strings):
+{chr(10).join(f'- "{k}": {v["title"]} — {v["description"]}' for k, v in DPDP_SECTIONS.items())}
 
 Clause text:
 {chunk['content']}
 
-Return a list of compliance gaps found (empty list if fully compliant).
-Each gap must reference a valid DPDP section from the list above.
-Only flag genuine gaps - do not over-report.""",
+For each compliance gap found, return a JSON object with these exact fields:
+- "clause_text": the relevant excerpt from the clause (or "absent" if the mechanism is entirely missing)
+- "clause_location": where this clause appears (e.g. "Clause 1")
+- "dpdp_section": one of the valid DPDP sections listed above (e.g. "Section 4")
+- "gap_type": one of "missing", "insufficient", or "conflicting"
+- "risk_level": one of "critical", "high", "medium", or "low"
+- "remediation": suggested fix
+- "confidence": a float between 0 and 1
+
+Return an empty list if fully compliant. Only flag genuine gaps - do not over-report.""",
                 }],
-                max_retries=2,
+                max_retries=3,
             )
             return gaps
         except Exception as e:

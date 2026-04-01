@@ -1,3 +1,4 @@
+import asyncio
 import json
 from pathlib import Path
 
@@ -20,9 +21,14 @@ class DocumentProcessor:
         self.engine = create_async_engine(settings.postgres_url)
 
     async def ingest(self, pdf_path: str, doc_type: str = "judgment",
-                     source: str = None, court: str = None) -> ParsedDocument:
+                     source: str = None, court: str = None,
+                     citation: str = None) -> ParsedDocument:
         """Parse a PDF and store its metadata."""
-        doc = self.parser.parse(pdf_path, doc_type, source, court)
+        # PDFParser.parse() is sync/CPU-bound (fitz + pdfplumber) — run in thread pool
+        # so it doesn't block the event loop during parallel ingestion.
+        doc = await asyncio.to_thread(self.parser.parse, pdf_path, doc_type, source, court)
+        if citation:
+            doc.citation = citation
 
         async with AsyncSession(self.engine) as session:
             await session.execute(
@@ -40,6 +46,7 @@ class DocumentProcessor:
                     "dur": doc.parse_duration_ms,
                 },
             )
+
             await session.commit()
 
         logger.info("document_ingested", doc_id=doc.document_id,

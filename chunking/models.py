@@ -5,6 +5,7 @@ from typing import Optional
 class ChunkMetadata(BaseModel):
     document_id: str
     doc_type: str  # "judgment", "contract", "statute", "policy"
+    citation: Optional[str] = None  # e.g. "(2017) 10 SCC 1"
     source: Optional[str] = None
     court: Optional[str] = None
     date: Optional[str] = None

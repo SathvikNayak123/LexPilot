@@ -16,6 +16,13 @@ class QdrantStore:
     def __init__(self):
         self.client = QdrantClient(url=settings.qdrant_url)
         self.collection = settings.qdrant_collection
+        self._ensure_collection()
+
+    def _ensure_collection(self):
+        """Create collection if it doesn't exist."""
+        existing = {c.name for c in self.client.get_collections().collections}
+        if self.collection not in existing:
+            self.create_collection()
 
     def create_collection(self):
         """Create collection with both dense and sparse vector configs."""
@@ -56,6 +63,7 @@ class QdrantStore:
                     "parent_id": chunk.parent_id,
                     "content": chunk.content,
                     "document_id": chunk.metadata.document_id,
+                    "citation": chunk.metadata.citation or "",
                     "doc_type": chunk.metadata.doc_type,
                     "court": chunk.metadata.court,
                     "date": chunk.metadata.date,

@@ -23,6 +23,7 @@ class ParsedDocument(BaseModel):
     title: str
     doc_type: Literal["judgment", "contract", "statute", "policy"]
     source: Optional[str] = None
+    citation: Optional[str] = None  # e.g. "(2017) 10 SCC 1"
     court: Optional[str] = None  # For judgments
     date: Optional[date] = None
     blocks: list[ParsedBlock]

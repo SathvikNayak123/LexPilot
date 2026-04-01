@@ -1,6 +1,7 @@
 import fitz  # PyMuPDF
 import hashlib
 import pdfplumber
+import re
 import time
 from pathlib import Path
 
@@ -19,6 +20,31 @@ class PDFParser:
     - pdfplumber for table detection and extraction (best-in-class for tables)
     - Heading detection via font size heuristics
     """
+
+    # Comprehensive Indian legal citation patterns.
+    # Text is whitespace-normalised before matching, so \s+ covers newlines too.
+    # Ordered by specificity (most specific first to avoid partial matches).
+    CITATION_PATTERNS = [
+        # SCC with optional bench/supplement qualifiers
+        r'\(\d{4}\)\s+(?:Supp\s*\(\d+\)\s+)?SCC\s+(?:\(Cri\)\s+)?\d+',  # (2017) 10 SCC 1 / (2017) Supp(1) SCC 1 / (2017) 10 SCC (Cri) 1
+        # SCC OnLine — SC or any tribunal/court code
+        r'\d{4}\s+SCC\s+OnLine\s+(?:SC|HC|[A-Z]{2,8})\s+\d+',            # 2024 SCC OnLine SC 123
+        # SCR with optional supplement
+        r'\[\d{4}\]\s+\d+\s+SCR\s+(?:Supl\s+)?\d+',                      # [2017] 1 SCR 123
+        # AIR — SC or state court abbreviation (2–4 caps)
+        r'AIR\s+\d{4}\s+(?:SC(?:W)?|[A-Z]{2,4})\s+\d+',                  # AIR 2017 SC 4161 / AIR 2017 Bom 123
+        # JT
+        r'JT\s+\d{4}\s+\(\d+\)\s+SC\s+\d+',                              # JT 2017 (10) SC 1
+        # SCALE
+        r'\(\d{4}\)\s+\d+\s+SCALE\s+\d+',                                # (2017) 5 SCALE 123
+        # MANU
+        r'MANU/[A-Z]{2,4}/\d{4}/\d{4}',                                   # MANU/SC/0123/2017
+        # ILR
+        r'ILR\s+\d{4}\s+[A-Z][a-z]+\s+\d+',                              # ILR 2020 Kar 567
+        # High Court reports: MLJ, KHC, KLT, BomCR, DLT, HLR, etc.
+        r'\(\d{4}\)\s+\d+\s+(?:MLJ|KHC|KLT|BomCR|DLT|HLR|ACR|GLH|RLW|OLR|CGLJ)\s+\d+',
+        r'\d{4}\s+\(\d+\)\s+(?:KLT|KHC|MLJ|BomCR|DLT|CTC|GLH)\s+\d+',
+    ]
 
     # Font size thresholds for heading detection (legal docs)
     HEADING_THRESHOLDS = {
@@ -52,8 +78,14 @@ class PDFParser:
         # Sort blocks by page, then vertical position
         blocks.sort(key=lambda b: (b.page_number, b.bbox[1] if b.bbox else 0))
 
-        # Detect title
+        # Detect title and citation from first 2 pages
         title = self._detect_title(blocks) or pdf_path.stem
+        first_page_text = " ".join(
+            b.content for b in blocks if b.page_number <= 2
+        )
+        citation = self._extract_citation(first_page_text)
+        if citation:
+            logger.debug("citation_extracted", citation=citation, path=pdf_path.name)
 
         duration = int((time.time() - start) * 1000)
         logger.info("pdf_parsed", path=str(pdf_path), pages=total_pages,
@@ -65,6 +97,7 @@ class PDFParser:
             doc_type=doc_type,
             source=source,
             court=court,
+            citation=citation,
             blocks=blocks,
             total_pages=total_pages,
             parse_duration_ms=duration,
@@ -153,6 +186,19 @@ class PDFParser:
             rows.append("| " + " | ".join(str(c or "") for c in row) + " |")
 
         return "\n".join([header_row, separator] + rows)
+
+    def _extract_citation(self, text: str) -> str | None:
+        """Extract the judgment's own citation from first-page text.
+
+        Whitespace (including newlines) is collapsed before matching so that
+        citations split across lines (e.g. '2 SCC\\n156') are found correctly.
+        """
+        normalised = re.sub(r'\s+', ' ', text[:2000])
+        for pattern in self.CITATION_PATTERNS:
+            match = re.search(pattern, normalised)
+            if match:
+                return match.group().strip()
+        return None
 
     def _detect_title(self, blocks: list[ParsedBlock]) -> str | None:
         """Detect document title from first heading block."""

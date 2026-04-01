@@ -57,6 +57,7 @@ class GraphRAGRetriever:
                     OPTIONAL MATCH (j)<-[:CITES]-(citing:Judgment)
                     OPTIONAL MATCH (j)-[:CITES]->(cited:Judgment)
                     RETURN j, c.level as court_level,
+                           j.citation as citation,
                            count(DISTINCT citing) as cited_by_count,
                            count(DISTINCT cited) as cites_count,
                            j.is_overruled as is_overruled,
@@ -66,6 +67,8 @@ class GraphRAGRetriever:
 
                 record = await result.single()
                 if record:
+                    if record["citation"]:
+                        r["citation"] = record["citation"]
                     r["court_level"] = record["court_level"] or 3
                     r["cited_by_count"] = record["cited_by_count"]
                     r["cites_count"] = record["cites_count"]
@@ -73,7 +76,8 @@ class GraphRAGRetriever:
                     r["overruled_by"] = record["overruled_by"]
                     r["judgment_date"] = str(record["judgment_date"]) if record["judgment_date"] else None
                 else:
-                    r["court_level"] = 3
+                    # Default to Supreme Court (level 1) since all ingested docs are SC judgments
+                    r["court_level"] = 1
                     r["cited_by_count"] = 0
                     r["is_overruled"] = False
 
@@ -85,10 +89,15 @@ class GraphRAGRetriever:
         return results
 
     async def _get_citation_chain(self, session, doc_id: str, depth: int = 2) -> list[dict]:
-        """Traverse citation graph to find related judgments."""
+        """Traverse citation graph to find related judgments.
+
+        Traverses CITES, APPLIED, and RELATED_TO edges (but not DISTINGUISHED_FROM —
+        a distinguished case is explicitly not analogous).
+        Bug fix #5: uses COALESCE so null is_overruled values don't silently drop nodes.
+        """
         result = await session.run("""
-            MATCH (j:Judgment {id: $doc_id})-[:CITES*1..2]-(related:Judgment)
-            WHERE related.is_overruled = false
+            MATCH (j:Judgment {id: $doc_id})-[:CITES|APPLIED|RELATED_TO*1..2]-(related:Judgment)
+            WHERE COALESCE(related.is_overruled, false) = false
             OPTIONAL MATCH (related)-[:DECIDED_BY]->(c:Court)
             RETURN DISTINCT related.id as id, related.case_name as case_name,
                    related.citation as citation, related.court as court,

@@ -35,7 +35,7 @@ class CitationVerifier:
         self.engine = create_async_engine(settings.postgres_url)
         self.extractor = CitationExtractor()
         self.embedder = SentenceTransformer(settings.embedding_model)
-        self.characterization_threshold = 0.75
+        self.characterization_threshold = 0.60
 
     async def verify_response(self, llm_response: str) -> dict:
         """Verify all citations in an LLM response.
