@@ -64,6 +64,6 @@ class BM25Encoder:
     def load(self, path: str):
         with open(path, "rb") as f:
             data = pickle.load(f)
-            self.bm25 = data["bm25"]
+            self.bm25 = data.get("bm25")   # may be None for corpus-built encoders
             self.vocab = data["vocab"]
             self.token_idf = data.get("token_idf", {})

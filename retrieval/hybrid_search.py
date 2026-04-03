@@ -1,3 +1,4 @@
+from pathlib import Path
 from sentence_transformers import CrossEncoder
 import numpy as np
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
@@ -11,6 +12,8 @@ from retrieval.bm25 import BM25Encoder
 
 logger = structlog.get_logger()
 
+_BM25_PATH = Path(__file__).resolve().parent.parent / "data" / "bm25_encoder.pkl"
+
 
 class HybridSearchPipeline:
     """Dense -> Sparse -> RRF Fusion -> Reranking -> Parent Hydration"""
@@ -19,6 +22,13 @@ class HybridSearchPipeline:
         self.embedder = EmbeddingService()
         self.qdrant = QdrantStore()
         self.bm25 = BM25Encoder()
+        if _BM25_PATH.exists():
+            self.bm25.load(str(_BM25_PATH))
+            logger.info("bm25_loaded", path=str(_BM25_PATH), vocab_size=len(self.bm25.vocab))
+        else:
+            logger.warning("bm25_encoder_not_found",
+                           path=str(_BM25_PATH),
+                           hint="run: python scripts/build_bm25_index.py")
         self.reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
         self.engine = create_async_engine(settings.postgres_url)
 
@@ -45,8 +55,18 @@ class HybridSearchPipeline:
         # Step 4: Reranking (top 20 -> top-k)
         reranked = self._rerank(query, fused[:settings.rerank_top_k])
 
+        # Deduplicate by document: keep highest-scoring chunk per document so
+        # multiple chunks from the same judgment don't crowd out other results.
+        seen_docs: set[str] = set()
+        deduped_reranked: list[dict] = []
+        for chunk in reranked:
+            doc_id = chunk.get("document_id", "")
+            if doc_id not in seen_docs:
+                seen_docs.add(doc_id)
+                deduped_reranked.append(chunk)
+
         # Step 5: Parent hydration
-        final = await self._hydrate_parents(reranked[:top_k])
+        final = await self._hydrate_parents(deduped_reranked[:top_k])
 
         logger.info("hybrid_search_complete",
                      query=query[:80], dense=len(dense_results),

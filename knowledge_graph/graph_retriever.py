@@ -46,105 +46,140 @@ class GraphRAGRetriever:
         return reranked[:top_k]
 
     async def _enrich_with_graph(self, results: list[dict]) -> list[dict]:
-        """Enrich vector search results with graph metadata."""
+        """Enrich vector search results with graph metadata.
+
+        Batches all Neo4j lookups into 2 queries (one for node metadata,
+        one for citation chains) instead of 2×N individual queries.
+        """
+        doc_ids = [r.get("document_id", "") for r in results]
+
         async with self.neo4j.driver.session() as session:
-            for r in results:
-                doc_id = r.get("document_id", "")
-                # Fetch judgment metadata from graph
-                result = await session.run("""
-                    MATCH (j:Judgment {id: $doc_id})
-                    OPTIONAL MATCH (j)-[:DECIDED_BY]->(c:Court)
-                    OPTIONAL MATCH (j)<-[:CITES]-(citing:Judgment)
-                    OPTIONAL MATCH (j)-[:CITES]->(cited:Judgment)
-                    RETURN j, c.level as court_level,
-                           j.citation as citation,
-                           count(DISTINCT citing) as cited_by_count,
-                           count(DISTINCT cited) as cites_count,
-                           j.is_overruled as is_overruled,
-                           j.overruled_by as overruled_by,
-                           j.date as judgment_date
-                """, doc_id=doc_id)
+            # --- Batch 1: node metadata for all doc_ids at once ---
+            meta_result = await session.run("""
+                UNWIND $doc_ids AS doc_id
+                MATCH (j:Judgment {id: doc_id})
+                OPTIONAL MATCH (j)-[:DECIDED_BY]->(c:Court)
+                OPTIONAL MATCH (j)<-[:CITES]-(citing:Judgment)
+                OPTIONAL MATCH (j)-[:CITES]->(cited:Judgment)
+                RETURN doc_id,
+                       j.citation      AS citation,
+                       c.level         AS court_level,
+                       count(DISTINCT citing) AS cited_by_count,
+                       count(DISTINCT cited)  AS cites_count,
+                       j.is_overruled  AS is_overruled,
+                       j.overruled_by  AS overruled_by,
+                       j.date          AS judgment_date
+            """, doc_ids=doc_ids)
 
-                record = await result.single()
-                if record:
-                    if record["citation"]:
-                        r["citation"] = record["citation"]
-                    r["court_level"] = record["court_level"] or 3
-                    r["cited_by_count"] = record["cited_by_count"]
-                    r["cites_count"] = record["cites_count"]
-                    r["is_overruled"] = record["is_overruled"] or False
-                    r["overruled_by"] = record["overruled_by"]
-                    r["judgment_date"] = str(record["judgment_date"]) if record["judgment_date"] else None
-                else:
-                    # Default to Supreme Court (level 1) since all ingested docs are SC judgments
-                    r["court_level"] = 1
-                    r["cited_by_count"] = 0
-                    r["is_overruled"] = False
+            meta_map: dict[str, dict] = {}
+            async for record in meta_result:
+                meta_map[record["doc_id"]] = dict(record)
 
-            # Find related judgments via citation chains
-            for r in results:
-                related = await self._get_citation_chain(session, r.get("document_id", ""))
-                r["related_judgments"] = related
+            # --- Batch 2: citation chains for all doc_ids at once ---
+            # Do NOT traverse DISTINGUISHED_FROM — distinguished cases are
+            # explicitly not analogous.
+            # Bug fix #5: COALESCE so null is_overruled doesn't drop nodes.
+            chain_result = await session.run("""
+                UNWIND $doc_ids AS doc_id
+                MATCH (j:Judgment {id: doc_id})-[:CITES|APPLIED|RELATED_TO*1..2]-(related:Judgment)
+                WHERE COALESCE(related.is_overruled, false) = false
+                OPTIONAL MATCH (related)-[:DECIDED_BY]->(c:Court)
+                RETURN DISTINCT doc_id,
+                       related.id           AS id,
+                       related.case_name    AS case_name,
+                       related.citation     AS citation,
+                       related.court        AS court,
+                       related.date         AS date,
+                       c.level              AS court_level,
+                       related.holding_summary AS holding
+                ORDER BY c.level ASC, related.date DESC
+            """, doc_ids=doc_ids)
+
+            chain_map: dict[str, list[dict]] = {did: [] for did in doc_ids}
+            async for record in chain_result:
+                did = record["doc_id"]
+                if len(chain_map[did]) < 10:
+                    chain_map[did].append({
+                        "id": record["id"],
+                        "case_name": record["case_name"],
+                        "citation": record["citation"],
+                        "court": record["court"],
+                        "court_level": record["court_level"],
+                        "holding": record["holding"],
+                    })
+
+        # Merge enriched data back into results
+        for r in results:
+            doc_id = r.get("document_id", "")
+            meta = meta_map.get(doc_id)
+            if meta:
+                # Do NOT overwrite r["citation"] — the Qdrant payload stores the
+                # LLM-extracted primary citation set at indexing time, which is the
+                # authoritative value used for benchmark matching and deduplication.
+                # Neo4j enrichment only supplies graph-specific metadata.
+                if not r.get("citation") and meta["citation"]:
+                    r["citation"] = meta["citation"]
+                r["court_level"] = meta["court_level"] or 3
+                r["cited_by_count"] = meta["cited_by_count"]
+                r["cites_count"] = meta["cites_count"]
+                r["is_overruled"] = meta["is_overruled"] or False
+                r["overruled_by"] = meta["overruled_by"]
+                r["judgment_date"] = str(meta["judgment_date"]) if meta["judgment_date"] else None
+            else:
+                # Default to Supreme Court (level 1) since all ingested docs are SC judgments
+                r["court_level"] = 1
+                r["cited_by_count"] = 0
+                r["is_overruled"] = False
+                logger.debug("graph_node_not_found", document_id=doc_id,
+                             note="run build_semantic_graph.py to populate Neo4j")
+            r["related_judgments"] = chain_map.get(doc_id, [])
 
         return results
 
-    async def _get_citation_chain(self, session, doc_id: str, depth: int = 2) -> list[dict]:
-        """Traverse citation graph to find related judgments.
-
-        Traverses CITES, APPLIED, and RELATED_TO edges (but not DISTINGUISHED_FROM —
-        a distinguished case is explicitly not analogous).
-        Bug fix #5: uses COALESCE so null is_overruled values don't silently drop nodes.
-        """
-        result = await session.run("""
-            MATCH (j:Judgment {id: $doc_id})-[:CITES|APPLIED|RELATED_TO*1..2]-(related:Judgment)
-            WHERE COALESCE(related.is_overruled, false) = false
-            OPTIONAL MATCH (related)-[:DECIDED_BY]->(c:Court)
-            RETURN DISTINCT related.id as id, related.case_name as case_name,
-                   related.citation as citation, related.court as court,
-                   related.date as date, c.level as court_level,
-                   related.holding_summary as holding
-            ORDER BY c.level ASC, related.date DESC
-            LIMIT 10
-        """, doc_id=doc_id)
-
-        records = [r async for r in result]
-        return [
-            {
-                "id": rec["id"], "case_name": rec["case_name"],
-                "citation": rec["citation"], "court": rec["court"],
-                "court_level": rec["court_level"],
-                "holding": rec["holding"],
-            }
-            for rec in records
-        ]
-
     def _graph_rerank(self, results: list[dict]) -> list[dict]:
-        """Re-rank using: rrf_score * court_authority * recency * citation_importance."""
+        """Re-rank using semantic relevance as primary signal with multiplicative graph boosts.
+
+        Design rationale:
+        - Semantic score (cross-encoder rerank + RRF) is the PRIMARY ranking signal.
+        - Graph signals act as small MULTIPLICATIVE boosts, not additive competitors.
+          This preserves the semantic ordering while giving an edge to authoritative,
+          highly-cited, non-overruled judgments.
+        - Recency is intentionally excluded: in constitutional law, older landmark
+          precedents (Kesavananda 1973, Maneka Gandhi 1978) are often MORE authoritative
+          than recent cases.  An exponential decay penalty actively hurts retrieval.
+        """
+        if not results:
+            return results
+
+        # Min-max normalize rerank_score to [0, 1] within the candidate set
+        raw_reranks = [r.get("rerank_score", 0.0) for r in results]
+        min_r, max_r = min(raw_reranks), max(raw_reranks)
+        rerank_range = max_r - min_r or 1.0
+
+        raw_rrfs = [r.get("rrf_score", 0.0) for r in results]
+        min_rrf, max_rrf = min(raw_rrfs), max(raw_rrfs)
+        rrf_range = max_rrf - min_rrf or 1.0
+
         for r in results:
-            rrf = r.get("rrf_score", 0.5)
-            rerank = r.get("rerank_score", 0.5)
+            rerank = (r.get("rerank_score", 0.0) - min_r) / rerank_range
+            rrf = (r.get("rrf_score", 0.0) - min_rrf) / rrf_range
 
-            # Court authority weight
+            # Base semantic score: blend of reranker and RRF
+            semantic = rerank * 0.75 + rrf * 0.25
+
+            # Court authority boost: SC (1.0) > HC (0.95) > District (0.90)
             court_level = r.get("court_level", 3)
-            authority = self.COURT_WEIGHTS.get(court_level, 0.3)
+            authority_boost = {1: 1.0, 2: 0.95, 3: 0.90, 4: 0.85}.get(court_level, 0.90)
 
-            # Recency weight (exponential decay, half-life = 10 years)
-            recency = self._recency_weight(r.get("judgment_date"))
-
-            # Citation importance (log of citation count)
+            # Citation importance boost: highly-cited cases get a small edge
+            # log1p(0)=0 → 1.0x, log1p(10)=2.4 → 1.05x, log1p(50)=3.9 → 1.08x
             cited_by = r.get("cited_by_count", 0)
-            citation_importance = 1.0 + math.log1p(cited_by) * 0.2
+            citation_boost = 1.0 + math.log1p(cited_by) * 0.02
 
-            # Overruled penalty
+            # Overruled penalty: critical for legal correctness
             overruled_penalty = 0.1 if r.get("is_overruled") else 1.0
 
-            r["graph_score"] = (
-                rerank * 0.4 +
-                authority * 0.25 +
-                recency * 0.15 +
-                citation_importance * 0.1 +
-                rrf * 0.1
-            ) * overruled_penalty
+            r["graph_score"] = semantic * authority_boost * citation_boost * overruled_penalty
 
         return sorted(results, key=lambda r: r["graph_score"], reverse=True)
 

@@ -123,3 +123,46 @@ class QdrantStore:
             query_filter=filters,
         )
         return [{"id": r.id, "score": r.score, **r.payload} for r in results.points]
+
+    def scroll_all(self) -> list:
+        """Return all points (payload only, no vectors) for BM25 corpus rebuild."""
+        points = []
+        offset = None
+        while True:
+            batch, next_offset = self.client.scroll(
+                collection_name=self.collection,
+                limit=256,
+                offset=offset,
+                with_payload=True,
+                with_vectors=False,
+            )
+            points.extend(batch)
+            if next_offset is None:
+                break
+            offset = next_offset
+        return points
+
+    def update_sparse_vectors(self, updates: list[tuple[str, dict]]):
+        """Re-upload sparse vectors for existing points.
+
+        Args:
+            updates: list of (point_id_hex, sparse_vector_dict) pairs.
+        """
+        batch_size = 100
+        for i in range(0, len(updates), batch_size):
+            batch = updates[i:i + batch_size]
+            self.client.update_vectors(
+                collection_name=self.collection,
+                points=[
+                    models.PointVectors(
+                        id=point_id,
+                        vector={
+                            "sparse": models.SparseVector(
+                                indices=sv["indices"],
+                                values=sv["values"],
+                            )
+                        },
+                    )
+                    for point_id, sv in batch
+                ],
+            )

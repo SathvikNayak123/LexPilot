@@ -23,7 +23,7 @@ class RAGASEvaluator:
     def __init__(self):
         self.llm = LangchainLLMWrapper(
             ChatAnthropic(
-                model="claude-sonnet-4-20250514",
+                model="claude-sonnet-4-6",
                 api_key=settings.anthropic_api_key,
             )
         )

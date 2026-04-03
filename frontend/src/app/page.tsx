@@ -3,7 +3,6 @@
 import { useState, useRef, useCallback } from "react";
 import { ChatInput } from "@/components/ChatInput";
 import { ChatMessage } from "@/components/ChatMessage";
-import { AgentActivity } from "@/components/AgentActivity";
 import { ConfidenceBanner } from "@/components/ConfidenceBanner";
 import { Disclaimer } from "@/components/Disclaimer";
 import { ResearchSessionPanel } from "@/components/ResearchSessionPanel";
@@ -16,7 +15,6 @@ export default function Home() {
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
   const [activeAgent, setActiveAgent] = useState<string | null>(null);
-  const [activeTools, setActiveTools] = useState<string[]>([]);
   const [confidence, setConfidence] = useState<ConfidenceData | null>(null);
   const [researchSessionId, setResearchSessionId] = useState<string | undefined>();
   const [showSidebar, setShowSidebar] = useState(false);
@@ -38,7 +36,6 @@ export default function Home() {
       setMessages((prev) => [...prev, userMsg]);
       setIsStreaming(true);
       setActiveAgent(null);
-      setActiveTools([]);
       setConfidence(null);
 
       const assistantId = crypto.randomUUID();
@@ -51,6 +48,8 @@ export default function Home() {
           role: "assistant",
           content: "",
           timestamp: new Date(),
+          isLoading: true,
+          loadingAgent: undefined,
         },
       ]);
 
@@ -61,20 +60,20 @@ export default function Home() {
               fullContent += event.content || "";
               setMessages((prev) =>
                 prev.map((m) =>
-                  m.id === assistantId ? { ...m, content: fullContent } : m
+                  m.id === assistantId ? { ...m, content: fullContent, isLoading: false } : m
                 )
               );
               scrollToBottom();
               break;
             case "agent_event":
               setActiveAgent(event.agent || null);
-              break;
-            case "tool_call":
-              if (event.tool) {
-                setActiveTools((prev) =>
-                  prev.includes(event.tool!) ? prev : [...prev, event.tool!]
-                );
-              }
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantId && m.isLoading
+                    ? { ...m, loadingAgent: event.agent || undefined }
+                    : m
+                )
+              );
               break;
             case "final":
               fullContent = event.content || fullContent;
@@ -97,7 +96,6 @@ export default function Home() {
       } finally {
         setIsStreaming(false);
         setActiveAgent(null);
-        setActiveTools([]);
         scrollToBottom();
       }
     },
@@ -166,10 +164,6 @@ export default function Home() {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Agent Activity */}
-        {isStreaming && (
-          <AgentActivity agentName={activeAgent} tools={activeTools} />
-        )}
 
         {/* Input */}
         <div className="border-t border-gray-200 bg-white p-4">

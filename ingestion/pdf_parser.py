@@ -25,14 +25,20 @@ class PDFParser:
     # Text is whitespace-normalised before matching, so \s+ covers newlines too.
     # Ordered by specificity (most specific first to avoid partial matches).
     CITATION_PATTERNS = [
-        # SCC with optional bench/supplement qualifiers
+        # SCC with optional bench/supplement qualifiers (modern: year in parens)
         r'\(\d{4}\)\s+(?:Supp\s*\(\d+\)\s+)?SCC\s+(?:\(Cri\)\s+)?\d+',  # (2017) 10 SCC 1 / (2017) Supp(1) SCC 1 / (2017) 10 SCC (Cri) 1
+        # SCC year-first with volume in parens (old IndianKanoon format)
+        r'\d{4}\s+SCC\s+\(\d+\)\s+\d+',                                   # 1976 SCC (2) 521
         # SCC OnLine — SC or any tribunal/court code
         r'\d{4}\s+SCC\s+OnLine\s+(?:SC|HC|[A-Z]{2,8})\s+\d+',            # 2024 SCC OnLine SC 123
-        # SCR with optional supplement
+        # SCR with optional supplement (modern: year in brackets with volume)
         r'\[\d{4}\]\s+\d+\s+SCR\s+(?:Supl\s+)?\d+',                      # [2017] 1 SCR 123
+        # SCR year-first without brackets (old IndianKanoon format)
+        r'\d{4}\s+SCR\s+\d+',                                              # 1976 SCR 172
         # AIR — SC or state court abbreviation (2–4 caps)
         r'AIR\s+\d{4}\s+(?:SC(?:W)?|[A-Z]{2,4})\s+\d+',                  # AIR 2017 SC 4161 / AIR 2017 Bom 123
+        # AIR year-first without court code (old IndianKanoon format)
+        r'\d{4}\s+AIR\s+\d+',                                              # 1976 AIR 1207
         # JT
         r'JT\s+\d{4}\s+\(\d+\)\s+SC\s+\d+',                              # JT 2017 (10) SC 1
         # SCALE
@@ -78,26 +84,23 @@ class PDFParser:
         # Sort blocks by page, then vertical position
         blocks.sort(key=lambda b: (b.page_number, b.bbox[1] if b.bbox else 0))
 
-        # Detect title and citation from first 2 pages
+        # Detect title from first heading block
         title = self._detect_title(blocks) or pdf_path.stem
-        first_page_text = " ".join(
-            b.content for b in blocks if b.page_number <= 2
-        )
-        citation = self._extract_citation(first_page_text)
-        if citation:
-            logger.debug("citation_extracted", citation=citation, path=pdf_path.name)
 
         duration = int((time.time() - start) * 1000)
         logger.info("pdf_parsed", path=str(pdf_path), pages=total_pages,
                      blocks=len(blocks), duration_ms=duration)
 
+        # Citation extraction is done async in DocumentProcessor after this returns
+        # so that an LLM call doesn't block the thread pool.
         return ParsedDocument(
             document_id=f"doc_{pdf_path.stem}_{hashlib.md5(str(pdf_path.resolve()).encode()).hexdigest()[:8]}",
             title=title,
             doc_type=doc_type,
             source=source,
             court=court,
-            citation=citation,
+            citation=None,
+            citation_aliases=[],
             blocks=blocks,
             total_pages=total_pages,
             parse_duration_ms=duration,
@@ -187,18 +190,40 @@ class PDFParser:
 
         return "\n".join([header_row, separator] + rows)
 
-    def _extract_citation(self, text: str) -> str | None:
-        """Extract the judgment's own citation from first-page text.
+    def _extract_citations_block(self, text: str) -> tuple[str | None, list[str]]:
+        """Extract all citations from first-page text, returning (primary, aliases).
 
         Whitespace (including newlines) is collapsed before matching so that
         citations split across lines (e.g. '2 SCC\\n156') are found correctly.
+
+        Primary is chosen by reporter priority (SCC print > SCC OnLine > SCR > AIR >
+        first found). All remaining unique citations become aliases. This lets the
+        graph builder locate the same Judgment node regardless of which reporter
+        format another document uses when citing it.
         """
         normalised = re.sub(r'\s+', ' ', text[:2000])
+        seen: set[str] = set()
+        ordered: list[str] = []  # unique citations in text order
         for pattern in self.CITATION_PATTERNS:
-            match = re.search(pattern, normalised)
-            if match:
-                return match.group().strip()
-        return None
+            for m in re.finditer(pattern, normalised):
+                val = m.group().strip()
+                if val not in seen:
+                    seen.add(val)
+                    ordered.append(val)
+
+        if not ordered:
+            return None, []
+
+        # Pick primary by reporter preference
+        primary = (
+            next((t for t in ordered if 'SCC' in t and 'OnLine' not in t), None)
+            or next((t for t in ordered if 'SCC OnLine' in t), None)
+            or next((t for t in ordered if 'SCR' in t), None)
+            or next((t for t in ordered if 'AIR' in t), None)
+            or ordered[0]
+        )
+        aliases = [t for t in ordered if t != primary]
+        return primary, aliases
 
     def _detect_title(self, blocks: list[ParsedBlock]) -> str | None:
         """Detect document title from first heading block."""

@@ -1,5 +1,5 @@
 from agents import Agent
-from lexpilot_agents.models import get_tier3_model
+from lexpilot_agents.models import MODEL
 from lexpilot_agents.contract_agent import contract_agent
 from lexpilot_agents.precedent_agent import precedent_agent
 from lexpilot_agents.compliance_agent import compliance_agent
@@ -30,7 +30,7 @@ ROUTING RULES:
 - "Check DPDP compliance" -> DPDP Compliance Auditor
 - "What are the risks in..." -> Risk Scorer (possibly + Contract Analyst)
 - "Analyze this contract and find relevant case law" -> Contract Analyst + Precedent Researcher""",
-    model=get_tier3_model(),
+    model=MODEL,
     handoffs=[contract_agent, precedent_agent, compliance_agent, risk_agent],
     input_guardrails=[legal_input_guardrail],
     output_guardrails=[citation_output_guardrail],

@@ -8,6 +8,8 @@ export interface ChatMessage {
   confidence?: ConfidenceData;
   complianceReport?: ComplianceReportData;
   timestamp: Date;
+  isLoading?: boolean;
+  loadingAgent?: string;
 }
 
 export interface Citation {

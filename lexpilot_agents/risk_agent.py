@@ -1,6 +1,6 @@
 from agents import Agent
 from lexpilot_agents.tools.retrieval_tools import search_legal_documents, graphrag_search
-from lexpilot_agents.models import get_tier3_model
+from lexpilot_agents.models import MODEL
 
 risk_agent = Agent(
     name="Legal Risk Scorer",
@@ -15,5 +15,5 @@ Rules:
 - Produce a structured risk matrix
 - Do NOT provide legal advice - present risk assessment for a qualified lawyer to review""",
     tools=[search_legal_documents, graphrag_search],
-    model=get_tier3_model(),
+    model=MODEL,
 )

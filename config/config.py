@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
 
     # LLM Providers
-    openrouter_api_key: str = Field(..., description="OpenRouter API key")
+    openrouter_api_key: Optional[str] = Field(default=None, description="OpenRouter API key")
     anthropic_api_key: Optional[str] = Field(default=None, description="Anthropic (optional if using OpenRouter)")
     openai_api_key: Optional[str] = Field(default=None, description="Optional: OpenAI for Agents SDK default")
     hf_token: Optional[str] = Field(default=None, description="Hugging Face API token for model downloads")

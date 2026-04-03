@@ -91,13 +91,15 @@ async def build_nodes(neo4j, dry_run: bool):
                 d.court,
                 d.date,
                 d.metadata,
-                ci.citation_string,
-                ci.holding_summary,
-                ci.is_overruled,
-                ci.overruled_by
+                MIN(ci.citation_string)                                                    AS citation,
+                MIN(ci.holding_summary)                                                    AS holding_summary,
+                BOOL_OR(COALESCE(ci.is_overruled, false))                                 AS is_overruled,
+                MIN(ci.overruled_by)                                                       AS overruled_by,
+                ARRAY_AGG(ci.citation_string) FILTER (WHERE ci.citation_string IS NOT NULL) AS all_citations
             FROM documents d
             LEFT JOIN citation_index ci ON ci.case_name = d.title
             WHERE d.doc_type = 'judgment'
+            GROUP BY d.id, d.title, d.court, d.date, d.metadata
             ORDER BY d.date
         """))
         rows = result.fetchall()
@@ -114,12 +116,15 @@ async def build_nodes(neo4j, dry_run: bool):
         return len(rows)
 
     for row in rows:
-        doc_id, title, court, date, metadata_raw, citation, holding, is_overruled, overruled_by = row
+        doc_id, title, court, date, metadata_raw, citation, holding, is_overruled, overruled_by, all_citations = row
         meta = metadata_raw if isinstance(metadata_raw, dict) else (json.loads(metadata_raw) if metadata_raw else {})
+        primary = citation or ""
+        aliases = [c for c in (all_citations or []) if c and c != primary]
 
         await neo4j.add_judgment({
             "id": doc_id,
-            "citation": citation or "",
+            "citation": primary,
+            "citation_aliases": aliases,
             "case_name": title,
             "court": court or "Unknown",
             "date": str(date) if date else "2024-01-01",

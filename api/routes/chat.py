@@ -27,14 +27,12 @@ async def chat(request: ChatRequest):
             async for event in result.stream_events():
                 if event.type == "raw_response_event":
                     data = event.data
-                    if hasattr(data, "delta") and data.delta:
+                    # Only emit actual text deltas, skip tool call argument deltas
+                    event_kind = getattr(data, "type", "")
+                    if hasattr(data, "delta") and data.delta and "text" in event_kind:
                         yield f"data: {json.dumps({'type': 'text', 'content': data.delta})}\n\n"
                 elif event.type == "agent_updated_stream_event":
                     yield f"data: {json.dumps({'type': 'agent_event', 'agent': event.new_agent.name})}\n\n"
-                elif event.type == "run_item_stream_event":
-                    if event.name == "tool_called":
-                        tool_name = getattr(event.item, "name", str(event.item))
-                        yield f"data: {json.dumps({'type': 'tool_call', 'tool': tool_name})}\n\n"
 
             final_text = result.final_output if isinstance(result.final_output, str) else ""
             yield f"data: {json.dumps({'type': 'final', 'content': final_text})}\n\n"

@@ -44,6 +44,7 @@ class GraphBuilder:
         await self.neo4j.add_judgment({
             "id": doc.document_id,
             "citation": doc.citation or judgment_metadata.get("citation", ""),
+            "citation_aliases": doc.citation_aliases or [],
             "case_name": doc.title,
             "court": doc.court or "Unknown",
             "date": str(doc.date or "2024-01-01"),
@@ -130,6 +131,7 @@ class GraphBuilder:
             result = await session.run(
                 """MATCH (j:Judgment)
                    WHERE j.citation = $raw OR j.citation = $norm
+                      OR $raw IN j.citation_aliases OR $norm IN j.citation_aliases
                    RETURN j.id as id LIMIT 1""",
                 raw=citation, norm=normalized,
             )

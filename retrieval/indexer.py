@@ -80,24 +80,32 @@ class IndexingPipeline:
         return {"parents": len(parents), "children": len(children)}
 
     async def _index_citation(self, doc):
-        """Insert/update citation_index row for citation verification."""
+        """Insert/update citation_index rows for the primary citation and all aliases.
+
+        Each reporter alias gets its own row (citation_string is UNIQUE) pointing to
+        the same case_name so that _find_by_citation lookups work regardless of which
+        reporter format a citing document uses.
+        """
+        all_citations = [doc.citation] + (doc.citation_aliases or [])
+        params = {
+            "name": doc.title,
+            "court": doc.court or "Unknown",
+            "date": str(doc.date) if doc.date else None,
+            "holding": doc.metadata.get("holding_summary"),
+            "overruled": doc.metadata.get("is_overruled", False),
+            "overruled_by": doc.metadata.get("overruled_by"),
+        }
         async with AsyncSession(self.engine) as session:
-            await session.execute(
-                text("""
-                    INSERT INTO citation_index (citation_string, case_name, court, date,
-                                                holding_summary, is_overruled, overruled_by)
-                    VALUES (:cit, :name, :court, :date, :holding, :overruled, :overruled_by)
-                    ON CONFLICT (citation_string) DO UPDATE SET
-                        case_name = :name, court = :court, holding_summary = :holding,
-                        is_overruled = :overruled, overruled_by = :overruled_by
-                """),
-                {
-                    "cit": doc.citation, "name": doc.title,
-                    "court": doc.court or "Unknown",
-                    "date": str(doc.date) if doc.date else None,
-                    "holding": doc.metadata.get("holding_summary"),
-                    "overruled": doc.metadata.get("is_overruled", False),
-                    "overruled_by": doc.metadata.get("overruled_by"),
-                },
-            )
+            for cit in all_citations:
+                await session.execute(
+                    text("""
+                        INSERT INTO citation_index (citation_string, case_name, court, date,
+                                                    holding_summary, is_overruled, overruled_by)
+                        VALUES (:cit, :name, :court, :date, :holding, :overruled, :overruled_by)
+                        ON CONFLICT (citation_string) DO UPDATE SET
+                            case_name = :name, court = :court, holding_summary = :holding,
+                            is_overruled = :overruled, overruled_by = :overruled_by
+                    """),
+                    {"cit": cit, **params},
+                )
             await session.commit()

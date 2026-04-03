@@ -59,6 +59,7 @@ class Neo4jClient:
             await session.run("""
                 MERGE (j:Judgment {id: $id})
                 SET j.citation = $citation,
+                    j.citation_aliases = $citation_aliases,
                     j.case_name = $case_name,
                     j.court = $court,
                     j.date = date($date),

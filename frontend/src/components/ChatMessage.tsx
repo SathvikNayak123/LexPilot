@@ -1,7 +1,8 @@
 "use client";
 
 import ReactMarkdown from "react-markdown";
-import { User, Scale } from "lucide-react";
+import remarkGfm from "remark-gfm";
+import { User, Scale, Loader2 } from "lucide-react";
 import { CitationBadge } from "./CitationBadge";
 import type { ChatMessage as ChatMessageType } from "@/types";
 
@@ -15,31 +16,51 @@ const CITATION_REGEX =
 export function ChatMessage({ message }: ChatMessageProps) {
   const isUser = message.role === "user";
 
+  const mdProps = { remarkPlugins: [remarkGfm] };
+
   const renderContent = (content: string) => {
     const citations = message.citations;
     if (citations && citations.length > 0) {
       const parts = content.split(CITATION_REGEX);
       return (
-        <div className="prose prose-sm max-w-none">
+        <div className="prose prose-sm max-w-none prose-headings:font-semibold prose-table:text-sm prose-th:bg-gray-100 prose-td:border prose-th:border">
           {parts.map((part, i) => {
             const citation = citations.find((c) => c.text === part);
             if (citation) {
               return <CitationBadge key={i} citation={citation} />;
             }
-            return (
-              <ReactMarkdown key={i}>{part}</ReactMarkdown>
-            );
+            return <ReactMarkdown key={i} {...mdProps}>{part}</ReactMarkdown>;
           })}
         </div>
       );
     }
 
     return (
-      <div className="prose prose-sm max-w-none">
-        <ReactMarkdown>{content}</ReactMarkdown>
+      <div className="prose prose-sm max-w-none prose-headings:font-semibold prose-table:text-sm prose-th:bg-gray-100">
+        <ReactMarkdown {...mdProps}>{content}</ReactMarkdown>
       </div>
     );
   };
+
+  if (!isUser && message.isLoading) {
+    return (
+      <div className="flex gap-3 justify-start">
+        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center">
+          <Scale className="w-4 h-4 text-primary-600" />
+        </div>
+        <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-2xl px-4 py-3 text-sm text-gray-500">
+          <Loader2 className="w-4 h-4 animate-spin text-primary-500" />
+          <span>
+            {message.loadingAgent ? (
+              <><span className="font-medium text-gray-700">{message.loadingAgent}</span> is working...</>
+            ) : (
+              "Working..."
+            )}
+          </span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`flex gap-3 ${isUser ? "justify-end" : "justify-start"}`}>
