@@ -1,12 +1,13 @@
+import asyncio
 import json
 import os
 import instructor
 import litellm
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 import structlog
 
-from config.config import settings
+from config.config import settings, get_db_engine
 from compliance.dpdp_sections import DPDP_SECTIONS
 from compliance.models import ComplianceGap, ComplianceReport
 
@@ -33,8 +34,10 @@ class DPDPScanner:
     # LiteLLM model string for OpenRouter (see https://docs.litellm.ai/docs/providers/openrouter)
     OPENROUTER_MODEL = "openrouter/google/gemini-3-flash-preview"
 
+    # Max concurrent LLM requests to avoid rate-limit errors from OpenRouter.
+    _CONCURRENCY = 8
+
     def __init__(self):
-        self.engine = create_async_engine(settings.postgres_url)
         self.valid_sections = set(DPDP_SECTIONS.keys())
 
         # Async instructor client wrapping litellm for structured outputs
@@ -59,11 +62,15 @@ class DPDPScanner:
             if not chunks:
                 raise ValueError(f"No chunks found for document {document_id}")
 
-        # MAP: Tag each clause against DPDP sections
-        all_gaps = []
-        for chunk in chunks:
-            gaps = await self._tag_clause(chunk)
-            all_gaps.extend(gaps)
+        # MAP: Tag all clauses concurrently (bounded by semaphore to avoid rate limits)
+        sem = asyncio.Semaphore(self._CONCURRENCY)
+
+        async def _tag_with_sem(chunk):
+            async with sem:
+                return await self._tag_clause(chunk)
+
+        gap_lists = await asyncio.gather(*(_tag_with_sem(c) for c in chunks))
+        all_gaps = [gap for gaps in gap_lists for gap in gaps]
 
         # Validate DPDP sections (reject hallucinated sections)
         validated_gaps = []
@@ -80,7 +87,7 @@ class DPDPScanner:
 
     async def _load_document_chunks(self, document_id: str) -> list[dict]:
         """Load all parent chunks for a document from Postgres."""
-        async with AsyncSession(self.engine) as session:
+        async with AsyncSession(get_db_engine()) as session:
             result = await session.execute(
                 text("SELECT id, content, metadata FROM parent_chunks WHERE document_id = :did ORDER BY id"),
                 {"did": document_id},

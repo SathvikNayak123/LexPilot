@@ -1,8 +1,11 @@
 import os
+from typing import Optional, TYPE_CHECKING
 
 from pydantic_settings import BaseSettings
 from pydantic import Field
-from typing import Optional
+
+if TYPE_CHECKING:
+    from sqlalchemy.ext.asyncio import AsyncEngine
 
 
 class Settings(BaseSettings):
@@ -10,9 +13,9 @@ class Settings(BaseSettings):
 
     # LLM Providers
     openrouter_api_key: Optional[str] = Field(default=None, description="OpenRouter API key")
-    anthropic_api_key: Optional[str] = Field(default=None, description="Anthropic (optional if using OpenRouter)")
     openai_api_key: Optional[str] = Field(default=None, description="Optional: OpenAI for Agents SDK default")
     hf_token: Optional[str] = Field(default=None, description="Hugging Face API token for model downloads")
+    agent_model: str = Field(default="google/gemini-3-flash-preview", description="OpenRouter model id for agents and eval LLMs")
 
     # Vector DB
     qdrant_url: str = Field(default="http://localhost:6333")
@@ -60,3 +63,17 @@ if settings.hf_token:
     os.environ.setdefault("HF_TOKEN", settings.hf_token)
 if settings.openrouter_api_key:
     os.environ.setdefault("OPENROUTER_API_KEY", settings.openrouter_api_key)
+
+# ---------------------------------------------------------------------------
+# Shared async DB engine — one connection pool for the whole process.
+# Call get_db_engine() instead of create_async_engine() in every module.
+# ---------------------------------------------------------------------------
+_db_engine: "AsyncEngine | None" = None
+
+
+def get_db_engine() -> "AsyncEngine":
+    global _db_engine
+    if _db_engine is None:
+        from sqlalchemy.ext.asyncio import create_async_engine
+        _db_engine = create_async_engine(settings.postgres_url)
+    return _db_engine

@@ -1,6 +1,6 @@
 from agents import Agent
+from config.config import settings
 from lexpilot_agents.tools.compliance_tools import scan_dpdp_compliance, lookup_dpdp_section
-from lexpilot_agents.models import MODEL
 
 compliance_agent = Agent(
     name="DPDP Compliance Auditor",
@@ -16,5 +16,5 @@ Rules:
 - Present results as a structured report with executive summary
 - Do NOT provide legal advice - present audit findings for a qualified lawyer to review""",
     tools=[scan_dpdp_compliance, lookup_dpdp_section],
-    model=MODEL,
+    model=settings.agent_model,
 )

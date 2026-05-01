@@ -1,5 +1,5 @@
 import json
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 from pydantic import BaseModel
 from datetime import datetime
@@ -7,7 +7,9 @@ import uuid
 import structlog
 import tiktoken
 
-from config.config import settings
+from config.config import get_db_engine
+
+_enc = tiktoken.get_encoding("cl100k_base")
 
 logger = structlog.get_logger()
 
@@ -33,13 +35,13 @@ class ResearchMemory:
     """
 
     def __init__(self):
-        self.engine = create_async_engine(settings.postgres_url)
+        pass
 
     async def create_session(self, user_id: str, name: str) -> ResearchSession:
         """Create a new research session."""
         session_id = f"rs_{uuid.uuid4().hex[:12]}"
 
-        async with AsyncSession(self.engine) as db:
+        async with AsyncSession(get_db_engine()) as db:
             await db.execute(
                 text("""
                     INSERT INTO research_sessions (id, user_id, name)
@@ -52,7 +54,7 @@ class ResearchMemory:
         return ResearchSession(id=session_id, user_id=user_id, name=name)
 
     async def get_session(self, session_id: str) -> ResearchSession | None:
-        async with AsyncSession(self.engine) as db:
+        async with AsyncSession(get_db_engine()) as db:
             result = await db.execute(
                 text("SELECT * FROM research_sessions WHERE id = :id"),
                 {"id": session_id},
@@ -63,7 +65,7 @@ class ResearchMemory:
             return None
 
     async def list_sessions(self, user_id: str) -> list[ResearchSession]:
-        async with AsyncSession(self.engine) as db:
+        async with AsyncSession(get_db_engine()) as db:
             result = await db.execute(
                 text(
                     "SELECT * FROM research_sessions WHERE user_id = :uid ORDER BY updated_at DESC"
@@ -102,7 +104,7 @@ class ResearchMemory:
         if updates:
             set_clause = ", ".join(f"{k} = :{k}" for k in updates)
             updates["id"] = session_id
-            async with AsyncSession(self.engine) as db:
+            async with AsyncSession(get_db_engine()) as db:
                 await db.execute(
                     text(
                         f"UPDATE research_sessions SET {set_clause}, updated_at = NOW() WHERE id = :id"
@@ -130,10 +132,8 @@ class ResearchMemory:
             parts.append(f"Key findings: {json.dumps(session.summary)}")
 
         context = "\n".join(parts)
-        # Truncate to max tokens if needed
-        enc = tiktoken.get_encoding("cl100k_base")
-        tokens = enc.encode(context)
+        tokens = _enc.encode(context)
         if len(tokens) > max_tokens:
-            context = enc.decode(tokens[:max_tokens]) + "\n[... truncated]"
+            context = _enc.decode(tokens[:max_tokens]) + "\n[... truncated]"
 
         return context

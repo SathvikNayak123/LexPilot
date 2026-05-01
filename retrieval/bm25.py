@@ -1,8 +1,8 @@
-from rank_bm25 import BM25Okapi
-import numpy as np
+import math
 from typing import Optional
 import pickle
 import structlog
+from rank_bm25 import BM25Okapi
 
 logger = structlog.get_logger()
 
@@ -13,32 +13,36 @@ class BM25Encoder:
     def __init__(self):
         self.bm25: Optional[BM25Okapi] = None
         self.vocab: dict[str, int] = {}
+        self.token_idf: dict[str, float] = {}
 
     def fit(self, corpus: list[str]):
         """Fit BM25 on corpus of chunk texts."""
         tokenized = [doc.lower().split() for doc in corpus]
         self.bm25 = BM25Okapi(tokenized)
 
-        # Build vocabulary mapping
-        all_tokens = set()
+        # Build vocabulary and per-token document frequencies in a single pass.
+        doc_freq: dict[str, int] = {}
+        all_tokens: set[str] = set()
         for doc in tokenized:
-            all_tokens.update(doc)
+            doc_set = set(doc)
+            all_tokens.update(doc_set)
+            for token in doc_set:
+                doc_freq[token] = doc_freq.get(token, 0) + 1
+
         self.vocab = {token: idx for idx, token in enumerate(sorted(all_tokens))}
 
-        # Pre-compute per-token IDF from BM25's internal doc_freqs
-        self.token_idf: dict[str, float] = {}
         n = len(tokenized)
-        for token in self.vocab:
-            df = sum(1 for doc in tokenized if token in doc)
-            # Standard BM25 IDF: log((N - df + 0.5) / (df + 0.5) + 1)
-            self.token_idf[token] = np.log((n - df + 0.5) / (df + 0.5) + 1.0)
+        self.token_idf = {
+            token: math.log((n - df + 0.5) / (df + 0.5) + 1.0)
+            for token, df in doc_freq.items()
+        }
 
         logger.info("bm25_fitted", vocab_size=len(self.vocab), corpus_size=len(corpus))
 
     def encode_document(self, text: str) -> dict:
         """Encode a document into a sparse vector (indices + values)."""
         tokens = text.lower().split()
-        token_counts = {}
+        token_counts: dict[str, int] = {}
         for t in tokens:
             if t in self.vocab:
                 token_counts[t] = token_counts.get(t, 0) + 1
@@ -46,10 +50,8 @@ class BM25Encoder:
         indices = []
         values = []
         for token, count in token_counts.items():
-            idx = self.vocab[token]
-            idf = self.token_idf.get(token, 1.0)
-            indices.append(idx)
-            values.append(count * idf)
+            indices.append(self.vocab[token])
+            values.append(count * self.token_idf.get(token, 1.0))
 
         return {"indices": indices, "values": values}
 
@@ -64,6 +66,6 @@ class BM25Encoder:
     def load(self, path: str):
         with open(path, "rb") as f:
             data = pickle.load(f)
-            self.bm25 = data.get("bm25")   # may be None for corpus-built encoders
+            self.bm25 = data.get("bm25")
             self.vocab = data["vocab"]
             self.token_idf = data.get("token_idf", {})

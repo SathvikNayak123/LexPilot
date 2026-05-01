@@ -1,7 +1,7 @@
 from agents import Agent
+from config.config import settings
 from lexpilot_agents.tools.retrieval_tools import search_legal_documents
 from lexpilot_agents.tools.compliance_tools import extract_clauses
-from lexpilot_agents.models import MODEL
 
 contract_agent = Agent(
     name="Contract Analyst",
@@ -16,5 +16,5 @@ Rules:
 - Do NOT provide legal advice - present analysis for a qualified lawyer to review
 - Format currency in INR with Indian numbering""",
     tools=[search_legal_documents, extract_clauses],
-    model=MODEL,
+    model=settings.agent_model,
 )

@@ -5,17 +5,17 @@ class CitationExtractor:
     """Extract legal citations from LLM-generated text."""
 
     PATTERNS = [
-        # SCC — modern canonical: (YYYY) N SCC PAGE
+        # SCC modern canonical: (YYYY) N SCC PAGE
         (r'\(\d{4}\)\s+\d+\s+SCC\s+\d+', "SCC"),
-        # SCC — SUPP with parens year: (YYYY) Supp (N) SCC PAGE
+        # SCC SUPP with parens year: (YYYY) Supp (N) SCC PAGE
         (r'\(\d{4}\)\s+Supp\s*\(\d+\)\s+SCC\s+\d+', "SCC"),
-        # SCC — SUPP: YYYY SUPP (N) SCC PAGE
+        # SCC SUPP: YYYY SUPP (N) SCC PAGE
         (r'\d{4}\s+SUPP\s*\(\d+\)\s+SCC\s+\d+', "SCC"),
-        # SCC — reporter-before-volume: YYYY SCC (N) PAGE
+        # SCC reporter-before-volume: YYYY SCC (N) PAGE
         (r'\d{4}\s+SCC\s+\(\d+\)\s+\d+', "SCC"),
-        # SCC — old IndianKanoon: YYYY (N) SCC PAGE
+        # SCC old IndianKanoon: YYYY (N) SCC PAGE
         (r'\d{4}\s+\(\d+\)\s+SCC\s+\d+', "SCC"),
-        # SCC — no-parens: YYYY N SCC PAGE (must come after more specific patterns)
+        # SCC no-parens: YYYY N SCC PAGE (must come after more specific patterns)
         (r'\d{4}\s+\d+\s+SCC\s+\d+', "SCC"),
         # AIR
         (r'AIR\s+\d{4}\s+SC\s+\d+', "AIR"),

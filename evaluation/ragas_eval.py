@@ -7,7 +7,7 @@ from ragas.metrics import (
 )
 from ragas.llms import LangchainLLMWrapper
 from ragas.embeddings import LangchainEmbeddingsWrapper
-from langchain_anthropic import ChatAnthropic
+from langchain_openai import ChatOpenAI
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from datasets import Dataset
 import structlog
@@ -22,9 +22,10 @@ class RAGASEvaluator:
 
     def __init__(self):
         self.llm = LangchainLLMWrapper(
-            ChatAnthropic(
-                model="claude-sonnet-4-6",
-                api_key=settings.anthropic_api_key,
+            ChatOpenAI(
+                model=settings.agent_model,
+                api_key=settings.openrouter_api_key,
+                base_url="https://openrouter.ai/api/v1",
             )
         )
         self.embeddings = LangchainEmbeddingsWrapper(

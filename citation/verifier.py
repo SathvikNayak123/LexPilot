@@ -1,17 +1,27 @@
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
-from sentence_transformers import SentenceTransformer, CrossEncoder
+from sentence_transformers import CrossEncoder
 from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
 import re
 from pydantic import BaseModel
 from typing import Literal
 import structlog
 
-from config.config import settings
+from config.config import settings, get_db_engine
 from citation.extractor import CitationExtractor
+from retrieval.embedder import EmbeddingService
 
 logger = structlog.get_logger()
+
+# Module-level NLI model singleton — ~300 MB, slow to load.
+_nli_model: CrossEncoder | None = None
+
+
+def _get_nli_model() -> CrossEncoder:
+    global _nli_model
+    if _nli_model is None:
+        _nli_model = CrossEncoder("cross-encoder/nli-deberta-v3-xsmall")
+    return _nli_model
 
 
 class VerificationResult(BaseModel):
@@ -33,10 +43,8 @@ class CitationVerifier:
     """
 
     def __init__(self):
-        self.engine = create_async_engine(settings.postgres_url)
         self.extractor = CitationExtractor()
-        self.embedder = SentenceTransformer(settings.embedding_model)
-        self.nli_model = CrossEncoder("cross-encoder/nli-deberta-v3-xsmall")
+        self.embedder = EmbeddingService()
         self.similarity_floor = 0.50
 
     async def verify_response(self, llm_response: str) -> dict:
@@ -164,16 +172,16 @@ class CitationVerifier:
             candidates.append(f"{year} ({vol}) {rep} {page}")
             return candidates
 
-        # Modern "(YYYY) N REST" → all three legacy forms
+        # Modern "(YYYY) N REST" -> all three legacy forms
         m = re.match(r'^\((\d{4})\)\s+(\d+)\s+(SCC|SCR|JT|SCALE)\s+(.+)$', cit)
         if m:
             year, vol, rep, page = m.groups()
-            candidates.append(f"{year} ({vol}) {rep} {page}")     # old IK
-            candidates.append(f"{year} {vol} {rep} {page}")        # bare/no-parens
-            candidates.append(f"{year} {rep} ({vol}) {page}")      # reporter-before-vol
+            candidates.append(f"{year} ({vol}) {rep} {page}")
+            candidates.append(f"{year} {vol} {rep} {page}")
+            candidates.append(f"{year} {rep} ({vol}) {page}")
             return candidates
 
-        # Old IK "YYYY (N) REP PAGE" → canonical + others
+        # Old IK "YYYY (N) REP PAGE" -> canonical + others
         m = re.match(r'^(\d{4})\s+\((\d+)\)\s+(SCC|SCR|JT|SCALE)\s+(.+)$', cit)
         if m:
             year, vol, rep, page = m.groups()
@@ -182,7 +190,7 @@ class CitationVerifier:
             candidates.append(f"{year} {rep} ({vol}) {page}")
             return candidates
 
-        # Bare "YYYY N REP PAGE" → canonical + others
+        # Bare "YYYY N REP PAGE" -> canonical + others
         m = re.match(r'^(\d{4})\s+(\d+)\s+(SCC|SCR|JT|SCALE)\s+(.+)$', cit)
         if m:
             year, vol, rep, page = m.groups()
@@ -191,7 +199,7 @@ class CitationVerifier:
             candidates.append(f"{year} {rep} ({vol}) {page}")
             return candidates
 
-        # Reporter-before-vol "YYYY REP (N) PAGE" → canonical + others
+        # Reporter-before-vol "YYYY REP (N) PAGE" -> canonical + others
         m = re.match(r'^(\d{4})\s+(SCC|SCR|JT|SCALE)\s+\((\d+)\)\s+(.+)$', cit)
         if m:
             year, rep, vol, page = m.groups()
@@ -207,7 +215,6 @@ class CitationVerifier:
         Builds the full candidate set for all citations, fires one IN-query,
         then maps each original citation string back to its matched record (or None).
         """
-        # Map each original citation to its list of format variants
         candidates_map: dict[str, list[str]] = {
             cit: self._citation_candidates(cit) for cit in citations
         }
@@ -216,17 +223,20 @@ class CitationVerifier:
         if not all_candidates:
             return {cit: None for cit in citations}
 
-        async with AsyncSession(self.engine) as session:
+        async with AsyncSession(get_db_engine()) as session:
             placeholders = ", ".join(f":c{i}" for i in range(len(all_candidates)))
             params = {f"c{i}": c for i, c in enumerate(all_candidates)}
             result = await session.execute(
-                text(f"SELECT * FROM citation_index WHERE citation_string IN ({placeholders})"),
+                text(
+                    f"SELECT citation_string, case_name, holding_summary, "
+                    f"is_overruled, overruled_by "
+                    f"FROM citation_index WHERE citation_string IN ({placeholders})"
+                ),
                 params,
             )
             rows: dict[str, dict] = {row["citation_string"]: dict(row)
                                      for row in result.mappings().all()}
 
-        # Resolve each original citation to the first matching variant
         return {
             cit: next((rows[v] for v in variants if v in rows), None)
             for cit, variants in candidates_map.items()
@@ -246,13 +256,10 @@ class CitationVerifier:
         a completely different aspect of the case).
         """
         # NLI check: 0=contradiction, 1=neutral, 2=entailment
-        scores = self.nli_model.predict([(llm_context, actual_holding)])[0]
+        scores = _get_nli_model().predict([(llm_context, actual_holding)])[0]
         contradiction, neutral, entailment = float(scores[0]), float(scores[1]), float(scores[2])
 
-        # Cosine similarity check
-        embeddings = self.embedder.encode(
-            [llm_context, actual_holding], normalize_embeddings=True
-        )
+        embeddings = self.embedder.embed([llm_context, actual_holding])
         sim = float(cosine_similarity(
             embeddings[0].reshape(1, -1), embeddings[1].reshape(1, -1)
         )[0][0])

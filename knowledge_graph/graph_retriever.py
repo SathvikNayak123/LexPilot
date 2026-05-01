@@ -1,5 +1,4 @@
 import math
-from datetime import date
 from knowledge_graph.neo4j_client import Neo4jClient
 from retrieval.hybrid_search import HybridSearchPipeline
 import structlog
@@ -183,13 +182,3 @@ class GraphRAGRetriever:
 
         return sorted(results, key=lambda r: r["graph_score"], reverse=True)
 
-    def _recency_weight(self, date_str: str | None) -> float:
-        """Exponential decay weight. Half-life = 10 years."""
-        if not date_str:
-            return 0.5
-        try:
-            d = date.fromisoformat(date_str)
-            years_ago = (date.today() - d).days / 365.25
-            return math.exp(-0.069 * years_ago)  # ln(2)/10 ~ 0.069
-        except ValueError:
-            return 0.5

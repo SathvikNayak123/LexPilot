@@ -46,7 +46,7 @@ dependencies = [
     # Evaluation
     "ragas>=0.1",
     "datasets>=2.0",
-    "langchain-anthropic>=0.1",
+    "langchain-openai>=0.2",
     "langchain-community>=0.2",
 
     # Observability
@@ -54,7 +54,6 @@ dependencies = [
     "structlog>=24.0",
 
     # LLM providers
-    "anthropic>=0.30",
     "litellm>=1.40",
 
     # Utilities
@@ -86,3 +85,7 @@ dev = [
     "ruff>=0.6",
     "mypy>=1.11",
 ]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

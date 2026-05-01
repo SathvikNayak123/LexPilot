@@ -1,13 +1,13 @@
 """
-Build Knowledge Graph — Run After Ingestion
-============================================
+Build Knowledge Graph - Run After Ingestion
+
 Owns the full graph lifecycle. Run this once after all documents are ingested.
 
-Steps (all run by default):
-  1. SCHEMA    — Create Neo4j indexes, constraints, and court hierarchy
-  2. NODES     — Create Judgment nodes from Postgres (documents + citation_index tables)
-  3. CITATIONS — Resolve citation edges across all documents (corpus-aware, no dropped edges)
-  4. SEMANTIC  — Add RELATED_TO edges between judgments with high embedding similarity
+Stages (all run by default):
+  1. SCHEMA    - Create Neo4j indexes, constraints, and court hierarchy
+  2. NODES     - Create Judgment nodes from Postgres (documents + citation_index tables)
+  3. CITATIONS - Resolve citation edges across all documents (corpus-aware, no dropped edges)
+  4. SEMANTIC  - Add RELATED_TO edges between judgments with high embedding similarity
 
 Why separate from ingestion:
   Citation edges require BOTH nodes to exist. Building them per-document during ingestion
@@ -41,9 +41,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DEFAULT_THRESHOLD = 0.70
 
 
-# ---------------------------------------------------------------------------
-# Step 1: Schema & court hierarchy
-# ---------------------------------------------------------------------------
+# Schema & court hierarchy
 
 async def setup_schema(neo4j):
     """Create Neo4j indexes, constraints, and Indian court hierarchy."""
@@ -54,9 +52,7 @@ async def setup_schema(neo4j):
     print("  Schema ready.")
 
 
-# ---------------------------------------------------------------------------
-# Step 2: Judgment nodes from Postgres
-# ---------------------------------------------------------------------------
+# Judgment nodes from Postgres
 
 async def _find_by_citation(neo4j, citation: str) -> dict | None:
     normalized = re.sub(r'\s+', ' ', citation.strip())
@@ -153,9 +149,7 @@ async def build_nodes(neo4j, dry_run: bool):
     return len(rows)
 
 
-# ---------------------------------------------------------------------------
-# Step 3: Citation edges (corpus-aware, all nodes exist)
-# ---------------------------------------------------------------------------
+# Citation edges (corpus-aware, all nodes exist)
 
 async def build_citation_edges(dry_run: bool):
     """
@@ -200,9 +194,7 @@ async def build_citation_edges(dry_run: bool):
         print(f"  Total citation edges written: {total_edges}")
 
 
-# ---------------------------------------------------------------------------
-# Step 4: Semantic RELATED_TO edges
-# ---------------------------------------------------------------------------
+# Semantic RELATED_TO edges
 
 def collect_document_embeddings(qdrant_client, collection: str) -> dict[str, np.ndarray]:
     """Scroll Qdrant, group chunk vectors by document_id, return mean embeddings."""
@@ -257,7 +249,7 @@ async def build_semantic_edges(neo4j, threshold: float, dry_run: bool):
 
     print(f"  Neo4j has {len(judgment_ids)} Judgment nodes.")
     if not judgment_ids:
-        print("  No nodes found — run steps 1-3 first.")
+        print("  No nodes found - run stages 1-3 first.")
         return
 
     doc_embeddings = collect_document_embeddings(qdrant, settings.qdrant_collection)
@@ -296,7 +288,7 @@ async def main(threshold: float, dry_run: bool,
     print("=" * 60)
     print("  Knowledge Graph Builder")
     if dry_run:
-        print("  [DRY RUN — no writes]")
+        print("  [DRY RUN - no writes]")
     print("=" * 60)
 
     try:
@@ -342,7 +334,7 @@ if __name__ == "__main__":
     parser.add_argument("--dry-run", action="store_true",
                         help="Preview actions without writing to Neo4j")
     parser.add_argument("--skip-semantic", action="store_true",
-                        help="Skip RELATED_TO edge building (steps 1-3 only)")
+                        help="Skip RELATED_TO edge building (stages 1-3 only)")
     parser.add_argument("--only-semantic", action="store_true",
                         help="Only rebuild RELATED_TO edges (skip nodes + citations)")
     parser.add_argument("--only-citations", action="store_true",

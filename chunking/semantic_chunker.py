@@ -27,18 +27,14 @@ class SemanticChunker:
 
     def chunk_document(self, doc: ParsedDocument) -> tuple[list[ParentChunk], list[ChildChunk]]:
         """Chunk a parsed document into parent and child chunks."""
-        # Step 1: Extract full text with heading context
         text_with_headings = self._extract_text_with_headings(doc.blocks)
 
-        # Step 2: Sentence segmentation
         sentences = self._segment_sentences(text_with_headings)
         if not sentences:
             return [], []
 
-        # Step 3: Semantic splitting into parent chunks
         parent_texts = self._semantic_split(sentences)
 
-        # Step 4: Build parent and child chunks
         parents = []
         children = []
 

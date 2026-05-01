@@ -1,11 +1,10 @@
 from pathlib import Path
 from sentence_transformers import CrossEncoder
-import numpy as np
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 import structlog
 
-from config.config import settings
+from config.config import settings, get_db_engine
 from retrieval.embedder import EmbeddingService
 from retrieval.qdrant_store import QdrantStore
 from retrieval.bm25 import BM25Encoder
@@ -13,6 +12,16 @@ from retrieval.bm25 import BM25Encoder
 logger = structlog.get_logger()
 
 _BM25_PATH = Path(__file__).resolve().parent.parent / "data" / "bm25_encoder.pkl"
+
+# Module-level singleton — CrossEncoder takes ~500 MB and 3-5 s to load.
+_reranker: CrossEncoder | None = None
+
+
+def _get_reranker() -> CrossEncoder:
+    global _reranker
+    if _reranker is None:
+        _reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+    return _reranker
 
 
 class HybridSearchPipeline:
@@ -29,34 +38,28 @@ class HybridSearchPipeline:
             logger.warning("bm25_encoder_not_found",
                            path=str(_BM25_PATH),
                            hint="run: python scripts/build_bm25_index.py")
-        self.reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
-        self.engine = create_async_engine(settings.postgres_url)
 
     async def search(self, query: str, doc_type_filter: str = None,
                      top_k: int = None) -> list[dict]:
         """Full hybrid search pipeline."""
         top_k = top_k or settings.final_top_k
 
-        # Step 1: Dense search
         query_embedding = self.embedder.embed_query(query)
         dense_results = self.qdrant.dense_search(
             query_embedding, settings.dense_top_k, doc_type_filter
         )
 
-        # Step 2: Sparse search
         sparse_query = self.bm25.encode_query(query)
         sparse_results = self.qdrant.sparse_search(
             sparse_query, settings.sparse_top_k, doc_type_filter
         )
 
-        # Step 3: RRF Fusion
         fused = self._rrf_fusion(dense_results, sparse_results, k=settings.rrf_k)
 
-        # Step 4: Reranking (top 20 -> top-k)
         reranked = self._rerank(query, fused[:settings.rerank_top_k])
 
-        # Deduplicate by document: keep highest-scoring chunk per document so
-        # multiple chunks from the same judgment don't crowd out other results.
+        # Keep highest-scoring chunk per document so multiple chunks from the
+        # same judgment don't crowd out other results.
         seen_docs: set[str] = set()
         deduped_reranked: list[dict] = []
         for chunk in reranked:
@@ -65,7 +68,6 @@ class HybridSearchPipeline:
                 seen_docs.add(doc_id)
                 deduped_reranked.append(chunk)
 
-        # Step 5: Parent hydration
         final = await self._hydrate_parents(deduped_reranked[:top_k])
 
         logger.info("hybrid_search_complete",
@@ -90,7 +92,6 @@ class HybridSearchPipeline:
             scores[chunk_id] = scores.get(chunk_id, 0) + 1.0 / (k + rank + 1)
             all_items[chunk_id] = item
 
-        # Sort by fused score
         sorted_ids = sorted(scores.keys(), key=lambda cid: scores[cid], reverse=True)
         return [
             {**all_items[cid], "rrf_score": scores[cid]}
@@ -102,8 +103,9 @@ class HybridSearchPipeline:
         if not candidates:
             return []
 
+        reranker = _get_reranker()
         pairs = [(query, c["content"]) for c in candidates]
-        scores = self.reranker.predict(pairs)
+        scores = reranker.predict(pairs)
 
         for i, score in enumerate(scores):
             candidates[i]["rerank_score"] = float(score)
@@ -117,7 +119,7 @@ class HybridSearchPipeline:
 
         parent_ids = list(set(r["parent_id"] for r in results))
 
-        async with AsyncSession(self.engine) as session:
+        async with AsyncSession(get_db_engine()) as session:
             placeholders = ", ".join(f":p{i}" for i in range(len(parent_ids)))
             params = {f"p{i}": pid for i, pid in enumerate(parent_ids)}
 
@@ -127,7 +129,6 @@ class HybridSearchPipeline:
             )
             parent_map = {row[0]: {"content": row[1], "metadata": row[2]} for row in result.fetchall()}
 
-        # Enrich results with parent content
         for r in results:
             parent = parent_map.get(r["parent_id"], {})
             r["parent_content"] = parent.get("content", r["content"])

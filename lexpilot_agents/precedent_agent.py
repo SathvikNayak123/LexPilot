@@ -1,6 +1,6 @@
 from agents import Agent
+from config.config import settings
 from lexpilot_agents.tools.retrieval_tools import graphrag_search, get_citation_chain, search_legal_documents
-from lexpilot_agents.models import MODEL
 
 precedent_agent = Agent(
     name="Precedent Researcher",
@@ -16,5 +16,5 @@ Rules:
 - Use get_citation_chain to trace how a key judgment has been applied
 - Do NOT provide legal advice - present research for a qualified lawyer to review""",
     tools=[graphrag_search, get_citation_chain, search_legal_documents],
-    model=MODEL,
+    model=settings.agent_model,
 )

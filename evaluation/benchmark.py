@@ -40,7 +40,7 @@ class LegalBenchmark:
             return json.loads(path.read_text())
         return self._generate_qa_benchmark()
 
-    # ── Retrieval ─────────────────────────────────────────────────────────────
+    # -- Retrieval ---
 
     def _generate_retrieval_benchmark(self) -> list[dict]:
         """Retrieval benchmark: queries that discriminate on specific case facts.
@@ -57,7 +57,7 @@ class LegalBenchmark:
         All positive citations are verified against the ingested corpus.
         """
         return [
-            # ── Puttaswamy — Right to privacy, 9-judge bench ──────────────
+            # -- Puttaswamy — Right to privacy, 9-judge bench ---
             {
                 "query": "K.S. Puttaswamy retired judge nine bench unanimous privacy fundamental right overruling ADM Jabalpur informational autonomy Article 21",
                 "relevant_citations": ["(2017) 10 SCC 1"],
@@ -71,7 +71,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2017) 10 SCC 1"],
             },
 
-            # ── Kesavananda Bharati — Basic structure, 13-judge bench ──────
+            # -- Kesavananda Bharati — Basic structure, 13-judge bench ---
             # Corpus stores citation as "1973 4 SCC 225" (no parens); normaliser maps both
             {
                 "query": "Kesavananda Bharati basic structure doctrine Parliament cannot destroy essential features Constitution amendment power limits Kerala land reform",
@@ -82,7 +82,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(1973) 4 SCC 225"],
             },
 
-            # ── Maneka Gandhi — Golden triangle Art 14/19/21 ──────────────
+            # -- Maneka Gandhi — Golden triangle Art 14/19/21 ---
             # Stored as "1978 SCC (1) 248"; AIR alias also accepted
             {
                 "query": "Maneka Gandhi passport impounded procedure established by law Article 21 just fair reasonable golden triangle",
@@ -93,7 +93,7 @@ class LegalBenchmark:
                 "relevant_citations": ["AIR 1978 SC 597", "1978 SCC (1) 248"],
             },
 
-            # ── Vishaka — Sexual harassment at workplace ───────────────────
+            # -- Vishaka — Sexual harassment at workplace ---
             {
                 "query": "Vishaka Bhanwari Devi gang rape Rajasthan sexual harassment workplace binding guidelines internal complaints committee CEDAW",
                 "relevant_citations": ["(1997) 6 SCC 241"],
@@ -103,7 +103,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(1997) 6 SCC 241"],
             },
 
-            # ── MC Mehta — Absolute liability, Shriram oleum gas leak ──────
+            # -- MC Mehta — Absolute liability, Shriram oleum gas leak ---
             # Stored as "(1987) 1 SCC 395"; AIR alias also accepted
             {
                 "query": "MC Mehta Shriram Food Fertilisers oleum gas leak absolute liability hazardous enterprise no exceptions Rylands Fletcher distinguished",
@@ -114,20 +114,20 @@ class LegalBenchmark:
                 "relevant_citations": ["AIR 1987 SC 1086", "(1987) 1 SCC 395"],
             },
 
-            # ── Unni Krishnan — Right to education ────────────────────────
+            # -- Unni Krishnan — Right to education ---
             {
                 "query": "Unni Krishnan right to education fundamental right implied Article 21 free compulsory primary unaided private schools",
                 "relevant_citations": ["(1993) 1 SCC 645"],
             },
 
-            # ── Romesh Thappar — Freedom of press, pre-censorship ─────────
+            # -- Romesh Thappar — Freedom of press, pre-censorship ---
             # Stored as "1950 SCR 594"; AIR alias also accepted
             {
                 "query": "Romesh Thappar Cross Roads magazine Madras government pre-censorship ban freedom of press Article 19 public order 1950",
                 "relevant_citations": ["AIR 1950 SC 124", "1950 SCR 594"],
             },
 
-            # ── Shayara Bano — Triple talaq unconstitutional ───────────────
+            # -- Shayara Bano — Triple talaq unconstitutional ---
             {
                 "query": "Shayara Bano instant triple talaq talaq-e-biddat manifestly arbitrary unconstitutional Muslim personal law three pronouncements simultaneously",
                 "relevant_citations": ["(2017) 9 SCC 1"],
@@ -137,7 +137,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2017) 9 SCC 1"],
             },
 
-            # ── Vineeta Sharma — Hindu daughters as coparceners ───────────
+            # -- Vineeta Sharma — Hindu daughters as coparceners ---
             {
                 "query": "Vineeta Sharma daughter coparcener Hindu Succession Amendment 2005 equal birth right HUF retrospective",
                 "relevant_citations": ["(2020) 9 SCC 1"],
@@ -147,7 +147,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2020) 9 SCC 1"],
             },
 
-            # ── Shreya Singhal — Section 66A IT Act struck down ───────────
+            # -- Shreya Singhal — Section 66A IT Act struck down ---
             {
                 "query": "Shreya Singhal Section 66A Information Technology Act struck down unconstitutional grossly offensive annoyance chilling effect free speech",
                 "relevant_citations": ["(2015) 5 SCC 1"],
@@ -157,7 +157,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2015) 5 SCC 1"],
             },
 
-            # ── Navtej Singh Johar — Section 377 decriminalised ───────────
+            # -- Navtej Singh Johar — Section 377 decriminalised ---
             {
                 "query": "Navtej Singh Johar Section 377 IPC consensual same-sex adults struck down constitutional morality dignity autonomy five judge bench",
                 "relevant_citations": ["(2018) 10 SCC 1"],
@@ -167,7 +167,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2018) 10 SCC 1"],
             },
 
-            # ── Common Cause — Passive euthanasia, advance directive ───────
+            # -- Common Cause — Passive euthanasia, advance directive ---
             {
                 "query": "Common Cause advance directive living will passive euthanasia right to die dignity terminally ill withdrawal life support Article 21",
                 "relevant_citations": ["(2018) 5 SCC 1"],
@@ -177,7 +177,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2018) 5 SCC 1"],
             },
 
-            # ── Sabarimala review/reference (2019) — not original 5-judge ──
+            # -- Sabarimala review/reference (2019) — not original 5-judge --
             # (2018) 8 SCC 1 (original bench) is NOT in corpus.
             # (2019) 11 SCC 1 (review/reference order) IS indexed.
             # Queries target the review content: 3:2 refers to 9-judge bench,
@@ -191,39 +191,39 @@ class LegalBenchmark:
                 "relevant_citations": ["(2019) 11 SCC 1"],
             },
 
-            # ── D Velusamy — Live-in relationship, DV Act ─────────────────
+            # -- D Velusamy — Live-in relationship, DV Act ---
             # Stored as "AIR 2011 SUPREME COURT 479"; SCC alias also accepted
             {
                 "query": "Velusamy live-in relationship domestic violence Act wife eligibility relationship in the nature of marriage five conditions 2010",
                 "relevant_citations": ["(2010) 10 SCC 469", "AIR 2011 SUPREME COURT 479"],
             },
 
-            # ── Arnesh Kumar — Section 498A arrest safeguards ─────────────
+            # -- Arnesh Kumar — Section 498A arrest safeguards ---
             # Stored as "(2014) 8 SCC 273"
             {
                 "query": "Arnesh Kumar Section 498A IPC arrest checklist nine point magistrate police guidelines automatic arrest dowry harassment 2014",
                 "relevant_citations": ["(2014) 8 SCC 273"],
             },
 
-            # ── Cadila Healthcare — Pharmaceutical trademark ───────────────
+            # -- Cadila Healthcare — Pharmaceutical trademark ---
             {
                 "query": "Cadila Healthcare Falcigo Falciwin pharmaceutical drug brand name deceptive similarity phonetic visual confusion consumer health risk trademark",
                 "relevant_citations": ["(2001) 5 SCC 73"],
             },
 
-            # ── Dasrath Rupsingh — Cheque bounce jurisdiction ─────────────
+            # -- Dasrath Rupsingh — Cheque bounce jurisdiction ---
             {
                 "query": "Dasrath Rupsingh cheque dishonour Section 138 NI Act territorial jurisdiction drawee bank branch place of presentation",
                 "relevant_citations": ["(2014) 9 SCC 129"],
             },
 
-            # ── Gurbaksh Singh Sibbia — Anticipatory bail ─────────────────
+            # -- Gurbaksh Singh Sibbia — Anticipatory bail ---
             {
                 "query": "Gurbaksh Singh Sibbia anticipatory bail Section 438 CrPC discretion conditions liberal interpretation Punjab Haryana",
                 "relevant_citations": ["(1980) 2 SCC 565"],
             },
 
-            # ── Sarla Verma — Motor accident compensation ─────────────────
+            # -- Sarla Verma — Motor accident compensation ---
             {
                 "query": "Sarla Verma motor accident compensation multiplier method future prospects dependency structured formula conventional heads",
                 "relevant_citations": ["(2017) 16 SCC 680"],
@@ -233,14 +233,14 @@ class LegalBenchmark:
                 "relevant_citations": ["(2017) 16 SCC 680"],
             },
 
-            # ── SP Gupta — PIL standing, judges transfer ──────────────────
+            # -- SP Gupta — PIL standing, judges transfer ---
             # Stored as "1981 SUPP (1) SCC 87"; SCC alias also accepted
             {
                 "query": "SP Gupta judges transfer case public interest litigation epistolary jurisdiction locus standi third party bonafide petitioner",
                 "relevant_citations": ["(1982) 1 SCC 618", "1981 SUPP (1) SCC 87"],
             },
 
-            # ── ADM Jabalpur — OVERRULED, but in corpus ───────────────────
+            # -- ADM Jabalpur — OVERRULED, but in corpus ---
             # Stored as "1976 SCC (2) 521" (reporter-before-volume format)
             # Should surface with [OVERRULED] flag; both format variants accepted
             {
@@ -248,7 +248,7 @@ class LegalBenchmark:
                 "relevant_citations": ["1976 SCC (2) 521", "AIR 1976 SC 1207"],
             },
 
-            # ── Precision tests — documents NOT in corpus ─────────────────
+            # -- Precision tests — documents NOT in corpus ---
             # Bachan Singh (1980) 2 SCC 684: death penalty, 5-judge bench — NOT indexed.
             # Must NOT surface Gurbaksh Singh Sibbia or Mithu instead.
             {
@@ -273,7 +273,7 @@ class LegalBenchmark:
                 "relevant_citations": [],
             },
 
-            # ── Extended queries: Puttaswamy — additional angles ──────────
+            # -- Extended queries: Puttaswamy — additional angles ---
             {
                 "query": "Aadhaar biometric identity scheme privacy nine judge bench proportionality test 2017",
                 "relevant_citations": ["(2017) 10 SCC 1"],
@@ -283,7 +283,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2017) 10 SCC 1"],
             },
 
-            # ── Extended: Kesavananda Bharati ─────────────────────────────
+            # -- Extended: Kesavananda Bharati ---
             {
                 "query": "Article 368 amending power limitation constituent power basic structure thirteen judge 1973 Kerala",
                 "relevant_citations": ["(1973) 4 SCC 225"],
@@ -293,7 +293,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(1973) 4 SCC 225"],
             },
 
-            # ── Extended: Maneka Gandhi ───────────────────────────────────
+            # -- Extended: Maneka Gandhi ---
             {
                 "query": "Section 10(3)(c) Passports Act void audi alteram partem impound natural justice 1978 passport",
                 "relevant_citations": ["AIR 1978 SC 597", "1978 SCC (1) 248"],
@@ -303,7 +303,7 @@ class LegalBenchmark:
                 "relevant_citations": ["AIR 1978 SC 597", "1978 SCC (1) 248"],
             },
 
-            # ── Extended: Vishaka ─────────────────────────────────────────
+            # -- Extended: Vishaka ---
             {
                 "query": "Sexual harassment guidelines binding ICC Internal Complaints Committee employer liability 1997 Rajasthan",
                 "relevant_citations": ["(1997) 6 SCC 241"],
@@ -313,7 +313,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(1997) 6 SCC 241"],
             },
 
-            # ── Extended: MC Mehta ────────────────────────────────────────
+            # -- Extended: MC Mehta ---
             {
                 "query": "Oleum gas leak absolute liability exceptions act of God third party not applicable enterprise hazardous 1987",
                 "relevant_citations": ["AIR 1987 SC 1086", "(1987) 1 SCC 395"],
@@ -323,7 +323,7 @@ class LegalBenchmark:
                 "relevant_citations": ["AIR 1987 SC 1086", "(1987) 1 SCC 395"],
             },
 
-            # ── Extended: Unni Krishnan ───────────────────────────────────
+            # -- Extended: Unni Krishnan ---
             {
                 "query": "Right to education Article 21 free compulsory 14 years unaided private schools 1993 Andhra Pradesh",
                 "relevant_citations": ["(1993) 1 SCC 645"],
@@ -333,7 +333,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(1993) 1 SCC 645"],
             },
 
-            # ── Extended: Romesh Thappar ──────────────────────────────────
+            # -- Extended: Romesh Thappar ---
             {
                 "query": "Section 9(1-A) Madras Maintenance Public Order Act unconstitutional press ban cross roads magazine 1950",
                 "relevant_citations": ["AIR 1950 SC 124", "1950 SCR 594"],
@@ -343,7 +343,7 @@ class LegalBenchmark:
                 "relevant_citations": ["AIR 1950 SC 124", "1950 SCR 594"],
             },
 
-            # ── Extended: Shayara Bano ────────────────────────────────────
+            # -- Extended: Shayara Bano ---
             {
                 "query": "Muslim Personal Law Shariat Application Act triple talaq validity arbitrariness five judge bench",
                 "relevant_citations": ["(2017) 9 SCC 1"],
@@ -353,7 +353,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2017) 9 SCC 1"],
             },
 
-            # ── Extended: Vineeta Sharma ──────────────────────────────────
+            # -- Extended: Vineeta Sharma ---
             {
                 "query": "Daughter coparcener birth right HUF Hindu Undivided Family father alive 2005 amendment retrospective 2020",
                 "relevant_citations": ["(2020) 9 SCC 1"],
@@ -363,7 +363,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2020) 9 SCC 1"],
             },
 
-            # ── Extended: Shreya Singhal ──────────────────────────────────
+            # -- Extended: Shreya Singhal ---
             {
                 "query": "Information Technology Act Section 66A vague overbroad constitutional challenge internet speech 2015",
                 "relevant_citations": ["(2015) 5 SCC 1"],
@@ -373,7 +373,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2015) 5 SCC 1"],
             },
 
-            # ── Extended: Navtej Singh Johar ──────────────────────────────
+            # -- Extended: Navtej Singh Johar ---
             {
                 "query": "Section 377 IPC partially struck down consensual homosexuality dignity equal protection 2018 five bench",
                 "relevant_citations": ["(2018) 10 SCC 1"],
@@ -383,7 +383,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2018) 10 SCC 1"],
             },
 
-            # ── Extended: Common Cause ────────────────────────────────────
+            # -- Extended: Common Cause ---
             {
                 "query": "Right to die with dignity passive euthanasia advance directive living will valid 2018 five judge",
                 "relevant_citations": ["(2018) 5 SCC 1"],
@@ -393,7 +393,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2018) 5 SCC 1"],
             },
 
-            # ── Extended: Sabarimala (2019 review/reference) ─────────────
+            # -- Extended: Sabarimala (2019 review/reference) ---
             {
                 "query": "Sabarimala review nine judge bench essential religious practice Article 25 denomination women 2019",
                 "relevant_citations": ["(2019) 11 SCC 1"],
@@ -403,7 +403,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2019) 11 SCC 1"],
             },
 
-            # ── Extended: D Velusamy ──────────────────────────────────────
+            # -- Extended: D Velusamy ---
             {
                 "query": "Domestic Violence Act wife live-in relationship nature of marriage five conditions cohabitation 2010",
                 "relevant_citations": ["(2010) 10 SCC 469", "AIR 2011 SUPREME COURT 479"],
@@ -413,7 +413,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2010) 10 SCC 469", "AIR 2011 SUPREME COURT 479"],
             },
 
-            # ── Extended: Arnesh Kumar ────────────────────────────────────
+            # -- Extended: Arnesh Kumar ---
             {
                 "query": "498A IPC automatic arrest nine-point checklist police Magistrate need checklist 2014 Supreme Court",
                 "relevant_citations": ["(2014) 8 SCC 273"],
@@ -423,7 +423,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2014) 8 SCC 273"],
             },
 
-            # ── Extended: Cadila Healthcare ───────────────────────────────
+            # -- Extended: Cadila Healthcare ---
             {
                 "query": "Pharmaceutical drug trademark deceptive similar phonetic visual trade dress consumer confusion Cadila 2001",
                 "relevant_citations": ["(2001) 5 SCC 73"],
@@ -433,7 +433,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2001) 5 SCC 73"],
             },
 
-            # ── Extended: Dasrath Rupsingh ────────────────────────────────
+            # -- Extended: Dasrath Rupsingh ---
             {
                 "query": "Section 138 NI Act cheque dishonour territorial jurisdiction drawee bank branch presentation place 2014",
                 "relevant_citations": ["(2014) 9 SCC 129"],
@@ -443,7 +443,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2014) 9 SCC 129"],
             },
 
-            # ── Extended: Gurbaksh Singh Sibbia ──────────────────────────
+            # -- Extended: Gurbaksh Singh Sibbia ---
             {
                 "query": "Section 438 CrPC scope conditions time limit blanket bail directions anticipatory bail 1980 Punjab",
                 "relevant_citations": ["(1980) 2 SCC 565"],
@@ -453,7 +453,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(1980) 2 SCC 565"],
             },
 
-            # ── Extended: Sarla Verma ─────────────────────────────────────
+            # -- Extended: Sarla Verma ---
             {
                 "query": "Motor accident compensation structured assessment multiplier income dependency MACT formula 2017",
                 "relevant_citations": ["(2017) 16 SCC 680"],
@@ -463,7 +463,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(2017) 16 SCC 680"],
             },
 
-            # ── Extended: SP Gupta ────────────────────────────────────────
+            # -- Extended: SP Gupta ---
             {
                 "query": "PIL standing epistolary jurisdiction letter writ third party bonafide 1981 judges transfer",
                 "relevant_citations": ["(1982) 1 SCC 618", "1981 SUPP (1) SCC 87"],
@@ -473,7 +473,7 @@ class LegalBenchmark:
                 "relevant_citations": ["(1982) 1 SCC 618", "1981 SUPP (1) SCC 87"],
             },
 
-            # ── Extended: ADM Jabalpur ────────────────────────────────────
+            # -- Extended: ADM Jabalpur ---
             {
                 "query": "ADM Jabalpur majority opinion Ray CJ habeas corpus MISA Emergency 1976 four majority one dissent",
                 "relevant_citations": ["1976 SCC (2) 521", "AIR 1976 SC 1207"],
@@ -483,7 +483,7 @@ class LegalBenchmark:
                 "relevant_citations": ["1976 SCC (2) 521", "AIR 1976 SC 1207"],
             },
 
-            # ── Cross-case disambiguation queries ─────────────────────────
+            # -- Cross-case disambiguation queries ---
             {
                 "query": "Which Supreme Court bench overruled ADM Jabalpur emergency ruling and declared privacy fundamental right",
                 "relevant_citations": ["(2017) 10 SCC 1"],
@@ -501,7 +501,7 @@ class LegalBenchmark:
                 "relevant_citations": ["1976 SCC (2) 521", "AIR 1976 SC 1207"],
             },
 
-            # ── Additional precision tests — documents NOT in corpus ───────
+            # -- Additional precision tests — documents NOT in corpus ---
             # Sabarimala original 5-judge bench NOT indexed (only review/reference is)
             {
                 "query": "Indian Young Lawyers Association Sabarimala 2018 original bench women entry temple prohibition age 10 50 Indu Malhotra dissent",
@@ -534,7 +534,7 @@ class LegalBenchmark:
             },
         ]
 
-    # ── Compliance ────────────────────────────────────────────────────────────
+    # -- Compliance ---
 
     def _generate_compliance_benchmark(self) -> list[dict]:
         """DPDP Act 2023 compliance benchmark.
@@ -1061,7 +1061,7 @@ class LegalBenchmark:
             },
         ]
 
-    # ── QA ────────────────────────────────────────────────────────────────────
+    # -- QA ---
 
     def _generate_qa_benchmark(self) -> list[dict]:
         """20 legal Q&A pairs spanning all four LexPilot agent capabilities.
@@ -1073,7 +1073,7 @@ class LegalBenchmark:
           risk        — legal risk assessment (Legal Risk Scorer)
         """
         return [
-            # ── DPDP Compliance ───────────────────────────────────────────
+            # -- DPDP Compliance ---
             {
                 "question": "What are the rights of a Data Principal under the DPDP Act 2023?",
                 "ground_truth": (
@@ -1140,7 +1140,7 @@ class LegalBenchmark:
                 ),
                 "category": "compliance",
             },
-            # ── Precedent / Case Law ─────────────────────────────────────
+            # -- Precedent / Case Law ---
             {
                 "question": "What is the basic structure doctrine in Indian constitutional law and which case established it?",
                 "ground_truth": (
@@ -1210,7 +1210,7 @@ class LegalBenchmark:
                 ),
                 "category": "precedent",
             },
-            # ── Contract Analysis ─────────────────────────────────────────
+            # -- Contract Analysis ---
             {
                 "question": "What are the key data protection clauses to review in an Indian SaaS agreement?",
                 "ground_truth": (
@@ -1264,7 +1264,7 @@ class LegalBenchmark:
                 ),
                 "category": "contract",
             },
-            # ── Risk Assessment ───────────────────────────────────────────
+            # -- Risk Assessment ---
             {
                 "question": "What are the key legal risks of operating a digital lending platform in India without RBI authorisation?",
                 "ground_truth": (

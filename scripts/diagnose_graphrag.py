@@ -1,5 +1,5 @@
 """
-GraphRAG Diagnostic — Check why Neo4j graph enrichment is producing no lift.
+GraphRAG Diagnostic - Check why Neo4j graph enrichment is producing no lift.
 Run: python scripts/diagnose_graphrag.py
 """
 import asyncio
@@ -20,7 +20,7 @@ async def main():
 
     neo4j = Neo4jClient()
 
-    # ── 1. Count Neo4j Judgment nodes ───────────────────────────
+    # --- 1. Count Neo4j Judgment nodes ---
     print("\n[1] Neo4j Judgment nodes")
     try:
         async with neo4j.driver.session() as session:
@@ -37,7 +37,7 @@ async def main():
             for rec in records:
                 print(f"      {rec['id']}")
         else:
-            print("    *** NO NODES FOUND — build_semantic_graph.py step 2 did not write nodes ***")
+            print("    *** NO NODES FOUND - build_semantic_graph.py step 2 did not write nodes ***")
             print("    Check: does 'documents' table have rows with doc_type='judgment'?")
     except Exception as e:
         print(f"    ERROR connecting to Neo4j: {e}")
@@ -45,7 +45,7 @@ async def main():
         await neo4j.close()
         return
 
-    # ── 2. Sample Qdrant document_ids ───────────────────────────
+    # --- 2. Sample Qdrant document_ids ---
     print("\n[2] Qdrant document_ids (sample)")
     try:
         qdrant = QdrantClient(url=settings.qdrant_url)
@@ -67,7 +67,7 @@ async def main():
         await neo4j.close()
         return
 
-    # ── 3. Cross-check: do Qdrant IDs exist in Neo4j? ───────────
+    # --- 3. Cross-check: do Qdrant IDs exist in Neo4j? ---
     print("\n[3] Cross-check: Qdrant document_ids vs Neo4j nodes")
     if judgment_ids and count > 0:
         async with neo4j.driver.session() as session:
@@ -76,14 +76,14 @@ async def main():
                     "MATCH (j:Judgment {id: $id}) RETURN j.id as id", id=doc_id
                 )
                 rec = await r.single()
-                found = "FOUND ✓" if rec else "NOT FOUND ✗"
-                print(f"    {doc_id}  →  {found}")
+                found = "[ok]" if rec else "[missing]"
+                print(f"    {doc_id}  ->  {found}")
     elif count == 0:
-        print("    (Skipped — Neo4j has no nodes)")
+        print("    (Skipped - Neo4j has no nodes)")
     else:
         print("    (No judgment-type points found in Qdrant sample)")
 
-    # ── 4. Check CITES/RELATED_TO edges ─────────────────────────
+    # --- 4. Check CITES/RELATED_TO edges ---
     if count > 0:
         print("\n[4] Graph edges")
         async with neo4j.driver.session() as session:

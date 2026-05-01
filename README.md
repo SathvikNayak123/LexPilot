@@ -7,34 +7,26 @@ Multi-agent RAG system for Indian Supreme Court judgments with citation verifica
 ## Architecture
 
 ```
-User Query
-    │
-    ▼
-┌─────────────────────────────────────────────────────────┐
-│  Input Guardrail (injection / off-topic / advice block) │
-└─────────────────────┬───────────────────────────────────┘
-                      │
-                      ▼
-              LexPilot Orchestrator
-           ┌──────────┬──────────┬──────────┐
-           │          │          │          │
-      Contract    Precedent  Compliance  Risk
-      Analyst    Researcher   Auditor    Scorer
-           │          │          │          │
-           └──────────┴────┬─────┴──────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────┐
-│  GraphRAG Retrieval                                      │
-│  Dense (SBERT) + Sparse (BM25) → RRF → Cross-Encoder   │
-│  → Neo4j enrichment (authority / citation / overruled)  │
-└─────────────────────┬───────────────────────────────────┘
-                      │
-                      ▼
-┌─────────────────────────────────────────────────────────┐
-│  Output Guardrail — 3-Tier Citation Verifier             │
-│  Tier 1: EXISTS   Tier 2: NOT OVERRULED   Tier 3: NLI   │
-└─────────────────────────────────────────────────────────┘
+  User Query
+      |
+      v
+  [Input Guardrail]  injection / off-topic / advice classifier
+      |
+      v
+  LexPilot Orchestrator
+      |---> Contract Analyst
+      |---> Precedent Researcher
+      |---> Compliance Auditor
+      |---> Risk Scorer
+      |
+      v
+  GraphRAG Retrieval
+      Dense (SBERT) + Sparse (BM25) -> RRF -> Cross-Encoder rerank
+      -> Neo4j enrichment (authority / citation / overruled)
+      |
+      v
+  [Output Guardrail]  3-Tier Citation Verifier
+      Tier 1: EXISTS   Tier 2: NOT OVERRULED   Tier 3: NLI
 ```
 
 ---
@@ -230,5 +222,5 @@ python scripts/diagnose_graphrag.py
 | Database | PostgreSQL + SQLAlchemy async |
 | Structured outputs | Instructor |
 | API | FastAPI + SSE streaming |
-| Frontend | Next.js 14 + Tailwind |
+| Frontend | Next.js 15 + Tailwind 4 |
 | Observability | structlog + Langfuse |

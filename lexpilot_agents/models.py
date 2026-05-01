@@ -1,1 +1,0 @@
-MODEL = "google/gemini-3-flash-preview"
